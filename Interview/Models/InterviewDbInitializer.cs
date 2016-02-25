@@ -9,29 +9,31 @@ namespace Interview.Models
 {
     public class InterviewDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
-        private int _num = 15;
+        // This is the total number of posts and users. Change it to any number you like.
+        private int _num = 50;
+
         protected override void Seed(ApplicationDbContext context)
         {
 
             var ph = new PasswordHasher();
-            for(int i = 0; i < _num; i++)
+            for (int i = 0; i < _num; i++)
             {
                 string pass = ph.HashPassword("Password" + i);
                 context.Users.Add(new ApplicationUser
                 {
                     Id = i.ToString(),
-                    UserName = "user"+i,
+                    UserName = "user" + i,
                     Email = "user" + i + "@yahoo.com",
                     PasswordHash = pass
                 });
             }
 
             var categories = new List<string>
-            {
-                "Data Structure", "Algorithm", "Operating System",
-                "Programming Fundamentals", "Mobile Development",
-                "Web Development", "Database", "Other"
-            };
+                {
+                    "Data Structure", "Algorithm", "Operating System",
+                    "Programming Fundamentals", "Mobile Development",
+                    "Web Development", "Database", "Other"
+                };
 
             var comments = new List<Comment>();
             Random random = new Random();
@@ -47,7 +49,7 @@ namespace Interview.Models
                     UserID = i.ToString()
                 });
             }
-            foreach(var comment in comments)
+            foreach (var comment in comments)
             {
                 context.Comments.Add(comment);
             }
