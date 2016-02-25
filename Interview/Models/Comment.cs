@@ -21,10 +21,10 @@ namespace Interview.Models
 
         public int PostID { get; set; }
 
-        public virtual Post Post { get; set; }
+        public Post Post { get; set; }
 
         public string UserID { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

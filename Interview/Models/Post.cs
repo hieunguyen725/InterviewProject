@@ -25,7 +25,7 @@ namespace Interview.Models
         [Display(Name = "Category")]
         public String SelectedCategory { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         public int ViewCount { get; set; }
 
@@ -35,7 +35,7 @@ namespace Interview.Models
 
         public string UserID { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }
 
 
     }

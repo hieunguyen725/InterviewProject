@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using Interview.Models;
 using Microsoft.Security.Application;
 
@@ -27,44 +28,44 @@ namespace Interview.Repositories
 
         public IEnumerable<Post> GetAllPosts()
         {
-            return db.Posts.ToList();
+            return db.Posts.Include(c => c.Comments).Include(u => u.User).ToList();
         }
 
         public IEnumerable<Post> GetLatestPosts()
         {
-            return db.Posts.OrderByDescending(p => p.CreatedAt).Take(10).ToList();
+            return db.Posts.OrderByDescending(p => p.CreatedAt).Take(10).Include(c => c.Comments).Include(u => u.User).ToList();
         }
 
         public Post GetPostById(int? id)
         {
-            return db.Posts.Find(id);
+            return db.Posts.Include(c => c.Comments).Include(u => u.User).SingleOrDefault(p => p.PostID == id);
         }
 
         public IEnumerable<Post> GetPostByUser(string userId)
         {
-            return db.Posts.Where(p => p.UserID == userId).ToList();
+            return db.Posts.Where(p => p.UserID == userId).Include(c => c.Comments).Include(u => u.User).ToList();
         }
 
         public IEnumerable<Post> GetPostByUserName(string username)
         {
-            return db.Posts.Where(p => p.User.UserName == username).ToList();
+            return db.Posts.Where(p => p.User.UserName == username).Include(c => c.Comments).Include(u => u.User).ToList();
         }
 
         public IEnumerable<Post> GetPostByCategory(string category)
         {
             if (category == "All")
             {
-                return db.Posts.ToList();
+                return db.Posts.Include(c => c.Comments).Include(u => u.User).ToList();
             }
             else
             {
-                return db.Posts.Where(p => p.SelectedCategory == category).ToList();
+                return db.Posts.Where(p => p.SelectedCategory == category).Include(c => c.Comments).Include(u => u.User).ToList();
             }
         }
 
         public IEnumerable<Post> GetPostBySearch(string search)
         {
-            return db.Posts.Where(p => p.PostTitle.Contains(search) || p.PostContent.Contains(search)).ToList();
+            return db.Posts.Where(p => p.PostTitle.Contains(search) || p.PostContent.Contains(search)).Include(c => c.Comments).Include(u => u.User).ToList();
         }
 
         public void SaveChanges()

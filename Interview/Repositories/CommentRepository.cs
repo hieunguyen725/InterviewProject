@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using Interview.Models;
 using Microsoft.Security.Application;
 
@@ -14,7 +15,7 @@ namespace Interview.Repositories
 
         public Comment GetCommentById(int? id)
         {
-            return db.Comments.Find(id);
+            return db.Comments.Include(p => p.Post).Include(u=>u.User).SingleOrDefault(c=>c.CommentID== id);
         }
 
         public void AddComment(Comment comment)
@@ -37,7 +38,7 @@ namespace Interview.Repositories
         public void UpdateComment(Comment comment)
         {
             comment.CommentContent = Sanitizer.GetSafeHtmlFragment(comment.CommentContent);
-            db.Entry(comment).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(comment).State = EntityState.Modified;
             db.SaveChanges();
         }
 
