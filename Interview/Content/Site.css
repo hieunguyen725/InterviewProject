@@ -1,0 +1,95 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.sm-text {
+    font-size: 0.8em;
+    color: #999;
+}
+
+hr {
+    margin: 0;
+}
+
+.label {
+    margin-right: 5px;
+    font-size: 0.9em;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.btn-group, .btn {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+
+/* NAV */
+.navbar {
+    background-color: #4FC1E9 !important;
+}
+
+.nav a {
+    color: #ffffff !important;
+}
+
+.nav a:hover {
+    background-color: #000000 !important;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.navbar-brand {
+    color: #000;
+}
+
+.navbar-brand:hover {
+    color:#fff;
+    background-color: #000;
+}
+
+
+/* Index (Posts) */
+.top-btn-group {
+    margin: 15px 0 10px 0;
+}
+
+.post-info .post-createdat {
+    font-size: 0.8em;
+    float: left;
+    color: #999;
+}
+.post-info .post-username {
+    float: right;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.category {
+    margin-top: 25px;
+}
+
+/* Posts' detail*/
+#answers-content {
+    margin: 0 0 20px 75px;
+}
+

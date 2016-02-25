@@ -1,0 +1,73 @@
+﻿@model PagedList.IPagedList<Interview.Models.Post>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="btn-group" role="group">
+
+    @Ajax.ActionLink("All Posts", "LoadCategory", new { category = "All", ViewBag.page, Page.size },
+     new AjaxOptions
+     {
+         HttpMethod = "GET",
+         UpdateTargetId = "post-list",
+         InsertionMode = InsertionMode.Replace
+     },
+     new { @class = "btn btn-primary", @type = "button" }
+)
+
+    @foreach (string item in ViewBag.Categories)
+    {
+        @Ajax.ActionLink(item, "LoadCategory", new { category = item },
+     new AjaxOptions
+     {
+         HttpMethod = "GET",
+         UpdateTargetId = "post-list",
+         InsertionMode = InsertionMode.Replace
+     },
+     new { @class = "btn btn-primary", @type = "button" }
+)
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-sm-9" id="post-list">
+        @Html.Partial("_Posts")
+    </div>
+    <div class="col-sm-3">
+        <div class="row">
+            <div class="top-btn-group">
+                @Html.ActionLink("Create a new post", "Create", "Posts", null, new { @class = "btn btn-primary btn-sm" })
+            </div>
+            @using (Ajax.BeginForm("Search", "Posts", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                UpdateTargetId = "post-list",
+                InsertionMode = InsertionMode.Replace
+            }, new { @class= "form-inline"}))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Editor("search")
+                @Html.ValidationMessage("search")
+                <button class="btn btn-default btn-sm" type="submit">Search</button>
+            }
+        </div>
+        <div class="row">
+            <h5>Lastest Posts</h5>
+            <hr />
+            @Html.Action("LatestPosts", "Posts")
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+}
+
+
