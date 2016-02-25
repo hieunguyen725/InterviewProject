@@ -76,7 +76,7 @@ namespace Interview.Repositories
         public void UpdatePost(Post post)
         {
             post.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
-            db.Entry(post).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(post).State = EntityState.Modified;
             db.SaveChanges();
         }
 
