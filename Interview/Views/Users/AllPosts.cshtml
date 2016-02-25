@@ -1,8 +1,9 @@
 ﻿@model PagedList.IPagedList<Interview.Models.Post>
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ViewBag.username + "'s posts";
 }
 
 @if (Model.Count > 0)
@@ -40,13 +41,16 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-5">
-                        <br /><br />
-                        <p class="sm-text">
-                            <text>@Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).PostID }) |</text>
-                            <text>@Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).PostID })</text>
-                        </p>
-                    </div>
+                    @if (ViewBag.username == User.Identity.GetUserName())
+                    {
+                        <div class="col-sm-6 col-md-5">
+                            <br /><br />
+                            <p class="sm-text">
+                                <text>@Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).PostID }) |</text>
+                                <text>@Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).PostID })</text>
+                            </p>
+                        </div>
+                    }
                     <div class="col-sm-12">
                         @if (i < Model.Count() - 1)
                         {
@@ -62,15 +66,15 @@
 
     <br />
 
-    @Html.PagedListPager(Model, page => Url.Action("UserPost",
-    new { page, size = Model.PageSize }))
+    @Html.PagedListPager(Model, page => Url.Action("AllPosts", new { username = ViewBag.username, page, size = Model.PageSize }))
 
     @section Scripts {
         @Scripts.Render("~/bundles/jquery")
     }
 
 
-} else
+}
+else
 {
     <h4>You currently have no posts.</h4>
     <a href="@Url.Action("Create", "Posts")" class="btn btn-primary btn-sm">Create a new post</a>

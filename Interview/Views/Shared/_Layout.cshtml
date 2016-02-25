@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,7 +26,7 @@
                     <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("My Posts", "AllPosts", "Users")</li>
+                        <li><a href="@Url.Action("AllPosts", "Users", new { username = User.Identity.GetUserName()})">My Posts</a></li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

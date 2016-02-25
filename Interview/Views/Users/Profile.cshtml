@@ -29,7 +29,7 @@
     </table>
     if (ViewBag.postCount == 5)
     {
-        @Html.ActionLink("View more", "AllPosts", "Users", new { username = ViewBag.username })
+        <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
     }
 } else
 {

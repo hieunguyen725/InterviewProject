@@ -49,5 +49,4 @@
 
 }
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { ViewBag.currentCategory, page, size = Model.PageSize }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.currentCategory, page, size = Model.PageSize }))
