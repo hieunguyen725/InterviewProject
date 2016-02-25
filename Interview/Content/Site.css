@@ -40,7 +40,6 @@ hr {
     border-radius: 0;
 }
 
-
 /* NAV */
 .navbar {
     background-color: #4FC1E9 !important;
@@ -92,4 +91,15 @@ hr {
 #answers-content {
     margin: 0 0 20px 75px;
 }
+
+/* register page */
+#register-form input{
+    height: 50px;
+    font-size: 1.5em;
+    border-radius: 0;
+}
+#register-form label {
+    font-size: 1.2em;
+}
+
 

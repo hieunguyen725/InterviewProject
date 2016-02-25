@@ -51,7 +51,7 @@ namespace Interview.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Search(string search)
+        public ActionResult Search(string search, int page = 1, int size = 10)
         {
             IEnumerable<Post> model;
             if(string.IsNullOrEmpty(search))
@@ -61,7 +61,9 @@ namespace Interview.Controllers
             {
                 model = repo.GetPostBySearch(search);
             }
-            return PartialView("_Posts", model);
+            PagedList<Post> pagedModel = new PagedList<Post>
+                (model, page, size);
+            return PartialView("_Posts", pagedModel);
         }
 
         [AllowAnonymous]
