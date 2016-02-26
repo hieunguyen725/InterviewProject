@@ -19,6 +19,10 @@
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.CreatedAt)
         @Html.HiddenFor(model => model.ViewCount)
+        @Html.HiddenFor(model => model.CurrentVote)
+        @Html.HiddenFor(model => model.VoteList)
+        @Html.HiddenFor(model => model.UpArrowColor)
+        @Html.HiddenFor(model => model.DownArrowColor)
 
         <div class="form-group">
             @Html.LabelFor(model => model.PostTitle, htmlAttributes: new { @class = "control-label col-md-2" })

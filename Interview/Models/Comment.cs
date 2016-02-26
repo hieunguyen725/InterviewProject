@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
@@ -18,6 +19,14 @@ namespace Interview.Models
 
         [Display(Name = "Commented on")]
         public DateTime CreatedAt { get; set; }
+
+        public int CurrentVote { get; set; }
+
+        public string UpArrowColor { get; set; }
+
+        public string DownArrowColor { get; set; }
+
+        public ICollection<CommentVote> VoteList { get; set; }
 
         public int PostID { get; set; }
 

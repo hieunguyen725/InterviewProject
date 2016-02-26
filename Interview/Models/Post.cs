@@ -29,6 +29,14 @@ namespace Interview.Models
 
         public int ViewCount { get; set; }
 
+        public int CurrentVote { get; set; }
+
+        public string UpArrowColor { get; set; }
+
+        public string DownArrowColor { get; set; }
+
+        public ICollection<PostVote> VoteList { get; set; }
+
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 

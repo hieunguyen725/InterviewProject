@@ -17,6 +17,12 @@ namespace Interview.Repositories
 
         void DeleteComment(Comment comment);
 
+        void AddCommentVote(CommentVote comment);
+
+        void UpdateCommentVote(CommentVote comment);
+
+        void DeleteCommentVote(CommentVote comment);
+
         void SaveChanges();
         
     }
