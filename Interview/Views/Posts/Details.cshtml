@@ -1,16 +1,14 @@
 ﻿@model Interview.ViewModels.PostAnswerViewModel
-
 @{
     ViewBag.Title = "Details";
     var postContent = Model.PostContent;
 }
-
 <div class="content">
     <div class="row">
         <div class="col-sm-1">
             <br />
             <div>
-                @Ajax.ActionLink(" ", "ProcessPostVote", new { voteStatus = 1, postId = Model.PostID },
+                @Ajax.ActionLink(" ", "ProcessPostVote", "Posts", new { voteStatus = 1, postId = Model.PostID },
              new AjaxOptions
              {
                  HttpMethod = "GET",
@@ -29,7 +27,7 @@
                 <h5 id="vote-point">&nbsp;@Model.CurrentVote</h5>
             </div>
             <div>
-                @Ajax.ActionLink(" ", "ProcessPostVote", new { voteStatus = -1, postId = Model.PostID },
+                @Ajax.ActionLink(" ", "ProcessPostVote", "Posts", new { voteStatus = -1, postId = Model.PostID },
              new AjaxOptions
              {
                  HttpMethod = "GET",
@@ -51,9 +49,11 @@
                 <p>@Html.Raw(postContent)</p>
                 <div class="post-info">
                     <p class="post-createdat">Posted on @Html.DisplayFor(model => model.CreatedAt)</p>
-                    <p class="post-username">By <a href="@Url.Action("Profile", "Users", new { username= Model.User.UserName})">
-                            @Html.DisplayFor(m=>m.User.UserName)
-                    </a></p>
+                    <p class="post-username">
+                        By <a href="@Url.Action("Profile", "Users", new { username= Model.User.UserName})">
+                            @Html.DisplayFor(m => m.User.UserName)
+                        </a>
+                    </p>
                 </div>
                 <div class="clearfix"></div>
                 <hr />
@@ -62,29 +62,73 @@
                 <div id="answers-content">
                     @foreach (var comment in Model.Comments)
                     {
-                        <div>
-                            <p>@Html.Raw(comment.CommentContent)</p>
-                            <div class="post-info">
-                                <p class="post-createdat">Commented on @comment.CreatedAt</p>
-                                <p class="post-username">By <a href="@Url.Action("Profile", "Users", new { username=@comment.User.UserName})">
-                                    @comment.User.UserName</a></p>
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <br />
+                                <div>
+                                    @Ajax.ActionLink(" ", "ProcessCommentVote", "Comments", new { voteStatus = 1, commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         UpdateTargetId = "comment-vote-point-" + comment.CommentID,
+                                         InsertionMode = InsertionMode.Replace,
+                                         OnSuccess = "changeArrowColor('" + "Comment-" + comment.CommentID + "', '" + 1 + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + comment.CommentID + "-up",
+                                         @class = "vote-link glyphicon glyphicon-triangle-top",
+                                         @style = "text-decoration: none; color: " + comment.UpArrowColor,
+                                         @type = "button"
+                                     })
+                                </div>
+                                <div>
+                                    <h5 id="comment-vote-point-@comment.CommentID">&nbsp;@comment.CurrentVote</h5>
+                                </div>
+                                <div>
+                                    @Ajax.ActionLink(" ", "ProcessCommentVote", "Comments", new { voteStatus = -1, commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         UpdateTargetId = "comment-vote-point-" + comment.CommentID,
+                                         InsertionMode = InsertionMode.Replace,
+                                         OnSuccess = "changeArrowColor('" + "Comment-" + comment.CommentID + "', '" + -1 + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + comment.CommentID + "-down",
+                                         @class = "vote-link glyphicon glyphicon-triangle-bottom",
+                                         @style = "text-decoration: none; color: " + comment.DownArrowColor,
+                                         @type = "button"
+                                     })
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
+                            <div class="col-sm-11">
+                                <div>
+                                    <p>@Html.Raw(comment.CommentContent)</p>
+                                    <div class="post-info">
+                                        <p class="post-createdat">Commented on @comment.CreatedAt</p>
+                                        <p class="post-username">
+                                            By <a href="@Url.Action("Profile", "Users", new { username=@comment.User.UserName})">
+                                                @comment.User.UserName
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                @if (ViewBag.userId == comment.UserID)
+                                {
+                                    <div>
+                                        <text>
+                                            @Html.ActionLink("Edit", "Edit", "Comments", new { id = comment.CommentID }, null) |
+                                            @Html.ActionLink("Delete", "Delete", "Comments", new { id = comment.CommentID }, null)
+                                        </text>
+                                    </div>
+                                }
+                            </div>
+                            <hr />
                         </div>
-                        if (ViewBag.userId == comment.UserID)
-                        {
-                            <div>
-                                <text>
-                                    @Html.ActionLink("Edit", "Edit", "Comments", new { id = comment.CommentID }, null) |
-                                    @Html.ActionLink("Delete", "Delete", "Comments", new { id = comment.CommentID }, null)
-                                </text>
-                            </div>
-                        }
-                        <hr />
+
                     }
                 </div>
-            </div>
-
             <div #id="answers-form">
                 @using (Html.BeginForm("AddComment", "Comments", FormMethod.Post))
             {
@@ -97,9 +141,7 @@
                                 @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                         @Html.HiddenFor(model => model.PostID)
-
                         <div class="form-group">
                             <div class="col-sm-offset-1 col-sm-8">
                                 <input type="submit" value="Post" class="btn btn-default" />
@@ -108,7 +150,6 @@
                     </div>
                 }
             </div>
-
             <p>
                 @if (ViewBag.userId == Model.User.Id)
             {
@@ -123,14 +164,11 @@
             @Html.Action("LatestPosts", "Posts")
         </div>
     </div>
-
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customjs")
-
     <script>
         $(function () {
             CKEDITOR.replace("CommentContent");
@@ -138,7 +176,7 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 @: $(".vote-link").bind("click", false).css("cursor", "default");
-            }
+                                    }
         });
 
         function changeArrowColor(arrowIdSubString, voteStatus) {
@@ -170,7 +208,5 @@
         }
     </script>
 }
-
-
 
 

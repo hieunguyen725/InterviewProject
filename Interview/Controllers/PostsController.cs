@@ -164,12 +164,35 @@ namespace Interview.Controllers
                     break;
                 }
             }
+            ICollection<Comment> commentViews = new List<Comment>();
+            foreach (var comment in post.Comments)
+            {
+                ICommentRepository commentRepo = new CommentRepository();
+                Comment retrievedComment = commentRepo.GetCommentById(comment.CommentID);
+                foreach (var vote in retrievedComment.VoteList)
+                {
+                    if (vote.VoteUserId == userId)
+                    {
+                        if (vote.VoteStatus == 1)
+                        {
+                            comment.UpArrowColor = hightLightedColor;
+                            comment.DownArrowColor = notHightLightedColor;
+                        }
+                        else
+                        {
+                            comment.UpArrowColor = notHightLightedColor;
+                            comment.DownArrowColor = hightLightedColor;
+                        }
+                    }
+                }
+                commentViews.Add(comment);
+            }
             PostAnswerViewModel vm = new PostAnswerViewModel
             {
                 PostID = post.PostID,
                 PostTitle = post.PostTitle,
                 PostContent = post.PostContent,
-                Comments = post.Comments,
+                Comments = commentViews,
                 CreatedAt = post.CreatedAt,
                 User = post.User,
                 CurrentVote = post.CurrentVote,

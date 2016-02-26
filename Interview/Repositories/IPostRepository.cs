@@ -31,6 +31,7 @@ namespace Interview.Repositories
 
         void DeletePostVote(PostVote post);
 
+
         void UpdatePost(Post post);
 
         void AddPost(Post post);

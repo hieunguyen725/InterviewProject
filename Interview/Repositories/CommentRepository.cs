@@ -17,6 +17,7 @@ namespace Interview.Repositories
         {
             return db.Comments.Include(p => p.Post)
                             .Include(u=>u.User)
+                            .Include(v => v.VoteList)
                             .SingleOrDefault(c=>c.CommentID== id);
         }
 
@@ -41,6 +42,24 @@ namespace Interview.Repositories
         {
             comment.CommentContent = Sanitizer.GetSafeHtmlFragment(comment.CommentContent);
             db.Entry(comment).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void AddCommentVote(CommentVote vote)
+        {
+            db.CommentVotes.Add(vote);
+            db.SaveChanges();
+        }
+
+        public void UpdateCommentVote(CommentVote vote)
+        {
+            db.Entry(vote).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteCommentVote(CommentVote vote)
+        {
+            db.CommentVotes.Remove(vote);
             db.SaveChanges();
         }
 
