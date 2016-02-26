@@ -13,6 +13,7 @@ namespace Interview.Controllers
     public class UsersController : Controller
     {
         private IPostRepository _repo;
+
         public UsersController(IPostRepository _repo)
         {
             this._repo = _repo;

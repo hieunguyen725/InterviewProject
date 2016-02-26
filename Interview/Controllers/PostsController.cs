@@ -19,28 +19,21 @@ namespace Interview.Controllers
     public class PostsController : Controller
     {
         private IPostRepository repo;
-        private List<string> categories;
 
         public PostsController(IPostRepository repo)
         {
             this.repo = repo;
-            categories = new List<string>
-            {
-                "Data Structure", "Algorithm", "Operating System",
-                "Programming Fundamentals", "Mobile Development",
-                "Web Development", "Database", "Other"
-            };
-            ViewBag.Categories = categories;
         }
 
-        [AllowAnonymous]
-        public PartialViewResult LoadCategory(string category, int page = 1, int size = 10)
+        [HttpGet]
+        public JsonResult GetTags()
         {
-            ViewBag.userId = User.Identity.GetUserId();
-            ViewBag.currentCategory = category;
-            PagedList<Post> pagedModel = new PagedList<Post>
-                (repo.GetPostByCategory(category), page, size);
-            return PartialView("_Posts", pagedModel);
+            var tags = repo.GetTags();
+            List<string> temp = new List<string>();
+            foreach(var tag in tags) {
+                temp.Add(tag.TagName);
+            }
+            return Json(temp, JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]
@@ -67,18 +60,15 @@ namespace Interview.Controllers
         }
 
         [AllowAnonymous]
-        // GET: Question
-        public ActionResult Index(string currentCategory = "All", int page = 1, int size = 10)
+        public ActionResult Index(int page = 1, int size = 10)
         {
             ViewBag.userId = User.Identity.GetUserId();
-            ViewBag.currentCategory = currentCategory;
             PagedList<Post> pagedModel = new PagedList<Post>
-                (repo.GetPostByCategory(currentCategory), page, size);
+                (repo.GetAllPosts(), page, size);
             return View(pagedModel);
         }
 
         [AllowAnonymous]
-        // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
             ViewBag.userId = User.Identity.GetUserId();
@@ -106,32 +96,28 @@ namespace Interview.Controllers
             return View(vm);
         }
 
-        // GET: Posts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Posts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PostTitle,PostContent,SelectedCategory")] Post post)
+        public ActionResult Create([Bind(Include = "PostTitle,PostContent")] Post post)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {
+                ViewBag.noTag = false;
                 post.UserID = User.Identity.GetUserId();
                 post.CreatedAt = DateTime.Now;
                 post.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
                 repo.AddPost(post);
+                repo.AddPostToTags(post, Request["tags"]);
                 return RedirectToAction("Index");
             }
-
             return View(post);
         }
 
-        // GET: Posts/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -150,12 +136,9 @@ namespace Interview.Controllers
             return View(post);
         }
 
-        // POST: Posts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,SelectedCategory")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -164,8 +147,7 @@ namespace Interview.Controllers
             }
             return View(post);
         }
-
-        // GET: Posts/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -183,8 +165,7 @@ namespace Interview.Controllers
             }
             return View(post);
         }
-
-        // POST: Posts/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -9,14 +9,14 @@ namespace Interview.Models
     {
         public int CommentID { get; set; }
 
-        [Display(Name = "Comment")]
         [AllowHtml]
-        [DataType(DataType.MultilineText)]
+        [StringLength(500, MinimumLength = 35)]
+        [Display(Name = "Content")]
         [Required]
+        [DataType(DataType.MultilineText)]
         public string CommentContent { get; set; }
 
         [Display(Name = "Commented on")]
-        [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
 
         public int PostID { get; set; }

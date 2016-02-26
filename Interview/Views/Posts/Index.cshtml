@@ -5,34 +5,6 @@
     ViewBag.Title = "Index";
 }
 
-
-<div class="btn-group" role="group">
-
-    @Ajax.ActionLink("All Posts", "LoadCategory", new { category = "All", ViewBag.page, Page.size },
-     new AjaxOptions
-     {
-         HttpMethod = "GET",
-         UpdateTargetId = "post-list",
-         InsertionMode = InsertionMode.Replace
-     },
-     new { @class = "btn btn-primary", @type = "button" }
-)
-
-    @foreach (string item in ViewBag.Categories)
-    {
-        @Ajax.ActionLink(item, "LoadCategory", new { category = item },
-     new AjaxOptions
-     {
-         HttpMethod = "GET",
-         UpdateTargetId = "post-list",
-         InsertionMode = InsertionMode.Replace
-     },
-     new { @class = "btn btn-primary", @type = "button" }
-)
-    }
-
-</div>
-
 <div class="row">
     <div class="col-sm-9" id="post-list">
         @Html.Partial("_Posts")

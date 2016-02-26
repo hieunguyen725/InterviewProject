@@ -239,6 +239,7 @@
     </Compile>
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterviewDbInitializer.cs" />
@@ -252,14 +253,12 @@
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\PostAnswerViewModel.cs" />
+    <Compile Include="ViewModels\PostTagViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootflat.css" />
-    <Content Include="Content\bootflat.min.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.tagit.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -276,8 +275,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\pbckcode\CHANGELOG.md" />
@@ -571,6 +568,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tag-it.js" />
+    <Content Include="Scripts\tag-it.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -608,7 +607,6 @@
     <Content Include="Views\Posts\Details.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
-    <Content Include="Views\Comments\Create.cshtml" />
     <Content Include="Views\Comments\Delete.cshtml" />
     <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Shared\_Posts.cshtml" />

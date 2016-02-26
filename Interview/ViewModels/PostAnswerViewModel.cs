@@ -27,12 +27,14 @@ namespace Interview.ViewModels
 
         /* PostAnswer's related fields */
         public int CommentID { get; set; }
-        
+
         [AllowHtml]
-        [DataType(DataType.MultilineText)]
+        [StringLength(500, MinimumLength = 35)]
+        [Display(Name = "Content")]
         [Required]
+        [DataType(DataType.MultilineText)]
         public string CommentContent { get; set; }
-        
+
 
     }
 }

@@ -17,7 +17,7 @@ namespace Interview.Repositories
         public void AddPost(Post post)
         {
             db.Posts.Add(post);
-            db.SaveChanges();
+            db.SaveChanges();        
         }
 
         public void DeletePost(Post post)
@@ -26,46 +26,74 @@ namespace Interview.Repositories
             db.SaveChanges();
         }
 
+        public IEnumerable<Tag> GetTags() {
+            return db.Tags.Include(p => p.Posts).ToList();
+        }
+
+        public void AddPostToTags(Post post, string tagsS)
+        {
+
+            List<string> tags = tagsS.Split(',').ToList();
+
+            for(int i = 0; i < tags.Count(); i++)
+            {
+                var tagName = tags.ElementAt(i);
+                Tag temp = db.Tags.Include(p => p.Posts)
+                                .SingleOrDefault(t => t.TagName == tagName);
+                temp.Posts.Add(post);
+            }
+            db.SaveChanges();
+         
+        }
+
         public IEnumerable<Post> GetAllPosts()
         {
-            return db.Posts.Include(c => c.Comments).Include(u => u.User).ToList();
+            return db.Posts.Include(c => c.Comments)
+                            .Include(u => u.User)
+                            .Include(t=>t.Tags)
+                            .ToList();
         }
 
         public IEnumerable<Post> GetLatestPosts()
         {
-            return db.Posts.OrderByDescending(p => p.CreatedAt).Take(10).Include(c => c.Comments).Include(u => u.User).ToList();
+            return db.Posts.OrderByDescending(p => p.CreatedAt)
+                            .Take(5).Include(c => c.Comments)
+                            .Include(u => u.User).Include(t => t.Tags)
+                            .ToList();
         }
 
         public Post GetPostById(int? id)
         {
-            return db.Posts.Include(c => c.Comments).Include(u => u.User).SingleOrDefault(p => p.PostID == id);
+            return db.Posts.Include(c => c.Comments)
+                            .Include(u => u.User)
+                            .Include(t => t.Tags)
+                            .SingleOrDefault(p => p.PostID == id);
         }
 
         public IEnumerable<Post> GetPostByUser(string userId)
         {
-            return db.Posts.Where(p => p.UserID == userId).Include(c => c.Comments).Include(u => u.User).ToList();
+            return db.Posts.Where(p => p.UserID == userId)
+                        .Include(c => c.Comments)
+                        .Include(u => u.User)
+                        .Include(t => t.Tags).ToList();
         }
 
         public IEnumerable<Post> GetPostByUserName(string username)
         {
-            return db.Posts.Where(p => p.User.UserName == username).Include(c => c.Comments).Include(u => u.User).ToList();
-        }
-
-        public IEnumerable<Post> GetPostByCategory(string category)
-        {
-            if (category == "All")
-            {
-                return db.Posts.Include(c => c.Comments).Include(u => u.User).ToList();
-            }
-            else
-            {
-                return db.Posts.Where(p => p.SelectedCategory == category).Include(c => c.Comments).Include(u => u.User).ToList();
-            }
+            return db.Posts.Where(p => p.User.UserName == username)
+                        .Include(c => c.Comments)
+                        .Include(t => t.Tags)
+                        .Include(u => u.User)
+                        .ToList();
         }
 
         public IEnumerable<Post> GetPostBySearch(string search)
         {
-            return db.Posts.Where(p => p.PostTitle.Contains(search) || p.PostContent.Contains(search)).Include(c => c.Comments).Include(u => u.User).ToList();
+            return db.Posts.Where(p => p.PostTitle.Contains(search) || p.PostContent.Contains(search))
+                        .Include(c => c.Comments)
+                        .Include(u => u.User)
+                        .Include(t => t.Tags)
+                        .ToList();
         }
 
         public void SaveChanges()

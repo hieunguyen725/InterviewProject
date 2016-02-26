@@ -35,7 +35,24 @@ namespace Interview.Models
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Post>()
+                .HasMany(p => p.Tags)
+                .WithMany(t => t.Posts)
+                .Map(mc =>
+                {
+                    mc.MapLeftKey("PostID");
+                    mc.MapRightKey("TagID");
+                    mc.ToTable("Post_Tag");
+                }
+            );
+
+            base.OnModelCreating(modelBuilder);
+        }
 
         public static ApplicationDbContext Create()
         {

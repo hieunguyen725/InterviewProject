@@ -30,7 +30,6 @@ namespace Interview
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/bootflat.css",
                       "~/Content/site.css"));
         }
     }

@@ -10,33 +10,33 @@ namespace Interview.Models
 {
     public class Post
     {
+
         public int PostID { get; set; }
 
+        [StringLength(100, MinimumLength = 40)]
         [Display(Name = "Title")]
         [Required]
         public string PostTitle { get; set; }
         
+        [StringLength(5000, MinimumLength = 250)]
         [AllowHtml]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Content")]
         [Required]
-        public string PostContent { get; set; }
-
-        [Display(Name = "Category")]
-        public String SelectedCategory { get; set; }
+        public string PostContent { get; set; }       
 
         public ICollection<Comment> Comments { get; set; }
 
         public int ViewCount { get; set; }
 
         [Display(Name = "Created At")]
-        [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
 
         public string UserID { get; set; }
 
         public ApplicationUser User { get; set; }
 
+        public ICollection<Tag> Tags { get; set; }
 
     }
 }

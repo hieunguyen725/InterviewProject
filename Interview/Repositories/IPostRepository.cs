@@ -11,6 +11,10 @@ namespace Interview.Repositories
     {
         IEnumerable<Post> GetAllPosts();
 
+        IEnumerable<Tag> GetTags();
+
+        void AddPostToTags(Post post, string tags);
+
         Post GetPostById(int? id);
 
         IEnumerable<Post> GetPostByUser(string userId);
@@ -18,9 +22,7 @@ namespace Interview.Repositories
         IEnumerable<Post> GetPostByUserName(string username);
 
         IEnumerable<Post> GetPostBySearch(string search);
-
-        IEnumerable<Post> GetPostByCategory(string category);
-
+        
         IEnumerable<Post> GetLatestPosts();
 
         void UpdatePost(Post post);

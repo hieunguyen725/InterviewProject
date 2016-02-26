@@ -7,69 +7,71 @@ using System.Web;
 
 namespace Interview.Models
 {
-    public class InterviewDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class InterviewDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         // This is the total number of posts and users. Change it to any number you like.
-        private int _num = 50;
+        private int _num = 11;
 
         protected override void Seed(ApplicationDbContext context)
         {
 
-            var ph = new PasswordHasher();
-            for (int i = 0; i < _num; i++)
+            var tags = new List<Tag>
             {
-                string pass = ph.HashPassword("Password" + i);
-                context.Users.Add(new ApplicationUser
-                {
-                    Id = i.ToString(),
-                    UserName = "user" + i,
-                    Email = "user" + i + "@yahoo.com",
-                    PasswordHash = pass
-                });
+                new Tag{TagName = "Java"},
+                new Tag{TagName = "C"},
+                new Tag{TagName = "C++"},
+                new Tag{TagName = "C#"},
+                new Tag{TagName = "HTML"},
+                new Tag{TagName = "CSS"},
+                new Tag{TagName = "JavaScript"},
+                new Tag{TagName = "Ruby"},
+                new Tag{TagName = "front-end"},
+                new Tag{TagName = "back-end"},
+                new Tag{TagName = "Web-Development"},
+                new Tag{TagName = "Algorithm"},
+                new Tag{TagName = "Data-structure"},
+                new Tag{TagName = "PHP"},
+                new Tag{TagName = "Database"},
+                new Tag{TagName = "AngularJs"},
+                new Tag{TagName = "ReactJs"},
+                new Tag{TagName = "RubyOnRails"},
+                new Tag{TagName = "Laravel"},
+                new Tag{TagName = "General"},
+            };
+            foreach (var tag in tags)
+            {
+                context.Tags.Add(tag);
             }
 
-            var categories = new List<string>
-                {
-                    "Data Structure", "Algorithm", "Operating System",
-                    "Programming Fundamentals", "Mobile Development",
-                    "Web Development", "Database", "Other"
-                };
 
-            var comments = new List<Comment>();
-            Random random = new Random();
-            for (int i = 0; i < _num; i++)
-            {
-                int randomNum = random.Next(0, _num);
-                comments.Add(new Comment
-                {
-                    CommentID = i,
-                    CommentContent = "Comment #" + i + " for post #" + i,
-                    CreatedAt = DateTime.Now,
-                    PostID = i,
-                    UserID = i.ToString()
-                });
-            }
-            foreach (var comment in comments)
-            {
-                context.Comments.Add(comment);
-            }
+            //var ph = new PasswordHasher();
+            //for (int i = 0; i < _num; i++)
+            //{
+            //    string pass = ph.HashPassword("Password" + i);
+            //    context.Users.Add(new ApplicationUser
+            //    {
+            //        UserName = "user" + i,
+            //        Email = "user" + i + "@yahoo.com",
+            //        PasswordHash = pass
+            //    });
+            //}
+            
+            //Random random = new Random();
 
-            for (int i = 0; i < _num; i++)
-            {
-                int randomNum = random.Next(0, 8);
-                int randomUser = random.Next(0, _num);
-                int randomViewCount = random.Next(0, 1000);
-                context.Posts.Add(new Post
-                {
-                    PostID = i,
-                    PostTitle = "This is post title #" + i,
-                    PostContent = "This is a post content, and it is supposed to be longer. Also, this post content belong to post #" + i,
-                    CreatedAt = DateTime.Now,
-                    SelectedCategory = categories.ElementAt(randomNum),
-                    ViewCount = randomViewCount,
-                    UserID = i.ToString()
-                });
-            }
+            //for (int i = 0; i < _num; i++)
+            //{
+            //    int randomNum = random.Next(0, 8);
+            //    int randomUser = random.Next(0, _num);
+            //    int randomViewCount = random.Next(0, 1000);
+            //    context.Posts.Add(new Post
+            //    {
+            //        PostTitle = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.............. #" + i,
+            //        PostContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            //        CreatedAt = DateTime.Now,
+            //        ViewCount = randomViewCount,
+            //        UserID = i.ToString()
+            //    });
+            //}
 
             base.Seed(context);
         }

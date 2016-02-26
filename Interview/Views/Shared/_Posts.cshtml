@@ -1,52 +1,62 @@
 ﻿@model PagedList.IPagedList<Interview.Models.Post>
 @using PagedList.Mvc;
-
 @for (int i = 0; i < Model.Count(); i++)
 {
-    <div class="row" style="position:relative">
-        <div class="col-sm-2 text-center" style="position:relative;top:15px;left:20px">      
-            <div class="badge" data-toggle="tooltip" title="Views">
-                @Html.DisplayFor(m => Model.ElementAt(i).ViewCount)
-                <i class="fa fa-eye"></i>
-            </div>
-            <div class="badge" data-toggle="tooltip" title="Comments">
-                @Html.DisplayFor(m => Model.ElementAt(i).Comments.Count)
-                <i class="fa fa-comments-o"></i> <br/>
-            </div>
-            <div style="margin-top: 5px; display:block;">
-                @Html.DisplayFor(m => Model.ElementAt(i).SelectedCategory)
-            </div>
+    <div class="row">
+        <div class="col-sm-3 text-center">
+            @* add voting here*@
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             <div class="Post">
-                <h6>
-                    <a href="@Url.Action("Details", "Posts", new { id = Model.ElementAt(i).PostID})">
-                        @Html.DisplayFor(m => Model.ElementAt(i).PostTitle)
-                    </a>
-                </h6>
-                <div class="post-info">
-                    <p class="post-createdat">Posted on @Html.DisplayFor(m => Model.ElementAt(i).CreatedAt)</p>
-                    <p class="post-username">By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
-                        @Html.DisplayFor(m => Model.ElementAt(i).User.UserName)</a></p>
+                <div class="panel">
+                    <div class="panel-body">
+                        <h6>
+                            <a href="@Url.Action("Details", "Posts", new { id = Model.ElementAt(i).PostID})">
+                                @Html.DisplayFor(m => Model.ElementAt(i).PostTitle)
+                            </a>
+                        </h6>
+                        <div class="post-info">
+                            <p class="post-createdat">Posted on @Html.DisplayFor(m => Model.ElementAt(i).CreatedAt)</p>
+                            <p class="post-username">
+                                By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
+                                    @Html.DisplayFor(m => Model.ElementAt(i).User.UserName)
+                                </a>
+                            </p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr />
+                        <div class="tags" style="float:left">
+                            <i class="fa fa-tags"></i>
+                            @foreach (var tag in Model.ElementAt(i).Tags)
+                            {
+                                <span class="label label-primary">@tag.TagName</span>
+                            }
+                        </div>
+                        <div class="view-answer-info" style="float:right;">
+                            <div class="badge" data-toggle="tooltip" title="Views">
+                                @Html.DisplayFor(m => Model.ElementAt(i).ViewCount)
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            <div class="badge" data-toggle="tooltip" title="Comments">
+                                @Html.DisplayFor(m => Model.ElementAt(i).Comments.Count)
+                                <i class="fa fa-comments-o"></i> <br />
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <p class="sm-text">
+                            @if (ViewBag.userId == Model.ElementAt(i).UserID)
+                            {
+                                <text>@Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).PostID }) |</text>
+                                <text>@Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).PostID })</text>
+                            }
+                        </p>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
-                <p class="sm-text">
-                    @if (ViewBag.userId == Model.ElementAt(i).UserID)
-                    {
-                        <text>@Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).PostID }) |</text>
-                        <text>@Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).PostID })</text>
-                    }
-                </p>
             </div>
-        </div>
-        <div class="col-sm-12">
-            @if (i < Model.Count() - 1)
-                {
-                <text><hr /></text>
-            }
         </div>
     </div>
 
 }
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.currentCategory, page, size = Model.PageSize }))
+<div class="col-sm-offset-3 col-sm-8">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.currentCategory, page, size = Model.PageSize }))
+</div>

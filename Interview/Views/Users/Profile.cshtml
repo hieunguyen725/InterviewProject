@@ -12,7 +12,6 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Category</th>
                 <th>Posted On</th>
             </tr>
         </thead>
@@ -20,8 +19,7 @@
             @foreach (var post in Model)
             {
                 <tr>
-                    <td>@post.PostTitle</td>
-                    <td>@post.SelectedCategory</td>
+                    <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
                     <td>@post.CreatedAt</td>
                 </tr>
             }
@@ -31,10 +29,12 @@
     {
         <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
     }
-} else
+}
+else
 {
     <h4>@ViewBag.username currently have no posts.</h4>
 }
+
 
 
 

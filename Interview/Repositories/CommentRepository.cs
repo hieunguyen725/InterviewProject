@@ -15,7 +15,9 @@ namespace Interview.Repositories
 
         public Comment GetCommentById(int? id)
         {
-            return db.Comments.Include(p => p.Post).Include(u=>u.User).SingleOrDefault(c=>c.CommentID== id);
+            return db.Comments.Include(p => p.Post)
+                            .Include(u=>u.User)
+                            .SingleOrDefault(c=>c.CommentID== id);
         }
 
         public void AddComment(Comment comment)

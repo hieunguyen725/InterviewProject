@@ -94,7 +94,10 @@
     @Scripts.Render("~/bundles/customjs")
 
     <script>
-        CKEDITOR.replace("CommentContent");
+        $(document).ready(function () {
+            CKEDITOR.replace("CommentContent");           
+        })
+
     </script>
 }
 
