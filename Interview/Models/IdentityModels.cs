@@ -38,6 +38,8 @@ namespace Interview.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<PostVote> PostVotes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>()

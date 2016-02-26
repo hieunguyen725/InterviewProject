@@ -123,3 +123,8 @@ hr {
 #register-form label {
     font-size: 1.2em;
 }
+
+/* bootstrap icons */
+.glyphicon {
+    font-size: 1.5em;
+}

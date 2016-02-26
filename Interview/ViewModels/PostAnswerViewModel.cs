@@ -20,6 +20,12 @@ namespace Interview.ViewModels
 
         public string PostTitle { get; set; }
 
+        public int CurrentVote { get; set; }
+
+        public string UpArrowColor { get; set; }
+
+        public string DownArrowColor { get; set; }
+
         public ICollection<Comment> Comments{ get; set; }
 
         [AllowHtml]

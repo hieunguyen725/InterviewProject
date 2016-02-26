@@ -19,10 +19,71 @@ namespace Interview.Controllers
     public class PostsController : Controller
     {
         private IPostRepository repo;
+        private string notHightLightedColor;
+        private string hightLightedColor;
 
         public PostsController(IPostRepository repo)
         {
             this.repo = repo;
+            notHightLightedColor = "rgb(0, 0, 0)";
+            hightLightedColor = "rgb(250, 128, 114)";
+        }
+
+        public int ProcessPostVote(int voteStatus, int postId)
+        {
+            string userId = User.Identity.GetUserId();
+            Post post = repo.GetPostById(postId);
+            PostVote userOriginalVote = null;
+            // check if the user already voted, and retrieve that vote if voted
+            foreach (var vote in post.VoteList)
+            {
+                if (vote.VoteUserId == userId)
+                {
+                    userOriginalVote = vote;
+                    break;
+                }
+            }
+            if (userOriginalVote == null) // user haven't voted
+            {
+                PostVote newVote = new PostVote
+                {
+                    VoteUserId = userId,
+                    VoteStatus = voteStatus,
+                    PostID = postId
+                };
+                repo.AddPostVote(newVote);
+                post.CurrentVote += voteStatus;
+            }
+            else // user voted
+            {
+                int originalVoteStatus = userOriginalVote.VoteStatus;
+                if (voteStatus == 1 && originalVoteStatus == 1) // cancel upvote
+                {
+                    repo.DeletePostVote(userOriginalVote);
+                    post.CurrentVote--;
+                }
+                else if (voteStatus == 1 && originalVoteStatus == -1) // switch to upvote
+                {
+                    userOriginalVote.VoteStatus = 1;
+                    repo.UpdatePostVote(userOriginalVote);
+                    post.CurrentVote += 2;
+
+                }
+                else if (voteStatus == -1 && originalVoteStatus == 1) // switch to downvote
+                {
+                    userOriginalVote.VoteStatus = -1;
+                    repo.UpdatePostVote(userOriginalVote);
+                    post.CurrentVote -= 2;
+                }
+                else if (voteStatus == -1 && originalVoteStatus == -1) // cancel downvote
+                {
+                    repo.DeletePostVote(userOriginalVote);
+                    post.CurrentVote++;
+                }
+
+            }
+            repo.UpdatePost(post);
+            return post.CurrentVote;
         }
 
         [HttpGet]
@@ -30,7 +91,8 @@ namespace Interview.Controllers
         {
             var tags = repo.GetTags();
             List<string> temp = new List<string>();
-            foreach(var tag in tags) {
+            foreach (var tag in tags)
+            {
                 temp.Add(tag.TagName);
             }
             return Json(temp, JsonRequestBehavior.AllowGet);
@@ -71,7 +133,8 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
-            ViewBag.userId = User.Identity.GetUserId();
+            string userId = User.Identity.GetUserId();
+            ViewBag.userId = userId;
 
             if (id == null)
             {
@@ -84,6 +147,23 @@ namespace Interview.Controllers
             }
             post.ViewCount++;
             repo.SaveChanges();
+            foreach (var vote in post.VoteList)
+            {
+                if (vote.VoteUserId == userId)
+                {
+                    if (vote.VoteStatus == 1)
+                    {
+                        post.UpArrowColor = hightLightedColor;
+                        post.DownArrowColor = notHightLightedColor;
+                    }
+                    else
+                    {
+                        post.UpArrowColor = notHightLightedColor;
+                        post.DownArrowColor = hightLightedColor;
+                    }
+                    break;
+                }
+            }
             PostAnswerViewModel vm = new PostAnswerViewModel
             {
                 PostID = post.PostID,
@@ -91,7 +171,10 @@ namespace Interview.Controllers
                 PostContent = post.PostContent,
                 Comments = post.Comments,
                 CreatedAt = post.CreatedAt,
-                User = post.User
+                User = post.User,
+                CurrentVote = post.CurrentVote,
+                UpArrowColor = post.UpArrowColor,
+                DownArrowColor = post.DownArrowColor
             };
             return View(vm);
         }
@@ -111,6 +194,9 @@ namespace Interview.Controllers
                 post.UserID = User.Identity.GetUserId();
                 post.CreatedAt = DateTime.Now;
                 post.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
+                post.CurrentVote = 0;
+                post.UpArrowColor = notHightLightedColor;
+                post.DownArrowColor = notHightLightedColor;
                 repo.AddPost(post);
                 repo.AddPostToTags(post, Request["tags"]);
                 return RedirectToAction("Index");
@@ -138,7 +224,7 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,VoteList,UpArrowColor,DownArrowColor")] Post post)
         {
             if (ModelState.IsValid)
             {

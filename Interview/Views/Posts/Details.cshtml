@@ -7,7 +7,45 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-1">
+            <br />
+            <div>
+                @Ajax.ActionLink(" ", "ProcessPostVote", new { voteStatus = 1, postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 UpdateTargetId = "vote-point",
+                 InsertionMode = InsertionMode.Replace,
+                 OnSuccess = "changeArrowColor('" + "Post-" + Model.PostID + "', '" + 1 + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-up",
+                 @class = "vote-link glyphicon glyphicon-triangle-top",
+                 @style = "text-decoration: none; color: " + Model.UpArrowColor,
+                 @type = "button"
+             })
+            </div>
+            <div>
+                <h5 id="vote-point">&nbsp;@Model.CurrentVote</h5>
+            </div>
+            <div>
+                @Ajax.ActionLink(" ", "ProcessPostVote", new { voteStatus = -1, postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 UpdateTargetId = "vote-point",
+                 InsertionMode = InsertionMode.Replace,
+                 OnSuccess = "changeArrowColor('" + "Post-" + Model.PostID + "', '" + -1 + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-down",
+                 @class = "vote-link glyphicon glyphicon-triangle-bottom",
+                 @style = "text-decoration: none; color: " + Model.DownArrowColor,
+                 @type = "button"
+             })
+            </div>
+        </div>
+        <div class="col-sm-8">
             <div>
                 <h4>@Html.DisplayFor(model => model.PostTitle)</h4>
                 <p>@Html.Raw(postContent)</p>
@@ -94,10 +132,42 @@
     @Scripts.Render("~/bundles/customjs")
 
     <script>
-        $(document).ready(function () {
-            CKEDITOR.replace("CommentContent");           
-        })
+        $(function () {
+            CKEDITOR.replace("CommentContent");
 
+            @if (!User.Identity.IsAuthenticated)
+            {
+                @: $(".vote-link").bind("click", false).css("cursor", "default");
+            }
+        });
+
+        function changeArrowColor(arrowIdSubString, voteStatus) {
+            var upArrowId = "#" + arrowIdSubString + "-up";
+            var downArrowId = "#" + arrowIdSubString + "-down"
+            var notHightLighted = "rgb(0, 0, 0)";
+            var hightLighted = "rgb(250, 128, 114)";
+            var upColor = $(upArrowId).css("color");
+            var downColor = $(downArrowId).css("color");
+            if (voteStatus == 1) {
+                if (upColor == notHightLighted && downColor == notHightLighted) {
+                    $(upArrowId).css("color", hightLighted);
+                } else if (upColor == notHightLighted && downColor == hightLighted) {
+                    $(upArrowId).css("color", hightLighted);
+                    $(downArrowId).css("color", notHightLighted);
+                } else if (upColor == hightLighted && downColor == notHightLighted) {
+                    $(upArrowId).css("color", notHightLighted);
+                }
+            } else {
+                if (downColor == notHightLighted && upColor == notHightLighted) {
+                    $(downArrowId).css("color", hightLighted);
+                } else if (downColor == notHightLighted && upColor == hightLighted) {
+                    $(downArrowId).css("color", hightLighted);
+                    $(upArrowId).css("color", notHightLighted);
+                } else if (downColor == hightLighted && upColor == notHightLighted) {
+                    $(downArrowId).css("color", notHightLighted);
+                }
+            }
+        }
     </script>
 }
 

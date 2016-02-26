@@ -51,6 +51,7 @@ namespace Interview.Repositories
             return db.Posts.Include(c => c.Comments)
                             .Include(u => u.User)
                             .Include(t=>t.Tags)
+                            .Include(v => v.VoteList)
                             .ToList();
         }
 
@@ -59,6 +60,7 @@ namespace Interview.Repositories
             return db.Posts.OrderByDescending(p => p.CreatedAt)
                             .Take(5).Include(c => c.Comments)
                             .Include(u => u.User).Include(t => t.Tags)
+                            .Include(v => v.VoteList)
                             .ToList();
         }
 
@@ -67,6 +69,7 @@ namespace Interview.Repositories
             return db.Posts.Include(c => c.Comments)
                             .Include(u => u.User)
                             .Include(t => t.Tags)
+                            .Include(v => v.VoteList)
                             .SingleOrDefault(p => p.PostID == id);
         }
 
@@ -75,6 +78,7 @@ namespace Interview.Repositories
             return db.Posts.Where(p => p.UserID == userId)
                         .Include(c => c.Comments)
                         .Include(u => u.User)
+                        .Include(v => v.VoteList)
                         .Include(t => t.Tags).ToList();
         }
 
@@ -84,6 +88,7 @@ namespace Interview.Repositories
                         .Include(c => c.Comments)
                         .Include(t => t.Tags)
                         .Include(u => u.User)
+                        .Include(v => v.VoteList)
                         .ToList();
         }
 
@@ -93,7 +98,26 @@ namespace Interview.Repositories
                         .Include(c => c.Comments)
                         .Include(u => u.User)
                         .Include(t => t.Tags)
+                        .Include(v => v.VoteList)
                         .ToList();
+        }
+
+        public void AddPostVote(PostVote vote)
+        {
+            db.PostVotes.Add(vote);
+            db.SaveChanges();
+        }
+
+        public void UpdatePostVote(PostVote vote)
+        {
+            db.Entry(vote).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeletePostVote(PostVote vote)
+        {
+            db.PostVotes.Remove(vote);
+            db.SaveChanges();
         }
 
         public void SaveChanges()

@@ -25,6 +25,12 @@ namespace Interview.Repositories
         
         IEnumerable<Post> GetLatestPosts();
 
+        void AddPostVote(PostVote post);
+
+        void UpdatePostVote(PostVote post);
+
+        void DeletePostVote(PostVote post);
+
         void UpdatePost(Post post);
 
         void AddPost(Post post);
