@@ -238,7 +238,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
-    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CommentVote.cs" />
     <Compile Include="Models\PostVote.cs" />
     <Compile Include="Models\Tag.cs" />

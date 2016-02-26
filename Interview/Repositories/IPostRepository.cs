@@ -13,6 +13,8 @@ namespace Interview.Repositories
 
         IEnumerable<Tag> GetTags();
 
+        IEnumerable<Tag> GetTagsByPostID(int? id);
+
         void AddPostToTags(Post post, string tags);
 
         Post GetPostById(int? id);
@@ -31,8 +33,9 @@ namespace Interview.Repositories
 
         void DeletePostVote(PostVote post);
 
-
         void UpdatePost(Post post);
+
+        void UpdatePostWithTags(Post post, string tags);
 
         void AddPost(Post post);
 

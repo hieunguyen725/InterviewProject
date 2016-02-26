@@ -55,9 +55,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/tag-it.js" type="text/javascript" charset="utf-8"></script>
     <script>
-        CKEDITOR.replace("PostContent");
         $(document).ready(function () {
-
+            CKEDITOR.replace("PostContent");
             var tags = [];
 
             $.ajax({

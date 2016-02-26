@@ -13,6 +13,6 @@ namespace Interview.Models
 
         [StringLength(20)]
         public string TagName { get; set; }
-        public ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

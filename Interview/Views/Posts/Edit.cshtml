@@ -4,13 +4,16 @@
     ViewBag.Title = "Edit";
 }
 
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+<link href="~/Content/jquery.tagit.css" rel="stylesheet" type="text/css">
+
 <h2>Edit</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Post</h4>
         <hr />
@@ -20,7 +23,6 @@
         @Html.HiddenFor(model => model.CreatedAt)
         @Html.HiddenFor(model => model.ViewCount)
         @Html.HiddenFor(model => model.CurrentVote)
-        @Html.HiddenFor(model => model.VoteList)
         @Html.HiddenFor(model => model.UpArrowColor)
         @Html.HiddenFor(model => model.DownArrowColor)
 
@@ -39,6 +41,16 @@
                 @Html.ValidationMessageFor(model => model.PostContent, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+
+            <div class="row">
+                <label for="myTags" class="control-label col-sm-2">Tags</label>
+                <div class="col-sm-10">
+                    <ul id="myTags"></ul>
+                    <p class="text-danger" id="tag-val">Must have at least 1 tag.</p>
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -55,8 +67,53 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customjs")
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/tag-it.js" type="text/javascript" charset="utf-8"></script>
 
     <script>
-        CKEDITOR.replace("PostContent");
+        $(document).ready(function () {
+            CKEDITOR.replace("PostContent");
+            var tags = [];
+            var currentTags = [];
+
+            $.ajax({
+                method: "GET",
+                url: "/Posts/GetTags",
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        tags.push(data[i]);
+                    }
+                    $("#myTags").tagit({
+                        availableTags: tags,
+                        tagLimit: 5,
+                        caseSensitive: false,
+                        beforeTagAdded: function (event, ui) {
+                            if (tags.indexOf(ui.tagLabel) == -1) {
+                                return false;
+                            }
+                            if (ui.tagLabel == "not found") {
+                                return false;
+                            }
+                        },
+                        afterTagAdded: function (event, ui) {
+                            $("#tag-val").hide();
+                        }
+                    });
+                    $.ajax({
+                        method: "GET",
+                        url: "/Posts/GetTagsByPostID/" + @Model.PostID,
+                        success: function(data){
+                            currentTags = data;                           
+                            for(var i = 0; i < currentTags.length;i++){
+                                $("#myTags").tagit("createTag", currentTags[i]);
+                            }
+                        }
+                    })
+                }
+            })
+
+        });
     </script>
+
 }

@@ -89,13 +89,20 @@ namespace Interview.Controllers
         [HttpGet]
         public JsonResult GetTags()
         {
-            var tags = repo.GetTags();
-            List<string> temp = new List<string>();
-            foreach (var tag in tags)
-            {
-                temp.Add(tag.TagName);
-            }
-            return Json(temp, JsonRequestBehavior.AllowGet);
+            var tags = (List<Tag>)repo.GetTags();
+            // Serializer doesn't like circular reference so I have
+            // to return only what the view needs.           
+            return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetTagsByPostID(int? id)
+        {
+            if (id == null) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+            var tags = (List<Tag>)repo.GetTagsByPostID(id);
+            // Serializer doesn't like circular reference so I have
+            // to return only what the view needs.
+            return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]
@@ -247,7 +254,7 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,VoteList,UpArrowColor,DownArrowColor")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -285,6 +292,16 @@ namespace Interview.Controllers
                 repo.DeletePost(post);
             }
             return RedirectToAction("Index");
+        }
+
+        private List<string> GetTagNames(List<Tag> tags)
+        {
+            List<string> temp = new List<string>();
+            foreach (var tag in tags)
+            {
+                temp.Add(tag.TagName);
+            }
+            return temp;
         }
 
     }
