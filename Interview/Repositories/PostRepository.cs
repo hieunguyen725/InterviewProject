@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using Interview.Models;
 using Microsoft.Security.Application;
+using System.Data.Entity.Migrations;
 
 namespace Interview.Repositories
 {
@@ -119,22 +120,19 @@ namespace Interview.Repositories
         {
             List<string> tags = tagsS.Split(',').ToList();
             List<Tag> temp = new List<Tag>();
-            foreach (var t in tags)
+            foreach (var t in tags.ToList())
             {
                 temp.Add(new Tag() { TagName = t });
             }
-            var originalPost = db.Posts.SingleOrDefault(p => p.PostID == post.PostID);
-            originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent); ;
-            foreach (var t in originalPost.Tags)
+            var originalPost = db.Posts.Find(post.PostID);
+            originalPost.PostTitle = post.PostTitle;
+            originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
+            foreach(var t in originalPost.Tags.ToList())
             {
-                foreach (var j in temp)
-                {
-                    if (j.TagName != t.TagName)
-                    {
-                        originalPost.Tags.Add(j);
-                    }
-                }
+                originalPost.Tags.Remove(t);
+                db.SaveChanges();
             }
+            originalPost.Tags = temp;
             db.SaveChanges();
         }
 

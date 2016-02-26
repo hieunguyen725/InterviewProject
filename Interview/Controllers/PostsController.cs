@@ -256,9 +256,9 @@ namespace Interview.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor")] Post post)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {
-                repo.UpdatePost(post);
+                repo.UpdatePostWithTags(post, Request["tags"]);
                 return RedirectToAction("Index");
             }
             return View(post);
