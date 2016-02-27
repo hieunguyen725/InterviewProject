@@ -48,11 +48,8 @@ namespace Interview.Controllers
         {
             var comments = _commentRepo.GetCommentsByUser(username);
             List<Post> posts = new List<Post>();
-            foreach(var c in comments)
-            {
-                posts.Add(c.Post);
-            }
-            return PartialView("_CommentedOn", posts);
+            comments.ToList().ForEach(c => posts.Add(c.Post));
+            return PartialView("_CommentedOn", posts.Distinct());
         }
     }
 }
