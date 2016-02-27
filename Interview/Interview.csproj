@@ -239,6 +239,7 @@
     </Compile>
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
     <Compile Include="Models\CommentVote.cs" />
+    <Compile Include="Models\PostFlag.cs" />
     <Compile Include="Models\PostVote.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />

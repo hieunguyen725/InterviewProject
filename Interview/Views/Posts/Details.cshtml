@@ -50,6 +50,24 @@
                 <p>@Html.Raw(postContent)</p>
                 <div class="post-info">
                     <p class="post-createdat">Posted on @Html.DisplayFor(model => model.CreatedAt)</p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <text>
+                            <p class="post-createdat">
+                                &nbsp; &nbsp; &nbsp;
+                                @Ajax.ActionLink(Model.UserFlagStatus, "ProcessPostFlag", "Posts", new { postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 OnSuccess = "changeFlagStatus('" + "Post-" + Model.PostID + "-PostFlag" + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-PostFlag",
+             })
+                        </text>
+                    }
+
+                </p>
                     <p class="post-username">
                         By <a href="@Url.Action("Profile", "Users", new { username= Model.User.UserName})">
                             @Html.DisplayFor(m => m.User.UserName)
@@ -217,6 +235,16 @@
                 } else if (downColor == hightLighted && upColor == notHightLighted) {
                     $(downArrowId).css("color", notHightLighted);
                 }
+            }
+        }
+
+        function changeFlagStatus(flagLinkId) {
+            var selector = "#" + flagLinkId;
+
+            if ($(selector).text() == "Flag") {
+                $(selector).text("Unflag");
+            } else {
+                $(selector).text("Flag");
             }
         }
     </script>

@@ -29,6 +29,32 @@ namespace Interview.Controllers
             hightLightedColor = "rgb(250, 128, 114)";
         }
 
+        public int ProcessPostFlag(int postId)
+        {
+            string userId = User.Identity.GetUserId();
+            Post post = repo.GetPostById(postId);
+            foreach (PostFlag flag in post.PostFlag)
+            {
+                if (flag.FlaggedUserId == userId) // if user already flag
+                {
+                    repo.DeletePostFlag(flag);
+                    post.FlagPoint++;
+                    repo.UpdatePost(post);
+                    return 1;
+                }
+            }
+            // user did not flag
+            PostFlag postFlag = new PostFlag
+            {
+                FlaggedUserId = userId,
+                PostID = post.PostID
+            };
+            repo.AddPostFlag(postFlag);
+            post.FlagPoint--;
+            repo.UpdatePost(post);
+            return -1;
+        }
+
         public int ProcessPostVote(int voteStatus, int postId)
         {
             string userId = User.Identity.GetUserId();
@@ -224,6 +250,16 @@ namespace Interview.Controllers
                 }
                 commentViews.Add(comment);
             }
+            // check flag status to display
+            string flagStatus = "Flag";
+            foreach (var PostFlag in post.PostFlag)
+            {
+                if (PostFlag.FlaggedUserId == userId)
+                {
+                    flagStatus = "Unflag";
+                    break;
+                }
+            }
             PostAnswerViewModel vm = new PostAnswerViewModel
             {
                 PostID = post.PostID,
@@ -234,7 +270,9 @@ namespace Interview.Controllers
                 User = post.User,
                 CurrentVote = post.CurrentVote,
                 UpArrowColor = post.UpArrowColor,
-                DownArrowColor = post.DownArrowColor
+                DownArrowColor = post.DownArrowColor,
+                UserFlagStatus = flagStatus
+                
             };
             return View(vm);
         }
@@ -257,6 +295,7 @@ namespace Interview.Controllers
                 post.CurrentVote = 0;
                 post.UpArrowColor = notHightLightedColor;
                 post.DownArrowColor = notHightLightedColor;
+                post.FlagPoint = 0;
                 repo.AddPost(post);
                 repo.AddPostToTags(post, Request["tags"]);
                 return RedirectToAction("Index");
@@ -284,7 +323,7 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor,FlagPoint")] Post post)
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {

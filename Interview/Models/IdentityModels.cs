@@ -37,6 +37,7 @@ namespace Interview.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PostVote> PostVotes { get; set; }
         public DbSet<CommentVote> CommentVotes { get; set; }
+        public DbSet<PostFlag> PostFlags { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
