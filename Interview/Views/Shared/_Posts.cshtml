@@ -15,14 +15,14 @@
                     <div class="panel-body">
                         <h6>
                             <a href="@Url.Action("Details", "Posts", new { id = Model.ElementAt(i).PostID})">
-                                @Html.DisplayFor(m => Model.ElementAt(i).PostTitle)
+                                @Html.DisplayFor(m => m.ElementAt(i).PostTitle)
                             </a>
                         </h6>
                         <div class="post-info">
                             <p class="post-createdat">Posted on @Model.ElementAt(i).CreatedAt.ToShortDateString() at @Model.ElementAt(i).CreatedAt.ToShortTimeString()</p>
                             <p class="post-username">
                                 By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
-                                    @Html.DisplayFor(m => Model.ElementAt(i).User.UserName)
+                                    @Html.DisplayFor(m => m.ElementAt(i).User.UserName)
                                 </a>
                             </p>
                         </div>
@@ -37,11 +37,11 @@
                         </div>
                         <div class="view-answer-info" style="float:right;">
                             <div class="badge" data-toggle="tooltip" title="Views">
-                                @Html.DisplayFor(m => Model.ElementAt(i).ViewCount)
+                                @Html.DisplayFor(m => m.ElementAt(i).ViewCount)
                                 <i class="fa fa-eye"></i>
                             </div>
                             <div class="badge" data-toggle="tooltip" title="Comments">
-                                @Html.DisplayFor(m => Model.ElementAt(i).Comments.Count)
+                                @Html.DisplayFor(m => m.ElementAt(i).Comments.Count)
                                 <i class="fa fa-comments-o"></i> <br />
                             </div>
                         </div>
