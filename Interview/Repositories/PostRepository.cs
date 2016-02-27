@@ -70,6 +70,12 @@ namespace Interview.Repositories
             return tags;
         }
 
+        public IEnumerable<Tag> GetTopTags()
+        {
+            var topTags = db.Tags.OrderByDescending(t => t.Posts.Count);
+            return topTags;
+        }
+
         public IEnumerable<Post> GetAllPosts()
         {
             return db.Posts.ToList();
@@ -149,6 +155,11 @@ namespace Interview.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerable<Post> GetTopPosts()
+        {
+            return db.Posts.OrderByDescending(p => p.CurrentVote).ToList();
         }
     }
 }

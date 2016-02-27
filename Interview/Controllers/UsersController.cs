@@ -13,10 +13,12 @@ namespace Interview.Controllers
     public class UsersController : Controller
     {
         private IPostRepository _repo;
+        private ICommentRepository _commentRepo;
 
-        public UsersController(IPostRepository _repo)
+        public UsersController(IPostRepository _repo, ICommentRepository _commentRepo)
         {
             this._repo = _repo;
+            this._commentRepo = _commentRepo;
         }
 
         public new ActionResult Profile(string username) {
@@ -40,6 +42,17 @@ namespace Interview.Controllers
             ViewBag.username = username;
             PagedList<Post> model = new PagedList<Post>(_repo.GetPostByUserName(username), page, size);
             return View(model);
+        }
+
+        public ActionResult CommentedOn(string username)
+        {
+            var comments = _commentRepo.GetCommentsByUser(username);
+            List<Post> posts = new List<Post>();
+            foreach(var c in comments)
+            {
+                posts.Add(c.Post);
+            }
+            return PartialView("_CommentedOn", posts);
         }
     }
 }

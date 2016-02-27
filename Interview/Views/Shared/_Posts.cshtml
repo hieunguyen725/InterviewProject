@@ -3,10 +3,13 @@
 @for (int i = 0; i < Model.Count(); i++)
 {
     <div class="row">
-        <div class="col-sm-3 text-center">
+        <div class="col-sm-3 vote-area hidden-md hidden-sm hidden-xs">
             @* add voting here*@
+            <div class="vote-content" data-toggle="tooltip" title="Votes">
+                @Model.ElementAt(i).CurrentVote
+            </div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-lg-9">
             <div class="Post">
                 <div class="panel">
                     <div class="panel-body">
@@ -16,7 +19,7 @@
                             </a>
                         </h6>
                         <div class="post-info">
-                            <p class="post-createdat">Posted on @Html.DisplayFor(m => Model.ElementAt(i).CreatedAt)</p>
+                            <p class="post-createdat">Posted on @Model.ElementAt(i).CreatedAt.ToShortDateString() at @Model.ElementAt(i).CreatedAt.ToShortTimeString()</p>
                             <p class="post-username">
                                 By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
                                     @Html.DisplayFor(m => Model.ElementAt(i).User.UserName)
@@ -58,5 +61,5 @@
 
 }
 <div class="col-sm-offset-3 col-sm-8">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.currentCategory, page, size = Model.PageSize }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.query, page, size = Model.PageSize }))
 </div>

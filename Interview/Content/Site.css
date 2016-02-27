@@ -1,7 +1,6 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #F3F3F3 !important;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -10,7 +9,7 @@
     padding-right: 15px;
 }
 
-p,h1,h2,h3,h4,h5,h6,a,li,td {
+p, h1, h2, h3, h4, h5, h6, a, li, td {
     word-wrap: break-word;
 }
 
@@ -32,11 +31,11 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;
-    padding: 0; 
+    padding: 0;
 }
 
 .panel .panel-body {
-     padding: 0 10px 0 15px;
+    padding: 0 10px 0 15px;
 }
 
 .label {
@@ -54,9 +53,22 @@ hr {
     border-radius: 0;
 }
 
+.btn-primary, .label-primary {
+    background-color: #757575 !important;
+}
+
+.label-success {
+    background-color: #EF9A9A;
+}
+
 /* NAV */
 .navbar {
-    background-color: rgb(33, 150, 243) !important;
+    background-color: #002e56 !important;
+}
+
+.fa-bars{
+    color: #fff !important;
+    font-size: 1.5em;
 }
 
 .nav a {
@@ -64,29 +76,56 @@ hr {
     font-size: 1.3em;
 }
 
-.nav a:hover {
-    background-color: #000000 !important;
-}
+    .nav a:hover {
+        background-color: #000000 !important;
+    }
 
 .dropdown:hover .dropdown-menu {
     display: block;
-    background-color: rgb(33, 150, 243);
+    background-color: #757575;
 }
 
 .navbar-brand {
-    color: #000;
+    color: #fff;
 }
 
-    .navbar-brand:hover {
-        color: #fff;
-        background-color: #000;
-    }
-
-
-/* Index (Posts) */
-.index-page{
-    margin-top: 15px;
+.navbar-brand:hover {
+    color: #fff;
+    background-color: #000;
 }
+
+#filter {
+    list-style-type: none;
+    float:right;
+}
+
+#filter a {    
+    text-decoration: none;  
+    border-top: 2px solid #FFFFFF;
+    padding: 10px 10px 0 10px;    
+    width: 80px;
+}
+
+#filter li{
+    text-align: center;
+    float:left;
+    margin-right: 10px;
+    font-size: 1.2em;   
+}
+
+#filter a:hover {
+    border-color: #002E56;
+}
+
+#filter-hr {
+    margin-bottom: 25px;
+}
+
+.filter-active {
+    border-bottom: 2px solid #002E56;
+}
+
+/** posts **/
 
 .top-btn-group {
     margin: 15px 0 10px 0;
@@ -108,6 +147,20 @@ hr {
     margin-top: 20px;
 }
 
+.vote-area{
+    position:relative;
+}
+.vote-content{
+    background-color: #002E56;
+    width: 50px;
+    height: 30px;
+    text-align:center;
+    position:absolute;
+    left: 240px;
+    font-size: 1.2em;
+    color: #fff;
+}
+
 /* Posts' detail*/
 #answers-content {
     margin: 0 0 20px 75px;
@@ -127,4 +180,16 @@ hr {
 /* bootstrap icons */
 .glyphicon {
     font-size: 1.5em;
+}
+
+/** side-bar */
+#side-bar {
+    position: fixed;
+    top: 70px;
+    width: 220px;
+}
+
+#latest-post p {
+    margin: 5px 0 5px 0;
+    font-size: 0.9em;
 }

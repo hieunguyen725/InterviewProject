@@ -18,6 +18,12 @@ namespace Interview.Repositories
             return db.Comments.SingleOrDefault(c=>c.CommentID== id);
         }
 
+        public IEnumerable<Comment> GetCommentsByUser(string username)
+        {
+            var comments = db.Comments.Where(u => u.User.UserName == username).ToList();
+            return comments;
+        }
+
         public void AddComment(Comment comment)
         {
             db.Comments.Add(comment);

@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Interview.Models.Tag>
+
+@foreach (var tag in Model)
+{
+    <span class="label label-success">@tag.TagName &nbsp; <span style="color:#002e56">@tag.Posts.Count()</span></span>
+}
+

@@ -106,6 +106,12 @@ namespace Interview.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult TopTags()
+        {
+            return PartialView("_TopTags", repo.GetTopTags());
+        }
+
+        [AllowAnonymous]
         public PartialViewResult LatestPosts()
         {
             var model = repo.GetLatestPosts();
@@ -123,8 +129,31 @@ namespace Interview.Controllers
             {
                 model = repo.GetPostBySearch(search);
             }
+            ViewBag.query = search;
             PagedList<Post> pagedModel = new PagedList<Post>
                 (model, page, size);
+            return PartialView("_Posts", pagedModel);
+        }
+
+        [AllowAnonymous]
+        public ActionResult Filter(string filter, int page = 1, int size = 10)
+        {
+            List<Post> posts = null;
+            if (string.IsNullOrEmpty(filter))
+            {
+                posts = repo.GetAllPosts().ToList();
+            }
+            else if (filter.Equals("topPosts"))
+            {
+                posts = repo.GetTopPosts().ToList();
+            }
+            else
+            {
+                posts = repo.GetLatestPosts().ToList();
+            }
+            ViewBag.query = filter;
+            PagedList<Post> pagedModel = new PagedList<Post>
+                (posts, page, size);
             return PartialView("_Posts", pagedModel);
         }
 
@@ -132,6 +161,7 @@ namespace Interview.Controllers
         public ActionResult Index(int page = 1, int size = 10)
         {
             ViewBag.userId = User.Identity.GetUserId();
+
             PagedList<Post> pagedModel = new PagedList<Post>
                 (repo.GetAllPosts(), page, size);
             return View(pagedModel);

@@ -11,6 +11,8 @@ namespace Interview.Repositories
 
         Comment GetCommentById(int? id);
 
+        IEnumerable<Comment> GetCommentsByUser(string username);
+
         void AddComment(Comment comment);
 
         void UpdateComment(Comment comment);

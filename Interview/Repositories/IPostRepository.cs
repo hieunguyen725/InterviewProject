@@ -11,9 +11,13 @@ namespace Interview.Repositories
     {
         IEnumerable<Post> GetAllPosts();
 
+        IEnumerable<Post> GetTopPosts();
+
         IEnumerable<Tag> GetTags();
 
         IEnumerable<Tag> GetTagsByPostID(int? id);
+
+        IEnumerable<Tag> GetTopTags();
 
         void AddPostToTags(Post post, string tags);
 

@@ -3,7 +3,8 @@
     ViewBag.Title = "Details";
     var postContent = Model.PostContent;
 }
-<div class="content">
+
+<div class="container">
     <div class="row">
         <div class="col-sm-1">
             <br />
@@ -129,54 +130,66 @@
 
                     }
                 </div>
-            <div #id="answers-form">
-                @using (Html.BeginForm("AddComment", "Comments", FormMethod.Post))
-            {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-offset-1 col-md-10">
-                                @Html.EditorFor(model => model.CommentContent, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger" })
+                <div #id="answers-form">
+                    @using (Html.BeginForm("AddComment", "Comments", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-md-10">
+                                    @Html.EditorFor(model => model.CommentContent, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(model => model.PostID)
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-8">
+                                    <input type="submit" value="Post" class="btn btn-default" />
+                                </div>
                             </div>
                         </div>
-                        @Html.HiddenFor(model => model.PostID)
-                        <div class="form-group">
-                            <div class="col-sm-offset-1 col-sm-8">
-                                <input type="submit" value="Post" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </div>
-                }
+                    }
+                </div>
+                <p>
+                    @if (ViewBag.userId == Model.User.Id)
+                    {
+                        <text>@Html.ActionLink("Edit", "Edit", new { id = Model.PostID }) |</text>
+                    }
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
             </div>
-            <p>
-                @if (ViewBag.userId == Model.User.Id)
-            {
-                    <text>@Html.ActionLink("Edit", "Edit", new { id = Model.PostID }) |</text>
-                }
-                @Html.ActionLink("Back to List", "Index")
-            </p>
         </div>
+
         <div class="col-sm-3">
-            <h5>Lastest Posts</h5>
-            <hr />
-            @Html.Action("LatestPosts", "Posts")
+            <div class="row">
+                <h6>Lastest Posts</h6>
+                <hr />
+                @Html.Action("LatestPosts", "Posts")
+            </div>
+
+            <div class="row">
+                <h6>Most Popular Tags</h6>
+                <hr />
+                @Html.Action("TopTags", "Posts")
+            </div>
         </div>
     </div>
 </div>
+    
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customjs")
     <script>
+
+        CKEDITOR.replace("CommentContent");
         $(function () {
-            CKEDITOR.replace("CommentContent");
 
             @if (!User.Identity.IsAuthenticated)
             {
                 @: $(".vote-link").bind("click", false).css("cursor", "default");
-                                    }
+            }
         });
 
         function changeArrowColor(arrowIdSubString, voteStatus) {
