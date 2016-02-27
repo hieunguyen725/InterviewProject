@@ -9,6 +9,7 @@ namespace Interview.Models
 {
     public class Tag
     {
+        
         public int TagID { get; set; }
 
         [StringLength(20)]

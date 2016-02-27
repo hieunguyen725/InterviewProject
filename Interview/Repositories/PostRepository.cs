@@ -6,6 +6,7 @@ using System.Data.Entity;
 using Interview.Models;
 using Microsoft.Security.Application;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 
 namespace Interview.Repositories
 {
@@ -44,6 +45,20 @@ namespace Interview.Repositories
             }
             db.SaveChanges();
          
+        }
+
+        public void UpdatePostWithTags(Post post, string tagsS)
+        {
+            List<string> tags = tagsS.Split(',').ToList();
+            var originalPost = db.Posts.Include("Tags").Single(p => p.PostID == post.PostID);
+            var newTags = db.Tags.Where(t => tags.Contains(t.TagName)).ToList();
+            originalPost.Tags.Clear();
+            foreach(var newTag in newTags)
+            {
+                originalPost.Tags.Add(newTag);
+            }
+            db.SaveChanges();
+          
         }
 
         public IEnumerable<Tag> GetTagsByPostID(int? id)
@@ -114,43 +129,6 @@ namespace Interview.Repositories
             post.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
             db.Entry(post).State = EntityState.Modified;
             db.SaveChanges();
-        }
-
-        public void UpdatePostWithTags(Post post, string tagsS)
-        {
-            List<string> tags = tagsS.Split(',').ToList();
-            List<Tag> temp = new List<Tag>();
-            var originalPost = db.Posts.Find(post.PostID);
-            originalPost.PostTitle = post.PostTitle;
-            originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
-            originalPost.Tags = null;
-            foreach (var t in tags.ToList())
-            {
-                //temp.Add(new Tag() { TagName = t });
-                var originalTags = db.Tags.SingleOrDefault(tn => tn.TagName == t);
-                foreach(var p in originalTags.Posts.ToList())
-                {
-                    if (p.PostID == originalPost.PostID)
-                    {
-                        originalTags.Posts.Remove(originalPost);
-                    }
-                }
-                
-                Tag tempTag = db.Tags.SingleOrDefault(tn=> tn.TagName == t);
-                tempTag.Posts.Add(originalPost);
-
-            }
-            db.SaveChanges();
-
-            //var originalPost = db.Posts.Find(post.PostID);
-            //originalPost.PostTitle = post.PostTitle;
-            //originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
-            //foreach(var t in originalPost.Tags.ToList())
-            //{
-            //    originalPost.Tags.Remove(t);
-            //    db.SaveChanges();
-            //}
-            //originalPost.Tags = temp;
         }
 
         protected virtual void Dispose(bool disposing)
