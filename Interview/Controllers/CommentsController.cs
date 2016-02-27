@@ -26,6 +26,31 @@ namespace Interview.Controllers
             notHightLightedColor = "rgb(0, 0, 0)";
         }
 
+        public int ProcessCommentFlag(int commentId)
+        {
+            string userId = User.Identity.GetUserId();
+            Comment comment = repo.GetCommentById(commentId);
+            foreach (CommentFlag flag in comment.CommentFlags)
+            {
+                if (flag.FlaggedUserId == userId) 
+                {
+                    repo.DeleteCommentFlag(flag);
+                    comment.FlagPoint++;
+                    repo.UpdateComment(comment);
+                    return 1;
+                }
+            }
+            CommentFlag commentFlag = new CommentFlag
+            {
+                FlaggedUserId = userId,
+                CommentID = comment.CommentID
+            };
+            repo.AddCommentFlag(commentFlag);
+            comment.FlagPoint--;
+            repo.UpdateComment(comment);
+            return -1;
+        }
+
         public int ProcessCommentVote(int voteStatus, int commentId)
         {
             string userId = User.Identity.GetUserId();
@@ -97,7 +122,9 @@ namespace Interview.Controllers
                     PostID = vm.PostID,
                     CurrentVote = 0,
                     UpArrowColor = notHightLightedColor,
-                    DownArrowColor = notHightLightedColor
+                    DownArrowColor = notHightLightedColor,
+                    UserFlagStatus = "Flag",
+                    FlagPoint = 0
             };
                 repo.AddComment(comment);
                 return RedirectToAction("Details", "Posts", new { id = vm.PostID });
@@ -122,7 +149,7 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID,CurrentVote,UpArrowColor,DownArrowColor")] Comment comment)
+        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID,CurrentVote,UpArrowColor,DownArrowColor,UserFlagStatus,FlagPoint")] Comment comment)
         {
             if (ModelState.IsValid)
             {

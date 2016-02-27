@@ -37,6 +37,10 @@ namespace Interview.Models
 
         public virtual ICollection<PostVote> VoteList { get; set; }
 
+        public int FlagPoint { get; set; }
+
+        public virtual ICollection<PostFlag> PostFlags { get; set; }
+
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 

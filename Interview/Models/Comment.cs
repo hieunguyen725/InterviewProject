@@ -28,6 +28,12 @@ namespace Interview.Models
 
         public virtual ICollection<CommentVote> VoteList { get; set; }
 
+        public int FlagPoint { get; set; }
+
+        public string UserFlagStatus { get; set; }
+
+        public virtual ICollection<CommentFlag> CommentFlags { get; set; }
+
         public int PostID { get; set; }
 
         public virtual Post Post { get; set; }
