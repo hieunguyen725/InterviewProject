@@ -127,6 +127,23 @@ namespace Interview.Repositories
             db.SaveChanges();
         }
 
+        public void AddPostFlag(PostFlag flag)
+        {
+            db.PostFlags.Add(flag);
+            db.SaveChanges();
+        }
+
+        public void UpdatePostFlag(PostFlag flag) {
+            db.Entry(flag).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeletePostFlag(PostFlag flag) {
+            db.PostFlags.Remove(flag);
+            db.SaveChanges();
+        }
+
+
         public void SaveChanges()
         {
             db.SaveChanges();

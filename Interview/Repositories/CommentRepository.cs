@@ -66,6 +66,24 @@ namespace Interview.Repositories
             db.SaveChanges();
         }
 
+        public void AddCommentFlag(CommentFlag flag)
+        {
+            db.CommentFlags.Add(flag);
+            db.SaveChanges();
+        }
+
+        public void UpdateCommentFlag(CommentFlag flag)
+        {
+            db.Entry(flag).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteCommentFlag(CommentFlag flag)
+        {
+            db.CommentFlags.Remove(flag);
+            db.SaveChanges();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!this.disposed)

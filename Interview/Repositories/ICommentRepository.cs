@@ -19,11 +19,17 @@ namespace Interview.Repositories
 
         void DeleteComment(Comment comment);
 
-        void AddCommentVote(CommentVote comment);
+        void AddCommentVote(CommentVote vote);
 
-        void UpdateCommentVote(CommentVote comment);
+        void UpdateCommentVote(CommentVote vote);
 
-        void DeleteCommentVote(CommentVote comment);
+        void DeleteCommentVote(CommentVote vote);
+
+        void AddCommentFlag(CommentFlag flag);
+
+        void UpdateCommentFlag(CommentFlag flag);
+
+        void DeleteCommentFlag(CommentFlag flag);
 
         void SaveChanges();
         

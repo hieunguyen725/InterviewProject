@@ -26,6 +26,8 @@ namespace Interview.ViewModels
 
         public string DownArrowColor { get; set; }
 
+        public string UserFlagStatus { get; set; }
+
         public ICollection<Comment> Comments{ get; set; }
 
         [AllowHtml]
