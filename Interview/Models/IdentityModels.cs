@@ -30,13 +30,11 @@ namespace Interview.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<PostVote> PostVotes { get; set; }
         public DbSet<CommentVote> CommentVotes { get; set; }
 

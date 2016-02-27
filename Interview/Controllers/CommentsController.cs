@@ -120,12 +120,9 @@ namespace Interview.Controllers
             return View(comment);
         }
 
-        // POST: PostAnswers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID,CurrentVote,VoteList,UpArrowColor,DownArrowColor")] Comment comment)
+        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID,CurrentVote,UpArrowColor,DownArrowColor")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +132,6 @@ namespace Interview.Controllers
             return View(comment);
         }
 
-        // GET: PostAnswers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -150,7 +146,6 @@ namespace Interview.Controllers
             return View(postAnswer);
         }
 
-        // POST: PostAnswers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

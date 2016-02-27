@@ -15,10 +15,13 @@ namespace Interview.Repositories
 
         public Comment GetCommentById(int? id)
         {
-            return db.Comments.Include(p => p.Post)
-                            .Include(u=>u.User)
-                            .Include(v => v.VoteList)
-                            .SingleOrDefault(c=>c.CommentID== id);
+            return db.Comments.SingleOrDefault(c=>c.CommentID== id);
+        }
+
+        public IEnumerable<Comment> GetCommentsByUser(string username)
+        {
+            var comments = db.Comments.Where(u => u.User.UserName == username).ToList();
+            return comments;
         }
 
         public void AddComment(Comment comment)
@@ -53,7 +56,7 @@ namespace Interview.Repositories
 
         public void UpdateCommentVote(CommentVote vote)
         {
-            db.Entry(vote).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(vote).State = EntityState.Modified;
             db.SaveChanges();
         }
 

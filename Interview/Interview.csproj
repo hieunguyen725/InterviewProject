@@ -238,7 +238,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
-    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CommentVote.cs" />
     <Compile Include="Models\PostVote.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -616,6 +615,9 @@
     <Content Include="Views\Users\AllPosts.cshtml" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <Content Include="Views\Users\Profile.cshtml" />
+    <Content Include="Views\Shared\_SideBar.cshtml" />
+    <Content Include="Views\Shared\_TopTags.cshtml" />
+    <Content Include="Views\Shared\_CommentedOn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -89,13 +89,26 @@ namespace Interview.Controllers
         [HttpGet]
         public JsonResult GetTags()
         {
-            var tags = repo.GetTags();
-            List<string> temp = new List<string>();
-            foreach (var tag in tags)
-            {
-                temp.Add(tag.TagName);
-            }
-            return Json(temp, JsonRequestBehavior.AllowGet);
+            var tags = (List<Tag>)repo.GetTags();
+            // Serializer doesn't like circular reference so I have
+            // to return only what the view needs.           
+            return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetTagsByPostID(int? id)
+        {
+            if (id == null) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+            var tags = (List<Tag>)repo.GetTagsByPostID(id);
+            // Serializer doesn't like circular reference so I have
+            // to return only what the view needs.
+            return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public ActionResult TopTags()
+        {
+            return PartialView("_TopTags", repo.GetTopTags());
         }
 
         [AllowAnonymous]
@@ -116,8 +129,31 @@ namespace Interview.Controllers
             {
                 model = repo.GetPostBySearch(search);
             }
+            ViewBag.query = search;
             PagedList<Post> pagedModel = new PagedList<Post>
                 (model, page, size);
+            return PartialView("_Posts", pagedModel);
+        }
+
+        [AllowAnonymous]
+        public ActionResult Filter(string filter, int page = 1, int size = 10)
+        {
+            List<Post> posts = null;
+            if (string.IsNullOrEmpty(filter))
+            {
+                posts = repo.GetAllPosts().ToList();
+            }
+            else if (filter.Equals("topPosts"))
+            {
+                posts = repo.GetTopPosts().ToList();
+            }
+            else
+            {
+                posts = repo.GetLatestPosts().ToList();
+            }
+            ViewBag.query = filter;
+            PagedList<Post> pagedModel = new PagedList<Post>
+                (posts, page, size);
             return PartialView("_Posts", pagedModel);
         }
 
@@ -125,6 +161,7 @@ namespace Interview.Controllers
         public ActionResult Index(int page = 1, int size = 10)
         {
             ViewBag.userId = User.Identity.GetUserId();
+
             PagedList<Post> pagedModel = new PagedList<Post>
                 (repo.GetAllPosts(), page, size);
             return View(pagedModel);
@@ -247,11 +284,11 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,VoteList,UpArrowColor,DownArrowColor")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor")] Post post)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {
-                repo.UpdatePost(post);
+                repo.UpdatePostWithTags(post, Request["tags"]);
                 return RedirectToAction("Index");
             }
             return View(post);
@@ -285,6 +322,16 @@ namespace Interview.Controllers
                 repo.DeletePost(post);
             }
             return RedirectToAction("Index");
+        }
+
+        private List<string> GetTagNames(List<Tag> tags)
+        {
+            List<string> temp = new List<string>();
+            foreach (var tag in tags)
+            {
+                temp.Add(tag.TagName);
+            }
+            return temp;
         }
 
     }

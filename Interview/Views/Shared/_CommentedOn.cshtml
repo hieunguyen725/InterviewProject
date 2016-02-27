@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Interview.Models.Post>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Posted On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
+                <td>@post.CreatedAt.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

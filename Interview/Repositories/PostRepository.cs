@@ -5,6 +5,8 @@ using System.Web;
 using System.Data.Entity;
 using Interview.Models;
 using Microsoft.Security.Application;
+using System.Data.Entity.Migrations;
+using System.Diagnostics;
 
 namespace Interview.Repositories
 {
@@ -27,7 +29,7 @@ namespace Interview.Repositories
         }
 
         public IEnumerable<Tag> GetTags() {
-            return db.Tags.Include(p => p.Posts).ToList();
+            return db.Tags.ToList();
         }
 
         public void AddPostToTags(Post post, string tagsS)
@@ -38,67 +40,72 @@ namespace Interview.Repositories
             for(int i = 0; i < tags.Count(); i++)
             {
                 var tagName = tags.ElementAt(i);
-                Tag temp = db.Tags.Include(p => p.Posts)
-                                .SingleOrDefault(t => t.TagName == tagName);
+                Tag temp = db.Tags.SingleOrDefault(t => t.TagName == tagName);
                 temp.Posts.Add(post);
             }
             db.SaveChanges();
          
         }
 
+        public void UpdatePostWithTags(Post post, string tagsS)
+        {
+            List<string> tags = tagsS.Split(',').ToList();
+            var originalPost = db.Posts.Include("Tags").Single(p => p.PostID == post.PostID);
+            var newTags = db.Tags.Where(t => tags.Contains(t.TagName)).ToList();
+            originalPost.Tags.Clear();
+            foreach(var newTag in newTags)
+            {
+                originalPost.Tags.Add(newTag);
+            }
+            originalPost.PostTitle = post.PostTitle;
+            originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
+            db.SaveChanges();
+          
+        }
+
+        public IEnumerable<Tag> GetTagsByPostID(int? id)
+        {
+            var post = db.Posts.SingleOrDefault(p => p.PostID == id);
+            var tags = post.Tags.ToList();
+            return tags;
+        }
+
+        public IEnumerable<Tag> GetTopTags()
+        {
+            var topTags = db.Tags.OrderByDescending(t => t.Posts.Count);
+            return topTags;
+        }
+
         public IEnumerable<Post> GetAllPosts()
         {
-            return db.Posts.Include(c => c.Comments)
-                            .Include(u => u.User)
-                            .Include(t=>t.Tags)
-                            .Include(v => v.VoteList)
-                            .ToList();
+            return db.Posts.ToList();
         }
 
         public IEnumerable<Post> GetLatestPosts()
         {
             return db.Posts.OrderByDescending(p => p.CreatedAt)
-                            .Take(5).Include(c => c.Comments)
-                            .Include(u => u.User).Include(t => t.Tags)
-                            .Include(v => v.VoteList)
                             .ToList();
         }
 
         public Post GetPostById(int? id)
         {
-            return db.Posts.Include(c => c.Comments)
-                            .Include(u => u.User)
-                            .Include(t => t.Tags)
-                            .Include(v => v.VoteList)
-                            .SingleOrDefault(p => p.PostID == id);
+            return db.Posts.SingleOrDefault(p => p.PostID == id);
         }
 
         public IEnumerable<Post> GetPostByUser(string userId)
         {
-            return db.Posts.Where(p => p.UserID == userId)
-                        .Include(c => c.Comments)
-                        .Include(u => u.User)
-                        .Include(v => v.VoteList)
-                        .Include(t => t.Tags).ToList();
+            return db.Posts.Where(p => p.UserID == userId).ToList();
         }
 
         public IEnumerable<Post> GetPostByUserName(string username)
         {
             return db.Posts.Where(p => p.User.UserName == username)
-                        .Include(c => c.Comments)
-                        .Include(t => t.Tags)
-                        .Include(u => u.User)
-                        .Include(v => v.VoteList)
                         .ToList();
         }
 
         public IEnumerable<Post> GetPostBySearch(string search)
         {
             return db.Posts.Where(p => p.PostTitle.Contains(search) || p.PostContent.Contains(search))
-                        .Include(c => c.Comments)
-                        .Include(u => u.User)
-                        .Include(t => t.Tags)
-                        .Include(v => v.VoteList)
                         .ToList();
         }
 
@@ -110,7 +117,7 @@ namespace Interview.Repositories
 
         public void UpdatePostVote(PostVote vote)
         {
-            db.Entry(vote).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(vote).State = EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -148,6 +155,11 @@ namespace Interview.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerable<Post> GetTopPosts()
+        {
+            return db.Posts.OrderByDescending(p => p.CurrentVote).ToList();
         }
     }
 }

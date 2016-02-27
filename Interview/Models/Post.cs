@@ -25,7 +25,7 @@ namespace Interview.Models
         [Required]
         public string PostContent { get; set; }       
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public int ViewCount { get; set; }
 
@@ -35,16 +35,16 @@ namespace Interview.Models
 
         public string DownArrowColor { get; set; }
 
-        public ICollection<PostVote> VoteList { get; set; }
+        public virtual ICollection<PostVote> VoteList { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
         public string UserID { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
-        public ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
 
     }
 }

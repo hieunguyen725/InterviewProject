@@ -10,6 +10,6 @@
 
         public int CommentID { get; set; }
 
-        public Comment Comment { get; set; }
+        public virtual Comment Comment { get; set; }
     }
 }

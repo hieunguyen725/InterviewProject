@@ -9,10 +9,11 @@ namespace Interview.Models
 {
     public class Tag
     {
+        
         public int TagID { get; set; }
 
         [StringLength(20)]
         public string TagName { get; set; }
-        public ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

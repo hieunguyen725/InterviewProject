@@ -4,37 +4,54 @@
     ViewBag.Title = "Profile";
 }
 
-@if (ViewBag.postCount > 0)
-{
-    <h4>@ViewBag.username's posts (@ViewBag.postCount)</h4>
-    <hr />
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Posted On</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var post in Model)
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4"><h5>@ViewBag.username's recent activity...</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-md-offset-1">
+            @if (ViewBag.postCount > 0)
             {
-                <tr>
-                    <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
-                    <td>@post.CreatedAt</td>
-                </tr>
+                <h6>@ViewBag.username's latest posts (@ViewBag.postCount)</h6>
+                <hr />
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Posted On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var post in Model)
+                {
+                            <tr>
+                                <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
+                                <td>@post.CreatedAt.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                if (ViewBag.postCount == 5)
+                {
+                    <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
+                }
             }
-        </tbody>
-    </table>
-    if (ViewBag.postCount == 5)
-    {
-        <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
-    }
-}
-else
-{
-    <h4>@ViewBag.username currently have no posts.</h4>
-}
+            else
+            {
+                <h4>@ViewBag.username currently have no posts.</h4>
+            }
+        </div>
+        
+    </div>
 
+    <div class="row">
+        <div class="col-md-offset-1 col-md-9">
+            <h6>Posts that @ViewBag.username have commented on</h6>
+            <hr />
+            @Html.Action("CommentedOn", "Users", new { username = ViewBag.username })
+        </div>
+    </div>
+</div>
 
 
 

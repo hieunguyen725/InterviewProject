@@ -26,14 +26,14 @@ namespace Interview.Models
 
         public string DownArrowColor { get; set; }
 
-        public ICollection<CommentVote> VoteList { get; set; }
+        public virtual ICollection<CommentVote> VoteList { get; set; }
 
         public int PostID { get; set; }
 
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
 
         public string UserID { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

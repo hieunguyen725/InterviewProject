@@ -5,38 +5,69 @@
     ViewBag.Title = "Index";
 }
 
-<div class="row">
-    <div class="col-sm-9" id="post-list">
-        @Html.Partial("_Posts")
-    </div>
-    <div class="col-sm-3">
-        <div class="row">
-            <div class="top-btn-group">
-                @Html.ActionLink("Create a new post", "Create", "Posts", null, new { @class = "btn btn-primary btn-sm" })
-            </div>
-            @using (Ajax.BeginForm("Search", "Posts", new AjaxOptions
-            {
-                HttpMethod = "GET",
-                UpdateTargetId = "post-list",
-                InsertionMode = InsertionMode.Replace
-            }, new { @class= "form-inline"}))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Editor("search")
-                @Html.ValidationMessage("search")
-                <button class="btn btn-default btn-sm" type="submit">Search</button>
-            }
-        </div>
-        <div class="row">
-            <h5>Lastest Posts</h5>
-            <hr />
-            @Html.Action("LatestPosts", "Posts")
-        </div>
+<div class="row hidden-lg">
+    <div class="col-sm-offset-4 col-sm-4">
+        @Html.ActionLink("New Post", "Create", "Posts", new { @class = "btn btn-primary" })
     </div>
 </div>
 
-<br />
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+        <ul id="filter">
+            <li class="filter-active">
+                @Ajax.ActionLink("All", "Filter", null,new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id = "filter-all"})
+            </li>
+            <li>
+                @Ajax.ActionLink("Top", "Filter", new { filter = "topPosts"},new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id="filter-top"})
+            </li>
+            <li>
+                @Ajax.ActionLink("Latest", "Filter", new { filter = "latestPosts" }, new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id = "filter-latest" })
+            </li>
+    </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-8">
+        <hr id="filter-hr" />
+    </div>
+</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
+<div class="row">
+    <div class="col-md-12 col-lg-9" id="post-list">
+        @Html.Partial("_Posts")
+    </div>
+    <div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+        @Html.Partial("_SideBar")
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        $(function () {
+
+            var selector = "#filter li ";
+            //Removes click event of each li
+            $(selector).unbind('click');
+            //Add click event
+            $(selector).bind('click', function () {
+                $(selector).removeClass('filter-active');
+                $(this).addClass('filter-active');
+            });
+
+        });
+    </script>
 }
