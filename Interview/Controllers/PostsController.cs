@@ -33,7 +33,7 @@ namespace Interview.Controllers
         {
             string userId = User.Identity.GetUserId();
             Post post = repo.GetPostById(postId);
-            foreach (PostFlag flag in post.PostFlag)
+            foreach (PostFlag flag in post.PostFlags)
             {
                 if (flag.FlaggedUserId == userId) // if user already flag
                 {
@@ -248,18 +248,27 @@ namespace Interview.Controllers
                         }
                     }
                 }
+                // check comment flag status
+                foreach (var flag in comment.CommentFlags)
+                {
+                    if (flag.FlaggedUserId == userId)
+                    {
+                        comment.UserFlagStatus = "Unflag";
+                        break;
+                    }
+                }
                 commentViews.Add(comment);
             }
             // check flag status to display
             string flagStatus = "Flag";
-            foreach (var PostFlag in post.PostFlag)
+            foreach (var PostFlag in post.PostFlags)
             {
                 if (PostFlag.FlaggedUserId == userId)
                 {
                     flagStatus = "Unflag";
                     break;
                 }
-            }
+            }            
             PostAnswerViewModel vm = new PostAnswerViewModel
             {
                 PostID = post.PostID,

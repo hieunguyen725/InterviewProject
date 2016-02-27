@@ -38,6 +38,7 @@ namespace Interview.Models
         public DbSet<PostVote> PostVotes { get; set; }
         public DbSet<CommentVote> CommentVotes { get; set; }
         public DbSet<PostFlag> PostFlags { get; set; }
+        public DbSet<CommentFlag> CommentFlags { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

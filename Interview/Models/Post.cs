@@ -39,7 +39,7 @@ namespace Interview.Models
 
         public int FlagPoint { get; set; }
 
-        public virtual ICollection<PostFlag> PostFlag { get; set; }
+        public virtual ICollection<PostFlag> PostFlags { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
