@@ -57,6 +57,8 @@ namespace Interview.Repositories
             {
                 originalPost.Tags.Add(newTag);
             }
+            originalPost.PostTitle = post.PostTitle;
+            originalPost.PostContent = Sanitizer.GetSafeHtmlFragment(post.PostContent);
             db.SaveChanges();
           
         }
