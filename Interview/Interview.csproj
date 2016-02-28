@@ -243,6 +243,9 @@
     <Compile Include="Models\PostFlag.cs" />
     <Compile Include="Models\PostVote.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterviewDbInitializer.cs" />
@@ -259,6 +262,10 @@
     <Compile Include="ViewModels\PostTagViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootflat.css" />
+    <Content Include="Content\bootflat.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery.tagit.css" />
@@ -299,6 +306,8 @@
     <Content Include="Scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Scripts\ckeditor\skins\flat\readme.md" />
     <Content Include="Scripts\ckeditor\skins\minimalist\readme.md" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -620,6 +629,8 @@
     <Content Include="Views\Shared\_SideBar.cshtml" />
     <Content Include="Views\Shared\_TopTags.cshtml" />
     <Content Include="Views\Shared\_CommentedOn.cshtml" />
+    <Content Include="Views\Users\UpdateProfile.cshtml" />
+    <Content Include="Views\Shared\_LatestPostsByUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

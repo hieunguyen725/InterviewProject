@@ -193,3 +193,20 @@ hr {
     margin: 5px 0 5px 0;
     font-size: 0.9em;
 }
+
+/** user profile */
+#userprofile h5,h6 {
+    margin: 0;
+}
+
+#userprofile hr {
+    margin: 10px 0 15px 0;
+}
+
+#userprofile #userprofile-info {
+    margin-bottom: 50px;
+}
+
+#userprofile #userprofile-info #userprofile-info-about {
+    margin-bottom: 50px;
+}

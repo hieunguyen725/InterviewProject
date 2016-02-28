@@ -1,5 +1,7 @@
 ﻿@model PagedList.IPagedList<Interview.Models.Post>
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity;
+
 @for (int i = 0; i < Model.Count(); i++)
 {
     <div class="row">
@@ -47,10 +49,10 @@
                         </div>
                         <div class="clearfix"></div>
                         <p class="sm-text">
-                            @if (ViewBag.userId == Model.ElementAt(i).UserID)
-                            {
-                                <text>@Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).PostID }) |</text>
-                                <text>@Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).PostID })</text>
+                            @if (User.Identity.GetUserId() == Model.ElementAt(i).UserID)
+                            {                              
+                                <a class="@Url.Action("Edit","Posts", new { id = Model.ElementAt(i).PostID })">Edit |</a>
+                                <a class="@Url.Action("Delete","Posts", new { id = Model.ElementAt(i).PostID })">Delete</a>
                             }
                         </p>
                     </div>

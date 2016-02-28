@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Interview.Models.Post>
 
+
+
 @if (ViewBag.postCount > 0)
 {
-
-    <h6 class="text-center">Posts that @ViewBag.username have commented on</h6>
+    <h6 class="text-center">Latest posts (@ViewBag.postCount)</h6>
     <hr />
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -23,12 +23,12 @@
             }
         </tbody>
     </table>
-
-} else
-{
-    <h6 class="text-center">@ViewBag.username has no comments.</h6>
+    if (ViewBag.postCount == 5)
+    {
+        <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
+    }
 }
-
-
-
-
+else
+{
+    <h6 class="text-center">@ViewBag.username currently have no posts.</h6>
+}

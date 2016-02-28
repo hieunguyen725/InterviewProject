@@ -5,45 +5,50 @@
     var postContent = Model.PostContent;
 }
 
-<h2>Delete</h2>
+<div class="container">
+    <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PostTitle)
-        </dt>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Post</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PostTitle)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PostTitle)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PostTitle)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PostContent)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PostContent)
+            </dt>
 
-        <dd>
-            @Html.Raw(postContent)
-        </dd>
+            <dd>
+                @Html.Raw(postContent)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedAt)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+
 </div>
+

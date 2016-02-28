@@ -186,7 +186,6 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult Index(int page = 1, int size = 10)
         {
-            ViewBag.userId = User.Identity.GetUserId();
 
             PagedList<Post> pagedModel = new PagedList<Post>
                 (repo.GetAllPosts(), page, size);
@@ -314,15 +313,10 @@ namespace Interview.Controllers
 
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
             Post post = repo.GetPostById(id);
             if(User.Identity.GetUserId() != post.UserID)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
             if (post == null)
             {
                 return HttpNotFound();
@@ -332,7 +326,8 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor,FlagPoint")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,"
+            + "CurrentVote,UpArrowColor,DownArrowColor,FlagPoint")] Post post)
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {
@@ -345,14 +340,10 @@ namespace Interview.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
             Post post = repo.GetPostById(id);
             if (User.Identity.GetUserId() != post.UserID)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
             if (post == null)
             {
                 return HttpNotFound();

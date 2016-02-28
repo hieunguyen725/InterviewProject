@@ -135,11 +135,10 @@ namespace Interview.Controllers
         // GET: PostAnswers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Comment comment = repo.GetCommentById(id);
+            if (User.Identity.GetUserId() != comment.UserID)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -149,7 +148,8 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID,CurrentVote,UpArrowColor,DownArrowColor,UserFlagStatus,FlagPoint")] Comment comment)
+        public ActionResult Edit([Bind(Include = "CommentID,CommentContent,CreatedAt,PostID,UserID"
+            + ",CurrentVote,UpArrowColor,DownArrowColor,UserFlagStatus,FlagPoint")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -162,15 +162,13 @@ namespace Interview.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment postAnswer = repo.GetCommentById(id);
-            if (postAnswer == null)
-            {
+            Comment comment = repo.GetCommentById(id);
+            if (comment == null)
                 return HttpNotFound();
-            }
-            return View(postAnswer);
+            if (User.Identity.GetUserId() != comment.UserID)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            return View(comment);
         }
 
         [HttpPost, ActionName("Delete")]
