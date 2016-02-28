@@ -6,6 +6,7 @@
     ViewBag.Title = ViewBag.username + "'s posts";
 }
 
+
 @if (Model.Count > 0)
 {
     <div class="row">
@@ -25,8 +26,10 @@
 }
 else
 {
-    <h4>You currently have no posts.</h4>
-    <a href="@Url.Action("Create", "Posts")" class="btn btn-primary btn-sm">Create a new post</a>
+    <div class="container">
+        <h4>You currently have no posts.</h4>
+        <a href="@Url.Action("Create", "Posts")" class="btn btn-primary btn-sm">Create a new post</a>
+    </div>
 }
 
 

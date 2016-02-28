@@ -54,7 +54,6 @@ namespace Interview.Controllers
         public ActionResult UpdateProfile([Bind(Include = "UserID,Username,AboutMe,FacebookLink,TwitterLink,WebsiteLink,LinkedInLink,GitHubLink")]
                                            UserProfile user)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 _userRepo.UpdateUserProfile(user);
@@ -70,6 +69,7 @@ namespace Interview.Controllers
                 username = User.Identity.GetUserName();
             }              
             ViewBag.username = username;
+            ViewBag.userId = User.Identity.GetUserId();
             PagedList<Post> model = new PagedList<Post>(_repo.GetPostByUserName(username), page, size);
             return View(model);
         }

@@ -178,6 +178,7 @@ namespace Interview.Controllers
                 posts = repo.GetLatestPosts().ToList();
             }
             ViewBag.query = filter;
+            ViewBag.userId = User.Identity.GetUserId();
             PagedList<Post> pagedModel = new PagedList<Post>
                 (posts, page, size);
             return PartialView("_Posts", pagedModel);
@@ -186,7 +187,7 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult Index(int page = 1, int size = 10)
         {
-
+            ViewBag.userId = User.Identity.GetUserId();
             PagedList<Post> pagedModel = new PagedList<Post>
                 (repo.GetAllPosts(), page, size);
             return View(pagedModel);

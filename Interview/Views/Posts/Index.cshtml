@@ -47,7 +47,7 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-9" id="post-list">
-        @Html.Partial("_Posts")
+        @Html.Action("Filter", "Posts")
     </div>
     <div class="col-lg-3 hidden-md hidden-sm hidden-xs">
         @Html.Partial("_SideBar")

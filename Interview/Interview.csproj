@@ -230,6 +230,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ConstantHelper.cs" />
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
     <Compile Include="Models\CommentFlag.cs" />
     <Compile Include="Models\CommentVote.cs" />
@@ -244,6 +246,8 @@
     <Compile Include="Models\PostVote.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Repositories\AdminRepository.cs" />
+    <Compile Include="Repositories\IAdminRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -631,6 +635,7 @@
     <Content Include="Views\Shared\_CommentedOn.cshtml" />
     <Content Include="Views\Users\UpdateProfile.cshtml" />
     <Content Include="Views\Shared\_LatestPostsByUser.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

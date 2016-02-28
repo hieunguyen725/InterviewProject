@@ -23,6 +23,7 @@ namespace Interview.Infrastructure
             kernel.Bind<IPostRepository>().To<PostRepository>();
             kernel.Bind<ICommentRepository>().To<CommentRepository>();
             kernel.Bind<IUserRepository>().To<UserRepository>();
+            kernel.Bind<IAdminRepository>().To<AdminRepository>();
         }
 
         public object GetService(Type serviceType)
