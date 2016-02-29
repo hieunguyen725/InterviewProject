@@ -636,6 +636,10 @@
     <Content Include="Views\Users\UpdateProfile.cshtml" />
     <Content Include="Views\Shared\_LatestPostsByUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\AllPosts.cshtml" />
+    <Content Include="Views\Admin\FlaggedPosts.cshtml" />
+    <Content Include="Views\Admin\Admins.cshtml" />
+    <Content Include="Views\Admin\GrantAdminAccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
