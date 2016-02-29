@@ -178,6 +178,7 @@ namespace Interview.Controllers
                 posts = repo.GetLatestPosts().ToList();
             }
             ViewBag.query = filter;
+            ViewBag.userId = User.Identity.GetUserId();
             PagedList<Post> pagedModel = new PagedList<Post>
                 (posts, page, size);
             return PartialView("_Posts", pagedModel);
@@ -187,7 +188,6 @@ namespace Interview.Controllers
         public ActionResult Index(int page = 1, int size = 10)
         {
             ViewBag.userId = User.Identity.GetUserId();
-
             PagedList<Post> pagedModel = new PagedList<Post>
                 (repo.GetAllPosts(), page, size);
             return View(pagedModel);
@@ -314,15 +314,10 @@ namespace Interview.Controllers
 
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
             Post post = repo.GetPostById(id);
             if(User.Identity.GetUserId() != post.UserID)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
             if (post == null)
             {
                 return HttpNotFound();
@@ -332,7 +327,8 @@ namespace Interview.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,CurrentVote,UpArrowColor,DownArrowColor,FlagPoint")] Post post)
+        public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,"
+            + "CurrentVote,UpArrowColor,DownArrowColor,FlagPoint")] Post post)
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(Request["tags"]))
             {
@@ -345,14 +341,10 @@ namespace Interview.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
             Post post = repo.GetPostById(id);
             if (User.Identity.GetUserId() != post.UserID)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
             if (post == null)
             {
                 return HttpNotFound();

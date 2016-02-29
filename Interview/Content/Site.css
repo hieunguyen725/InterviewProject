@@ -57,6 +57,11 @@ hr {
     background-color: #757575 !important;
 }
 
+.tag-label{
+    margin-bottom:10px;
+    font-size: 0.8em;
+}
+
 .label-success {
     background-color: #EF9A9A;
 }
@@ -101,7 +106,6 @@ hr {
 
 #filter a {    
     text-decoration: none;  
-    border-top: 2px solid #FFFFFF;
     padding: 10px 10px 0 10px;    
     width: 80px;
 }
@@ -113,9 +117,6 @@ hr {
     font-size: 1.2em;   
 }
 
-#filter a:hover {
-    border-color: #002E56;
-}
 
 #filter-hr {
     margin-bottom: 25px;
@@ -157,7 +158,7 @@ hr {
     text-align:center;
     position:absolute;
     left: 240px;
-    font-size: 1.2em;
+    font-size: 1.5em;
     color: #fff;
 }
 
@@ -192,4 +193,21 @@ hr {
 #latest-post p {
     margin: 5px 0 5px 0;
     font-size: 0.9em;
+}
+
+/** user profile */
+#userprofile h5,h6 {
+    margin: 0;
+}
+
+#userprofile hr {
+    margin: 10px 0 15px 0;
+}
+
+#userprofile #userprofile-info {
+    margin-bottom: 50px;
+}
+
+#userprofile #userprofile-info #userprofile-info-about {
+    margin-bottom: 50px;
 }

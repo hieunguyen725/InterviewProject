@@ -1,58 +1,47 @@
-﻿@model IEnumerable<Interview.Models.Post>
+﻿@model Interview.Models.UserProfile
 
 @{
     ViewBag.Title = "Profile";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4"><h5>@ViewBag.username's recent activity...</h5></div>
-    </div>
-    <div class="row">
-        <div class="col-md-9 col-md-offset-1">
-            @if (ViewBag.postCount > 0)
-            {
-                <h6>@ViewBag.username's latest posts (@ViewBag.postCount)</h6>
-                <hr />
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Posted On</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var post in Model)
-                {
-                            <tr>
-                                <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
-                                <td>@post.CreatedAt.ToShortDateString()</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                if (ViewBag.postCount == 5)
-                {
-                    <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
-                }
-            }
-            else
-            {
-                <h4>@ViewBag.username currently have no posts.</h4>
-            }
-        </div>
-        
-    </div>
-
-    <div class="row">
+<div class="container" id="userprofile">
+    <div class="row" id="userprofile-info">
         <div class="col-md-offset-1 col-md-9">
-            <h6>Posts that @ViewBag.username have commented on</h6>
+            <div id="userprofile-info-about">
+                <h5>About @Model.Username @if (ViewBag.isCurrentUser)
+                {
+                    <button class="label label-default">@Html.ActionLink("Edit your profile", "UpdateProfile", "Users")</button>
+                }</h5>
+                <hr />
+                <p>
+                    @Model.AboutMe
+                </p>
+            </div>
+            <h5>Connect with @Model.Username</h5>
             <hr />
-            @Html.Action("CommentedOn", "Users", new { username = ViewBag.username })
+            <div>
+                <a href="@Model.FacebookLink"><i class="fa fa-facebook-official fa-2x" data-toggle="tooltip" title="Facebook"></i></a>
+                <a href="@Model.TwitterLink"><i class="fa fa-twitter-square fa-2x" data-toggle="tooltip" title="TwitterLink"></i></a>
+                <a href="@Model.LinkedInLink"><i class="fa fa-linkedin-square fa-2x" data-toggle="tooltip" title="LinkedIn"></i></a>
+                <a href="@Model.GitHubLink"><i class="fa fa-github-square fa-2x" data-toggle="tooltip" title="GitHub"></i></a>
+                <a href="@Model.WebsiteLink"><i class="fa fa-globe fa-2x" data-toggle="tooltip" title="Website"></i></a>
+            </div>
         </div>
     </div>
+
+    <div class="row" id="userprofile-activity">
+        <div class="col-md-9 col-md-offset-1">
+            <h5>@Model.Username's recent activity</h5>
+            <hr />
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            @Html.Action("LatestPostsByUser", "Users", new { username = Model.Username })
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            @Html.Action("CommentedOn", "Users", new { username = Model.Username })
+        </div>
+    </div>
+
+
 </div>
-
-
-
 

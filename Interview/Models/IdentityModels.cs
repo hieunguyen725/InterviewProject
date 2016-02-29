@@ -15,6 +15,8 @@ namespace Interview.Models
         [Display(Name = "Username")]
         public override string UserName { get; set; }
 
+        public virtual UserProfile UserProfile { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -40,6 +42,8 @@ namespace Interview.Models
         public DbSet<PostFlag> PostFlags { get; set; }
         public DbSet<CommentFlag> CommentFlags { get; set; }
 
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>()
@@ -53,6 +57,10 @@ namespace Interview.Models
                 }
             );
 
+            modelBuilder.Entity<UserProfile>()
+                        .HasRequired(e => e.ApplicationUser)
+                        .WithRequiredDependent(u => u.UserProfile);
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -60,5 +68,6 @@ namespace Interview.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Interview.Models;
+using Interview.Repositories;
 
 namespace Interview.Controllers
 {
@@ -17,12 +18,18 @@ namespace Interview.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IUserRepository _userRepo;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(IUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -163,13 +170,20 @@ namespace Interview.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    UserProfile up = new UserProfile()
+                    {
+                        UserId = user.Id,
+                        Username = model.UserName,
+                        AboutMe = model.UserName + " is a ninja."
+                    };
+                    _userRepo.AddUserProfile(up);
                     return RedirectToAction("Index", "Posts");
                 }
                 AddErrors(result);
