@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Interview.Models
 {
-    public class InterviewDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class InterviewDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         // This is the total number of posts and users. Change it to any number you like.
         private int _num = 11;

@@ -28,7 +28,7 @@
                     }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+                        <li><a href="@Url.Action("Index", "Admin")">Admin Panel</a></li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

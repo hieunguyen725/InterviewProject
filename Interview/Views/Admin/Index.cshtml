@@ -1,17 +1,27 @@
-﻿@model IEnumerable<Interview.Models.ApplicationUser>
+﻿@model PagedList.IPagedList< Interview.Models.ApplicationUser>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Admin Panel";
 }
 
+
+
 <div class="container">
+    <h3>All Users</h3>
+    <h5>
+        @Html.ActionLink("Users", "Index") &nbsp; | &nbsp;
+        @Html.ActionLink("Admins", "Admins") &nbsp; | &nbsp;
+        @Html.ActionLink("Posts", "AllPosts") &nbsp; | &nbsp;
+        @Html.ActionLink("Flagged Posts", "FlaggedPosts")
+    </h5>
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                Username
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th></th>
         </tr>
@@ -26,12 +36,14 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Grant Admin Access", "GrantAdminAccess", new { userName = item.UserName })
                 </td>
             </tr>
         }
 
     </table>
 
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }))
+    </div>
 </div>
-

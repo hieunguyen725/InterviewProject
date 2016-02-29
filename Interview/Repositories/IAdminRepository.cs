@@ -11,8 +11,18 @@ namespace Interview.Repositories
     {
         IEnumerable<ApplicationUser> GetAllUsers();
 
+        IEnumerable<ApplicationUser> GetNonAdminUsers();
+
+        IEnumerable<ApplicationUser> GetAdminUsers();
+
+        ApplicationUser GetUserByUsername(string username);
+
         void AddRoleToUser(string role, string userId);
 
         void RemoveRoleFromUser(string role, string userId);
+
+        IEnumerable<Post> GetFlaggedPosts();
+
+        IEnumerable<Post> GetAllPosts();
     }
 }
