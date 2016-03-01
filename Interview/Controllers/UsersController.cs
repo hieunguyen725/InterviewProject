@@ -11,12 +11,32 @@ using System.Web.Mvc;
 
 namespace Interview.Controllers
 {
+    /// <summary>
+    /// Controller for users.
+    /// </summary>
     public class UsersController : Controller
     {
+        /// <summary>
+        /// The post repository.
+        /// </summary>
         private IPostRepository _repo;
+
+        /// <summary>
+        /// The comment repository.
+        /// </summary>
         private ICommentRepository _commentRepo;
+
+        /// <summary>
+        /// The user repository.
+        /// </summary>
         private IUserRepository _userRepo;
 
+        /// <summary>
+        /// UsersController's constructor.
+        /// </summary>
+        /// <param name="_repo">The post repository.</param>
+        /// <param name="_commentRepo">The comment repository.</param>
+        /// <param name="userRepo">The user repository.</param>
         public UsersController(IPostRepository _repo, ICommentRepository _commentRepo, IUserRepository userRepo)
         {
             this._repo = _repo;
@@ -24,6 +44,12 @@ namespace Interview.Controllers
             _userRepo = userRepo;
         }
 
+        /// <summary>
+        /// Retrieve the user profile given its username and return the
+        /// associated profile view.
+        /// </summary>
+        /// <param name="username">Username of the user.</param>
+        /// <returns>A profile view of the user.</returns>
         public new ActionResult Profile(string username) {
 
             if (string.IsNullOrEmpty(username))
@@ -42,12 +68,21 @@ namespace Interview.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Get the view to update the user profile of the current logged in user.
+        /// </summary>
+        /// <returns>Return the view to update the user profile.</returns>
         [Authorize]
         public ActionResult UpdateProfile() {
             UserProfile up = _userRepo.GetUserProfile(User.Identity.Name);
             return View(up);           
         }
 
+        /// <summary>
+        /// Process and update the user profile given the binded UserProfile model.
+        /// </summary>
+        /// <param name="user">The binded UserProfile model.</param>
+        /// <returns>Redirect to the profile page if success, else return the edit profile view.</returns>
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +97,13 @@ namespace Interview.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Get all posts for that user given the username.
+        /// </summary>
+        /// <param name="username">Username of the user.</param>
+        /// <param name="page">Current page of the pagelist, default is 1.</param>
+        /// <param name="size">Max number of posts on one page, default is 10.</param>
+        /// <returns>Returns all the posts that are posted by that user.</returns>
         public ActionResult AllPosts(string username, int page = 1, int size = 10)
         {
             if (string.IsNullOrEmpty(username))
@@ -74,6 +116,11 @@ namespace Interview.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Retrieve and return all the posts the user commented on given the username.
+        /// </summary>
+        /// <param name="username">Username of the user.</param>
+        /// <returns>Partial view of the associated posts.</returns>
         public ActionResult CommentedOn(string username)
         {
             if (string.IsNullOrEmpty(username))
@@ -87,6 +134,11 @@ namespace Interview.Controllers
             return PartialView("_CommentedOn", posts.Distinct());
         }
 
+        /// <summary>
+        /// Get the latest posts by the user given the username.
+        /// </summary>
+        /// <param name="username">Username of the user.</param>
+        /// <returns>Partial view with the latest posts.</returns>
         public ActionResult LatestPostsByUser(string username)
         {
             if (string.IsNullOrEmpty(username))
