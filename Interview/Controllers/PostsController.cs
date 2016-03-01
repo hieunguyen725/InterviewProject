@@ -15,13 +15,32 @@ using PagedList;
 
 namespace Interview.Controllers
 {
+
+    /// <summary>
+    /// Controller for Posts.
+    /// </summary>
     [Authorize]
     public class PostsController : Controller
     {
+        /// <summary>
+        /// Posts repository.
+        /// </summary>
         private IPostRepository repo;
+
+        /// <summary>
+        /// Not hightlighted color for the post's vote arrow.
+        /// </summary>
         private string notHightLightedColor;
+
+        /// <summary>
+        /// Hightlighted color for the post's vote arrow.
+        /// </summary>
         private string hightLightedColor;
 
+        /// <summary>
+        /// PostsController's constructor.
+        /// </summary>
+        /// <param name="repo">The post repository.</param>
         public PostsController(IPostRepository repo)
         {
             this.repo = repo;
@@ -29,6 +48,11 @@ namespace Interview.Controllers
             hightLightedColor = "rgb(250, 128, 114)";
         }
 
+        /// <summary>
+        /// Process The post flag/report by the user given the postid.
+        /// </summary>
+        /// <param name="postId">Id of the post.</param>
+        /// <returns>Returns 1 for unflag and -1 for flag.</returns>
         public int ProcessPostFlag(int postId)
         {
             string userId = User.Identity.GetUserId();
@@ -55,6 +79,13 @@ namespace Interview.Controllers
             return -1;
         }
 
+        /// <summary>
+        /// Process the post vote by the user given the vote status 
+        /// and the post id.
+        /// </summary>
+        /// <param name="voteStatus">The status of the vote. Upvote or downvote.</param>
+        /// <param name="postId">Id of the post.</param>
+        /// <returns>The current vote points of this post.</returns>
         public int ProcessPostVote(int voteStatus, int postId)
         {
             string userId = User.Identity.GetUserId();
@@ -112,6 +143,10 @@ namespace Interview.Controllers
             return post.CurrentVote;
         }
 
+        /// <summary>
+        /// Get all the tags and return a json result.
+        /// </summary>
+        /// <returns>JSON result of the tags.</returns>
         [HttpGet]
         public JsonResult GetTags()
         {
@@ -121,6 +156,11 @@ namespace Interview.Controllers
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Get the tags that are associated with this post given the post id.
+        /// </summary>
+        /// <param name="id">The id of the post.</param>
+        /// <returns>JSON result of the tags.</returns>
         [HttpGet]
         public ActionResult GetTagsByPostID(int? id)
         {
@@ -131,12 +171,20 @@ namespace Interview.Controllers
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Get the top tags and return a partial view.
+        /// </summary>
+        /// <returns>Partial view of the top tags.</returns>
         [AllowAnonymous]
         public ActionResult TopTags()
         {
             return PartialView("_TopTags", repo.GetTopTags());
         }
 
+        /// <summary>
+        /// Get the latest posts and return a partial view.
+        /// </summary>
+        /// <returns>Partial view of latest posts.</returns>
         [AllowAnonymous]
         public PartialViewResult LatestPosts()
         {
@@ -144,6 +192,13 @@ namespace Interview.Controllers
             return PartialView("_LatestPosts", model);
         }
 
+        /// <summary>
+        /// Search for the related posts given the search query.
+        /// </summary>
+        /// <param name="search">The search query by the user.</param>
+        /// <param name="page">The current page of the page list, default is 1.</param>
+        /// <param name="size">The max number of posts on one page, default is 10.</param>
+        /// <returns>Returns a partial view of related posts for that search.</returns>
         [AllowAnonymous]
         public ActionResult Search(string search, int page = 1, int size = 10)
         {
@@ -161,6 +216,14 @@ namespace Interview.Controllers
             return PartialView("_Posts", pagedModel);
         }
 
+        /// <summary>
+        /// Filter the posts base on all, latest, or hotest posts and
+        /// return a partial view of the posts for that filter.
+        /// </summary>
+        /// <param name="filter">The filter being used (all, lastest, hotest).</param>
+        /// <param name="page">The current page of the page list, default is 1.</param>
+        /// <param name="size">The max number of posts on one page, default is 10.</param>
+        /// <returns>Returns a partial view of related posts for that filter.</returns>
         [AllowAnonymous]
         public ActionResult Filter(string filter, int page = 1, int size = 10)
         {
@@ -184,6 +247,13 @@ namespace Interview.Controllers
             return PartialView("_Posts", pagedModel);
         }
 
+        /// <summary>
+        /// Search for the related posts given the search query.
+        /// </summary>
+        /// <param name="search">The search query by the user.</param>
+        /// <param name="page">The current page of the page list, default is 1.</param>
+        /// <param name="size">The max number of posts on one page.</param>
+        /// <returns>Returns a partial view of related posts for that search.</returns>
         [AllowAnonymous]
         public ActionResult Index(int page = 1, int size = 10)
         {
@@ -193,6 +263,12 @@ namespace Interview.Controllers
             return View(pagedModel);
         }
 
+        /// <summary>
+        /// Process the post's vote system status, flag status and its comments
+        /// then return a view model of that post and the comments given the post id.
+        /// </summary>
+        /// <param name="id">id of the post</param>
+        /// <returns>A view model of that post and its comments.</returns>
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
@@ -286,11 +362,20 @@ namespace Interview.Controllers
             return View(vm);
         }
 
+        /// <summary>
+        /// Return the view to create a new post.
+        /// </summary>
+        /// <returns>Returns page view of post create.</returns>
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Create a new post given its binded model.
+        /// </summary>
+        /// <param name="post">The binded post model to be created.</param>
+        /// <returns>Redirect to index if success, else return the create view again.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PostTitle,PostContent")] Post post)
@@ -312,6 +397,11 @@ namespace Interview.Controllers
             return View(post);
         }
 
+        /// <summary>
+        /// Get the post model by its id and return an edit view.
+        /// </summary>
+        /// <param name="id">id of the post</param>
+        /// <returns>Returns an edit view with the retrieved post.</returns>
         public ActionResult Edit(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
@@ -324,7 +414,14 @@ namespace Interview.Controllers
             }
             return View(post);
         }
-
+        /// <summary>
+        /// Process the edited post given its binded model.
+        /// </summary>
+        /// <param name="post">Binded model of the edited post.</param>
+        /// <returns>
+        /// Redirect to the index page if the binded model is valid and updated,
+        /// else return the edit view with the post again.
+        /// </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PostID,PostTitle,PostContent,CreatedAt,UserID,ViewCount,"
@@ -337,7 +434,12 @@ namespace Interview.Controllers
             }
             return View(post);
         }
-        
+
+        /// <summary>
+        /// Get the post model by its id and return a deletion view.
+        /// </summary>
+        /// <param name="id">id of the post</param>
+        /// <returns>Returns an delete view with the retrieved post.</returns>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -351,7 +453,12 @@ namespace Interview.Controllers
             }
             return View(post);
         }
-        
+
+        /// <summary>
+        /// Get the post model by its id and delete that post.
+        /// </summary>
+        /// <param name="id">id of the post</param>
+        /// <returns>Redirect to the index page.</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -364,6 +471,12 @@ namespace Interview.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Get and return a list of of string tag names given a
+        /// list of tags model.
+        /// </summary>
+        /// <param name="tags">List of tags model.</param>
+        /// <returns>Returns the list of tag names.</returns>
         private List<string> GetTagNames(List<Tag> tags)
         {
             List<string> temp = new List<string>();
