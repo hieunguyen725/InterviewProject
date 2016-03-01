@@ -1,0 +1,72 @@
+﻿@model PagedList.IPagedList<Interview.Models.Post>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "AllPosts";
+}
+
+<div class="container">
+    <h3>All Posts</h3>
+    <h5>
+        @Html.ActionLink("Users", "Index") &nbsp; | &nbsp;
+        @Html.ActionLink("Admins", "Admins") &nbsp; | &nbsp;
+        @Html.ActionLink("Posts", "AllPosts") &nbsp; | &nbsp;
+        @Html.ActionLink("Flagged Posts", "FlaggedPosts")
+    </h5>
+<table class="table">
+
+    <tr>
+        <th>
+            Username
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Views
+        </th>
+        <th>
+            Vote Score
+        </th>
+        <th>
+            Flag Point
+        </th>
+        <th>
+            Posted At
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ViewCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentVote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlagPoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedAt)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", "Posts", new { id=item.PostID }, null) |
+            @Html.ActionLink("Delete", "Delete", "Posts", new { id=item.PostID }, null)
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("AllPosts", new { page, size = Model.PageSize }))
+</div>
+</div>

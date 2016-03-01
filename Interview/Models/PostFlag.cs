@@ -7,12 +7,25 @@ using System.Web;
 
 namespace Interview.Models
 {
+
+    /// <summary>
+    /// PostFlag model.
+    /// </summary>
     public class PostFlag
     {
+        /// <summary>
+        /// PostFlag ID.
+        /// </summary>
         public int PostFlagID { get; set; }
 
+        /// <summary>
+        /// User ID who flagged.
+        /// </summary>
         public string FlaggedUserId { get; set; }
 
+        /// <summary>
+        /// Post ID (foreign key).
+        /// </summary>
         public int PostID { get; set; }
     }
 }

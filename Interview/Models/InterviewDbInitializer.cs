@@ -9,6 +9,10 @@ using System.Web;
 
 namespace Interview.Models
 {
+
+    /// <summary>
+    /// Database initializer.
+    /// </summary>
     public class InterviewDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         // This is the total number of posts and users. Change it to any number you like.
@@ -86,36 +90,6 @@ namespace Interview.Models
             {
                 context.Tags.Add(tag);
             }
-
-
-            //var ph = new PasswordHasher();
-            //for (int i = 0; i < _num; i++)
-            //{
-            //    string pass = ph.HashPassword("Password" + i);
-            //    context.Users.Add(new ApplicationUser
-            //    {
-            //        UserName = "user" + i,
-            //        Email = "user" + i + "@yahoo.com",
-            //        PasswordHash = pass
-            //    });
-            //}
-            
-            //Random random = new Random();
-
-            //for (int i = 0; i < _num; i++)
-            //{
-            //    int randomNum = random.Next(0, 8);
-            //    int randomUser = random.Next(0, _num);
-            //    int randomViewCount = random.Next(0, 1000);
-            //    context.Posts.Add(new Post
-            //    {
-            //        PostTitle = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.............. #" + i,
-            //        PostContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            //        CreatedAt = DateTime.Now,
-            //        ViewCount = randomViewCount,
-            //        UserID = i.ToString()
-            //    });
-            //}
 
             base.Seed(context);
         }

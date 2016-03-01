@@ -10,20 +10,23 @@ using Microsoft.AspNet.Identity;
 
 namespace Interview.Repositories
 {
+
+    /// <summary>
+    /// Repository for Admin controller.
+    /// </summary>
     public class AdminRepository : IAdminRepository
     {
+
+        /// <summary>
+        /// Application's DbContext.
+        /// </summary>
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //public void AddRoleToUser(string role, string userId)
-        //{
-        //    var user = db.Users.SingleOrDefault(u => u.Id == userId);
-        //    var userRoles = Roles.FindUsersInRole(ConstantHelper.AdminRole, user.UserName);
-        //    if (userRoles.Length <= 0)
-        //    {
-        //        Roles.AddUserToRole(user.UserName, ConstantHelper.AdminRole);
-        //    }
-        //}
-
+        /// <summary>
+        /// Add role to a specific user.
+        /// </summary>
+        /// <param name="role">The role.</param>
+        /// <param name="userId">Id of an user.</param>
         public void AddRoleToUser(string role, string userId)
         {
             var userStore = new UserStore<ApplicationUser>(db);
@@ -31,16 +34,29 @@ namespace Interview.Repositories
             userManager.AddToRole(userId, role);
         }
 
+        /// <summary>
+        /// Get all registered users.
+        /// </summary>
+        /// <returns>Returns a list of users.</returns>
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return db.Users.ToList();
         }
 
+        /// <summary>
+        /// Get user by the user's username.
+        /// </summary>
+        /// <param name="username">user's username.</param>
+        /// <returns>Returns nn user.</returns>
         public ApplicationUser GetUserByUsername(string username)
         {
             return db.Users.SingleOrDefault(u => u.UserName == username);
         }
 
+        /// <summary>
+        /// Get all registered users who are not in the admin role.
+        /// </summary>
+        /// <returns>Returns a list of users.</returns>
         public IEnumerable<ApplicationUser> GetNonAdminUsers()
         {
             string adminRoleId = GetAdminRoleId();
@@ -49,6 +65,10 @@ namespace Interview.Repositories
             return db.Users.ToList().Except(admins).ToList();
         }
 
+        /// <summary>
+        /// Get all registered users who are in the admin role.
+        /// </summary>
+        /// <returns>Returns a list of users.</returns>
         public IEnumerable<ApplicationUser> GetAdminUsers()
         {
             string adminRoleId = GetAdminRoleId();
@@ -56,6 +76,10 @@ namespace Interview.Repositories
                     .Contains(adminRoleId)).ToList();
         }
 
+        /// <summary>
+        /// Private helper. Get the admin role's ID.
+        /// </summary>
+        /// <returns>Returns the admin role's ID.</returns>
         private string GetAdminRoleId()
         {
             string adminRoleId = "";
@@ -70,16 +94,11 @@ namespace Interview.Repositories
             return adminRoleId;
         }
 
-        public IEnumerable<Post> GetAllPosts()
-        {
-            return db.Posts.ToList();
-        }
-
-        public IEnumerable<Post> GetFlaggedPosts()
-        {
-            return db.Posts.Where(p => p.FlagPoint < 0).OrderBy(p => p.FlagPoint).ToList();
-        }
-
+        /// <summary>
+        /// Remove the role from a specific user.
+        /// </summary>
+        /// <param name="role">The role.</param>
+        /// <param name="userId">The user's ID.</param>
         public void RemoveRoleFromUser(string role, string userId)
         {
             var user = db.Users.SingleOrDefault(u => u.Id == userId);

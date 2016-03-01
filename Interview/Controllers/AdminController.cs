@@ -11,16 +11,39 @@ using System.Web.Mvc;
 namespace Interview.Controllers
 {
 
+    /// <summary>
+    /// Controller for admin.
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        /// <summary>
+        /// Admin repository.
+        /// </summary>
         private IAdminRepository _repo;
-        public AdminController(IAdminRepository _repo)
+
+        /// <summary>
+        /// Post repository.
+        /// </summary>
+        private IPostRepository _postRepo;
+
+        /// <summary>
+        /// AdminController's constructor.
+        /// </summary>
+        /// <param name="_repo">The admin repository.</param>
+        /// <param name="postRepo">The post repository.</param>
+        public AdminController(IAdminRepository _repo, IPostRepository postRepo)
         {
             this._repo = _repo;
+            _postRepo = postRepo;
         }
 
-        // GET: Admin
+        /// <summary>
+        /// Index action. Returns a view with a list of users.
+        /// </summary>
+        /// <param name="page">The page that the user is on.</param>
+        /// <param name="size">The page's size (how many items on a page).</param>
+        /// <returns>Returns the Index view.</returns>
         public ActionResult Index(int page = 1, int size = 10)
         {
             PagedList<ApplicationUser> pagedModel = new PagedList<ApplicationUser>
@@ -28,28 +51,50 @@ namespace Interview.Controllers
             return View(pagedModel);
         }
 
+        /// <summary>
+        /// Admins action. Returns a view with a list of users who have admin role.
+        /// </summary>
+        /// <param name="page">The page that the user is on.</param>
+        /// <param name="size">The page's size (how many items on a page).</param>
+        /// <returns>Returns the Admins view.</returns>
         public ActionResult Admins(int page = 1, int size = 10)
         {
             PagedList<ApplicationUser> pagedModel = new PagedList<ApplicationUser>
                 (_repo.GetAdminUsers(), page, size);
-            return View(pagedModel);
+            return View("Admins",pagedModel);
         }
 
+        /// <summary>
+        /// FlaggedPosts action. Returns a view with a list of posts that have been flagged.
+        /// </summary>
+        /// <param name="page">The page that the user is on.</param>
+        /// <param name="size">The page's size (how many items on a page).</param>
+        /// <returns>Returns the FlaggedPosts view.</returns>
         public ActionResult FlaggedPosts(int page = 1, int size = 10)
         {
             PagedList<Post> pagedModel = new PagedList<Post>
-            (_repo.GetFlaggedPosts(), page, size);
+            (_postRepo.GetFlaggedPosts(), page, size);
             return View(pagedModel);
         }
 
+        /// <summary>
+        /// AllPosts action. Returns a view with a list of posts.
+        /// </summary>
+        /// <param name="page">The page that the user is on.</param>
+        /// <param name="size">The page's size (how many items on a page).</param>
+        /// <returns></returns>
         public ActionResult AllPosts(int page = 1, int size = 10)
         {
             PagedList<Post> pagedModel = new PagedList<Post>
-            (_repo.GetAllPosts(), page, size);
+            (_postRepo.GetAllPosts(), page, size);
             return View(pagedModel);
         }
 
-
+        /// <summary>
+        /// GrandAdminAccess action. Return a view with an user (who will be given the admin role).
+        /// </summary>
+        /// <param name="userName">The user's username.</param>
+        /// <returns>Returns an user.</returns>
         public ActionResult GrantAdminAccess(string userName)
         {
             if (userName == null)
@@ -64,6 +109,11 @@ namespace Interview.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// GrandAdminAccessConfirm action. Add admin role to the user (redirect to Index action when done).
+        /// </summary>
+        /// <param name="userId">The user ID.</param>
+        /// <returns>Returns a redirect to Index action.</returns>
         [ValidateAntiForgeryToken]
         public ActionResult GrantAdminAccessConfirm(string userId)
         {
