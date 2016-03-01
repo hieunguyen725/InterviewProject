@@ -13,6 +13,7 @@ using Interview.Repositories;
 
 namespace Interview.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
