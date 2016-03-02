@@ -58,8 +58,16 @@ hr {
 }
 
 .tag-label{
-    margin-bottom:10px;
     font-size: 0.8em;
+}
+
+.tag {
+    display: inline-block;
+}
+
+.tag a {   
+    text-decoration: none !important;
+    color: #fff;
 }
 
 .label-success {

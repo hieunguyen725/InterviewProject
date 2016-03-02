@@ -33,7 +33,11 @@
                             <i class="fa fa-tags"></i>
                             @foreach (var tag in Model.ElementAt(i).Tags)
                             {
-                                <span class="label label-primary">@tag.TagName</span>
+                                <span class="label label-primary tag" data-toggle="tooltip" title="@tag.TagName">
+                                    <a href="@Url.Action("Tags", "Posts", new { tag = @tag.TagName })">
+                                        @tag.TagName
+                                    </a>
+                                </span>
                             }
                         </div>
                         <div class="view-answer-info" style="float:right;">
@@ -49,7 +53,7 @@
                         <div class="clearfix"></div>
                         <p class="sm-text" id="posts-index-edit-delete">
                             @if (ViewBag.userId == Model.ElementAt(i).UserID)
-                            {                              
+                            {
                                 <text>@Html.ActionLink("Edit |", "Edit", new { controller = "Posts", id = Model.ElementAt(i).PostID })</text>
                                 <text>@Html.ActionLink("Delete", "Delete", new { controller = "Posts", id = Model.ElementAt(i).PostID })</text>
                             }

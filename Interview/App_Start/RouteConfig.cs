@@ -13,6 +13,11 @@ namespace Interview
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+               name: "Tags",
+               url: "Posts/Tags/{tag}",
+               defaults: new { controller = "Posts", action = "Tags", tag = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 name: "Users",
