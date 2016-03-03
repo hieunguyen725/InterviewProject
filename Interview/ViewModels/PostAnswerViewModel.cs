@@ -37,7 +37,7 @@ namespace Interview.ViewModels
         public int CommentID { get; set; }
 
         [AllowHtml]
-        [StringLength(500, MinimumLength = 35)]
+        [StringLength(500, MinimumLength = 10)]
         [Display(Name = "Content")]
         [Required]
         [DataType(DataType.MultilineText)]

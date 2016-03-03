@@ -109,7 +109,11 @@ namespace Interview.Controllers
             if (string.IsNullOrEmpty(username))
             {
                 username = User.Identity.GetUserName();
-            }              
+            }
+            if (username != User.Identity.Name)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
             ViewBag.username = username;
             ViewBag.userId = User.Identity.GetUserId();
             PagedList<Post> model = new PagedList<Post>(_repo.GetPostByUserName(username), page, size);

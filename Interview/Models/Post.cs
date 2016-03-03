@@ -21,7 +21,7 @@ namespace Interview.Models
         /// <summary>
         /// Post's Title.
         /// </summary>
-        [StringLength(100, MinimumLength = 40)]
+        [StringLength(100, MinimumLength = 10)]
         [Display(Name = "Title")]
         [Required]
         public string PostTitle { get; set; }
@@ -29,7 +29,7 @@ namespace Interview.Models
         /// <summary>
         /// Post's content.
         /// </summary>
-        [StringLength(5000, MinimumLength = 250)]
+        [StringLength(5000, MinimumLength = 10)]
         [AllowHtml]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Content")]

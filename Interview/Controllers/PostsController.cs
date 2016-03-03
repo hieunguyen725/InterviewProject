@@ -86,7 +86,7 @@ namespace Interview.Controllers
         /// <param name="voteStatus">The status of the vote. Upvote or downvote.</param>
         /// <param name="postId">Id of the post.</param>
         /// <returns>The current vote points of this post.</returns>
-        public int ProcessPostVote(int voteStatus, int postId)
+        public string ProcessPostVote(int voteStatus, int postId)
         {
             string userId = User.Identity.GetUserId();
             Post post = repo.GetPostById(postId);
@@ -140,7 +140,7 @@ namespace Interview.Controllers
 
             }
             repo.UpdatePost(post);
-            return post.CurrentVote;
+            return "&nbsp;" + post.CurrentVote;
         }
 
         /// <summary>
@@ -164,7 +164,10 @@ namespace Interview.Controllers
         [HttpGet]
         public ActionResult GetTagsByPostID(int? id)
         {
-            if (id == null) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var tags = (List<Tag>)repo.GetTagsByPostID(id);
             // Serializer doesn't like circular reference so I have
             // to return only what the view needs.
@@ -202,7 +205,10 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult Search(string search, int page = 1, int size = 10)
         {
-            if (string.IsNullOrEmpty(search)) return RedirectToAction("Index");
+            if (string.IsNullOrEmpty(search))
+            {
+                return RedirectToAction("Index");
+            }
             var model = repo.GetPostBySearch(search);
             ViewBag.searchTerm = search;
             ViewBag.isPlural = model.Count() > 1 ? "results" : "result";
@@ -423,13 +429,18 @@ namespace Interview.Controllers
         /// <returns>Returns an edit view with the retrieved post.</returns>
         public ActionResult Edit(int? id)
         {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Post post = repo.GetPostById(id);
-            if(User.Identity.GetUserId() != post.UserID)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (post == null)
             {
                 return HttpNotFound();
+            }
+            if (User.Identity.GetUserId() != post.UserID)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(post);
         }
@@ -462,13 +473,17 @@ namespace Interview.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Post post = repo.GetPostById(id);
-            if (User.Identity.GetUserId() != post.UserID)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (post == null)
             {
                 return HttpNotFound();
+            }
+            if (User.Identity.GetUserId() != post.UserID)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(post);
         }
@@ -483,7 +498,7 @@ namespace Interview.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Post post = repo.GetPostById(id);
-            if (post!=null)
+            if (post != null)
             {
                 repo.DeletePost(post);
             }
