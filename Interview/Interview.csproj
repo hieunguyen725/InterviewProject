@@ -640,6 +640,9 @@
     <Content Include="Views\Admin\FlaggedPosts.cshtml" />
     <Content Include="Views\Admin\Admins.cshtml" />
     <Content Include="Views\Admin\GrantAdminAccess.cshtml" />
+    <Content Include="Views\Posts\Tags.cshtml" />
+    <Content Include="Views\Shared\_FilterOptions.cshtml" />
+    <Content Include="Views\Posts\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

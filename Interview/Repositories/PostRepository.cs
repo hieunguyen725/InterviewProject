@@ -124,6 +124,17 @@ namespace Interview.Repositories
         }
 
         /// <summary>
+        /// Get posts by tag.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <returns>Returns a list of posts</returns>
+        public IEnumerable<Post> GetPostByTag(string tag)
+        {
+            var posts = db.Posts.Where(p => p.Tags.Any(t => t.TagName == tag)).ToList();
+            return posts;
+        }
+
+        /// <summary>
         /// Get the latest posts. (order by its creation date)
         /// </summary>
         /// <returns>Returns a list of posts.</returns>

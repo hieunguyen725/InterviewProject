@@ -198,22 +198,17 @@ namespace Interview.Controllers
         /// <param name="search">The search query by the user.</param>
         /// <param name="page">The current page of the page list, default is 1.</param>
         /// <param name="size">The max number of posts on one page, default is 10.</param>
-        /// <returns>Returns a partial view of related posts for that search.</returns>
+        /// <returns>Returns a view of related posts for that search.</returns>
         [AllowAnonymous]
         public ActionResult Search(string search, int page = 1, int size = 10)
         {
-            IEnumerable<Post> model;
-            if(string.IsNullOrEmpty(search))
-            {
-                model = repo.GetAllPosts();
-            } else
-            {
-                model = repo.GetPostBySearch(search);
-            }
-            ViewBag.query = search;
+            if (string.IsNullOrEmpty(search)) return RedirectToAction("Index");
+            var model = repo.GetPostBySearch(search);
+            ViewBag.searchTerm = search;
+            ViewBag.isPlural = model.Count() > 1 ? "results" : "result";
             PagedList<Post> pagedModel = new PagedList<Post>
                 (model, page, size);
-            return PartialView("_Posts", pagedModel);
+            return View(pagedModel);
         }
 
         /// <summary>
@@ -248,12 +243,36 @@ namespace Interview.Controllers
         }
 
         /// <summary>
-        /// Search for the related posts given the search query.
+        /// This tags action returns a list of posts that have the tag
+        /// that matches the tag search term.
         /// </summary>
-        /// <param name="search">The search query by the user.</param>
+        /// <param name="tag">The tag search query by the user.</param>
         /// <param name="page">The current page of the page list, default is 1.</param>
         /// <param name="size">The max number of posts on one page.</param>
-        /// <returns>Returns a partial view of related posts for that search.</returns>
+        /// <returns>Returns a view of related posts that has the tag.</returns>
+        [AllowAnonymous]
+        public ActionResult Tags(string tag, int page = 1, int size = 10)
+        {
+
+            if (string.IsNullOrEmpty(tag))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var posts = repo.GetPostByTag(tag);
+            ViewBag.Tag = tag;
+            ViewBag.isPlural = posts.Count() > 1 ? "results" : "result";
+            PagedList<Post> pagedModel = new PagedList<Post>
+                (posts, page, size);
+
+            return View(pagedModel);
+        }
+
+        /// <summary>
+        /// This is the action that return the home page.
+        /// </summary>
+        /// <param name="page">The current page of the page list, default is 1.</param>
+        /// <param name="size">The max number of posts on one page.</param>
+        /// <returns>Returns a view with all posts.</returns>
         [AllowAnonymous]
         public ActionResult Index(int page = 1, int size = 10)
         {

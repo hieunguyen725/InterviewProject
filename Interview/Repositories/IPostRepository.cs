@@ -66,6 +66,13 @@ namespace Interview.Repositories
         IEnumerable<Post> GetPostByUser(string userId);
 
         /// <summary>
+        /// Get posts by tag.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <returns>Returns a list of posts</returns>
+        IEnumerable<Post> GetPostByTag(string tag);
+
+        /// <summary>
         /// Get posts by the user's username.
         /// </summary>
         /// <param name="username">The user's username.</param>

@@ -3,12 +3,7 @@
         <div class="top-btn-group">
             @Html.ActionLink("Create a new post", "Create", "Posts", null, new { @class = "btn btn-primary btn-sm" })
         </div>
-        @using (Ajax.BeginForm("Search", "Posts", new AjaxOptions
-        {
-            HttpMethod = "GET",
-            UpdateTargetId = "post-list",
-            InsertionMode = InsertionMode.Replace
-        }, new { @class = "form-inline" }))
+        @using (Html.BeginForm("Search", "Posts", new { @class = "form-inline" }))
         {
             @Html.AntiForgeryToken()
             @Html.Editor("search")
