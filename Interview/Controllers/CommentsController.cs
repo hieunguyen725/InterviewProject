@@ -173,13 +173,18 @@ namespace Interview.Controllers
         // GET: PostAnswers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Comment comment = repo.GetCommentById(id);
-            if (User.Identity.GetUserId() != comment.UserID)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (comment == null)
             {
                 return HttpNotFound();
+            }
+            if (User.Identity.GetUserId() != comment.UserID)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(comment);
         }
@@ -210,12 +215,18 @@ namespace Interview.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Comment comment = repo.GetCommentById(id);
             if (comment == null)
+            {
                 return HttpNotFound();
+            }
             if (User.Identity.GetUserId() != comment.UserID)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
             return View(comment);
         }
 
