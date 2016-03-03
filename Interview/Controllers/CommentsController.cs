@@ -79,7 +79,7 @@ namespace Interview.Controllers
         /// <param name="voteStatus">The status of the vote. Upvote or downvote.</param>
         /// <param name="commentId">Id of the comment.</param>
         /// <returns>The current vote points of this comment.</returns>
-        public int ProcessCommentVote(int voteStatus, int commentId)
+        public string ProcessCommentVote(int voteStatus, int commentId)
         {
             string userId = User.Identity.GetUserId();
             Comment comment = repo.GetCommentById(commentId);
@@ -133,7 +133,7 @@ namespace Interview.Controllers
 
             }
             repo.UpdateComment(comment);
-            return comment.CurrentVote;
+            return "&nbsp;" +  comment.CurrentVote;
         }
 
         /// <summary>

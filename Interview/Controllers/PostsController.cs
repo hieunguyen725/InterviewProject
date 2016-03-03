@@ -86,7 +86,7 @@ namespace Interview.Controllers
         /// <param name="voteStatus">The status of the vote. Upvote or downvote.</param>
         /// <param name="postId">Id of the post.</param>
         /// <returns>The current vote points of this post.</returns>
-        public int ProcessPostVote(int voteStatus, int postId)
+        public string ProcessPostVote(int voteStatus, int postId)
         {
             string userId = User.Identity.GetUserId();
             Post post = repo.GetPostById(postId);
@@ -140,7 +140,7 @@ namespace Interview.Controllers
 
             }
             repo.UpdatePost(post);
-            return post.CurrentVote;
+            return "&nbsp;" + post.CurrentVote;
         }
 
         /// <summary>

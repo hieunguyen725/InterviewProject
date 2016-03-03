@@ -224,8 +224,9 @@
 
             @if (!User.Identity.IsAuthenticated)
             {
-                @: $(".vote-link").bind("click", false).css("cursor", "default");
-                        }
+                @: $(".vote-link").bind("click", false).css("cursor", "default").css("color", "#C7C9C6");
+
+            }
         });
 
         function changeArrowColor(arrowIdSubString, voteStatus) {
