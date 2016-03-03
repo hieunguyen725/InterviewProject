@@ -37,11 +37,13 @@
     </div>
     <div class="container-fluid body-content content">
         @RenderBody()
-        @*<hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Interview Questions</p>
-        </footer>*@
     </div>
+
+    <footer>
+        <div class="container">
+            <h5>&copy; @DateTime.Now.Year Interview Questions</h5>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

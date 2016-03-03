@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-1">
+        <div class="col-xs-1">
             <br />
             <div>
                 @Ajax.ActionLink(" ", "ProcessPostVote", "Posts", new { voteStatus = 1, postId = Model.PostID },
@@ -48,7 +48,7 @@
              })
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-xs-10 col-sm-8">
             <div>
                 <h4>@Html.DisplayFor(model => model.PostTitle)</h4>
                 <p>@Html.Raw(postContent)</p>
@@ -86,7 +86,7 @@
                 @foreach (var comment in Model.Comments)
                 {
                     <div class="row">
-                        <div class="col-sm-1">
+                        <div class="col-xs-1">
                             <br />
                             <div>
                                 @Ajax.ActionLink(" ", "ProcessCommentVote", "Comments", new { voteStatus = 1, commentId = comment.CommentID },
@@ -124,7 +124,7 @@
                                      })
                             </div>
                         </div>
-                        <div class="col-sm-11">
+                        <div class="col-xs-10">
                             <div>
                                 <p>@Html.Raw(comment.CommentContent)</p>
                                 <div class="post-info">
@@ -134,15 +134,15 @@
                                         <p class="post-createdat">
                                             &nbsp; &nbsp; &nbsp;
                                         <text>
-                                            @Ajax.ActionLink(comment.UserFlagStatus, "ProcessCommentFlag", "Comments", new { commentId = comment.CommentID },
-             new AjaxOptions
-             {
-                 HttpMethod = "GET",
-                 OnSuccess = "changeFlagStatus('" + "Comment-" + Model.PostID + "-CommentFlag" + "')"
-             }, new
-             {
-                 id = "Comment-" + Model.PostID + "-CommentFlag",
-             })
+                                     @Ajax.ActionLink(comment.UserFlagStatus, "ProcessCommentFlag", "Comments", new { commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         OnSuccess = "changeFlagStatus('" + "Comment-" + Model.PostID + "-CommentFlag" + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + Model.PostID + "-CommentFlag",
+                                     })
                                         </text>
                                             </p>
                                     }
@@ -164,8 +164,9 @@
 
                                 }
                             </div>
+
+                            <hr />
                         </div>
-                        <hr />
                     </div>
 
                 }
@@ -201,14 +202,14 @@
         </div>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-3 hidden-md hidden-sm hidden-xs">
         <div class="row">
             <h6>Lastest Posts</h6>
             <hr />
             @Html.Action("LatestPosts", "Posts")
         </div>
 
-        <div class="row">
+        <div class="row hidden-md hidden-sm hidden-xs">
             <h6>Most Popular Tags</h6>
             <hr />
             @Html.Action("TopTags", "Posts")
