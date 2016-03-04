@@ -110,7 +110,7 @@ namespace Interview.Repositories
         /// <returns>Returns a list of tags.</returns>
         public IEnumerable<Tag> GetTopTags()
         {
-            var topTags = db.Tags.OrderByDescending(t => t.Posts.Count);
+            var topTags = db.Tags.OrderByDescending(t => t.Posts.Count).Take(10);
             return topTags;
         }
 

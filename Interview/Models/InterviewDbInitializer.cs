@@ -36,7 +36,7 @@ namespace Interview.Models
             // Create user named admin1 if it doesn't exists
             if (!context.Users.Any(u => u.UserName == "admin1"))
             {
-                var user = new ApplicationUser { UserName = "admin1" };
+                var user = new ApplicationUser { UserName = "admin1", Email = "admin1@gmail.com" };
 
                 userManager.Create(user, "Adminpass1");
                 userManager.AddToRole(user.Id, ConstantHelper.AdminRole);
@@ -52,7 +52,7 @@ namespace Interview.Models
             // Create user named user1 if it doesn't exists
             if(!context.Users.Any(u=>u.UserName == "user1"))
             {
-                var user = new ApplicationUser() { UserName = "user1" };
+                var user = new ApplicationUser() { UserName = "user1", Email = "user1@gmail.com" };
                 userManager.Create(user, "Userpass1");
                 UserProfile up = new UserProfile
                 {
@@ -85,6 +85,10 @@ namespace Interview.Models
                 new Tag{TagName = "RubyOnRails"},
                 new Tag{TagName = "Laravel"},
                 new Tag{TagName = "General"},
+                new Tag {TagName = "Object Oriented Programming" },
+                new Tag {TagName = "Mobile Development" },
+                new Tag {TagName = "Operating System" },
+                new Tag {TagName = "Problem Solving" }
             };
             foreach (var tag in tags)
             {
