@@ -20,7 +20,7 @@ namespace Interview.Models
         /// Comment's content.
         /// </summary>
         [AllowHtml]
-        [StringLength(500, MinimumLength = 10)]
+        [StringLength(5000, MinimumLength = 10)]
         [Display(Name = "Content")]
         [Required]
         [DataType(DataType.MultilineText)]

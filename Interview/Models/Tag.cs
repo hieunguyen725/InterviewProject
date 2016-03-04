@@ -21,7 +21,7 @@ namespace Interview.Models
         /// <summary>
         /// Tag's name.
         /// </summary>
-        [StringLength(20)]
+        [StringLength(30)]
         public string TagName { get; set; }
 
         /// <summary>

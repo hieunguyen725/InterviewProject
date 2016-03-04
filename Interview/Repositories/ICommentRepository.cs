@@ -27,6 +27,12 @@ namespace Interview.Repositories
         IEnumerable<Comment> GetCommentsByUser(string username);
 
         /// <summary>
+        /// Get all the flagged/reported comments.
+        /// </summary>
+        /// <returns>All flagged comments.</returns>
+        IEnumerable<Comment> GetFlaggedComments();
+
+        /// <summary>
         /// Add a comment to the database.
         /// </summary>
         /// <param name="comment">The comment.</param>

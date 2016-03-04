@@ -28,14 +28,20 @@ namespace Interview.Controllers
         private IPostRepository _postRepo;
 
         /// <summary>
+        /// Comment repository.
+        /// </summary>
+        private ICommentRepository _commentRepo;
+
+        /// <summary>
         /// AdminController's constructor.
         /// </summary>
         /// <param name="_repo">The admin repository.</param>
         /// <param name="postRepo">The post repository.</param>
-        public AdminController(IAdminRepository _repo, IPostRepository postRepo)
+        public AdminController(IAdminRepository _repo, IPostRepository postRepo, ICommentRepository commentRepo)
         {
             this._repo = _repo;
             _postRepo = postRepo;
+            _commentRepo = commentRepo;
         }
 
         /// <summary>
@@ -74,6 +80,13 @@ namespace Interview.Controllers
         {
             PagedList<Post> pagedModel = new PagedList<Post>
             (_postRepo.GetFlaggedPosts(), page, size);
+            return View(pagedModel);
+        }
+
+        public ActionResult FlaggedComments(int page = 1, int size = 10)
+        {
+            PagedList<Comment> pagedModel = new PagedList<Comment>
+            (_commentRepo.GetFlaggedComments(), page, size);
             return View(pagedModel);
         }
 

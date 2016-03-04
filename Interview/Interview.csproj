@@ -643,6 +643,7 @@
     <Content Include="Views\Posts\Tags.cshtml" />
     <Content Include="Views\Shared\_FilterOptions.cshtml" />
     <Content Include="Views\Posts\Search.cshtml" />
+    <Content Include="Views\Admin\FlaggedComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
