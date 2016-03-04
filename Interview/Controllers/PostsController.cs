@@ -481,7 +481,7 @@ namespace Interview.Controllers
             {
                 return HttpNotFound();
             }
-            if (User.Identity.GetUserId() != post.UserID)
+            if (User.Identity.GetUserId() != post.UserID && !User.IsInRole("Admin"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }

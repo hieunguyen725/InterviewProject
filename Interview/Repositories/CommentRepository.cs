@@ -44,6 +44,15 @@ namespace Interview.Repositories
         }
 
         /// <summary>
+        /// Get all the flagged/reported comments.
+        /// </summary>
+        /// <returns>All flagged comments.</returns>
+        public IEnumerable<Comment> GetFlaggedComments()
+        {
+            return db.Comments.Where(c => c.FlagPoint < 0).OrderBy(c => c.FlagPoint).ToList();
+        }
+
+        /// <summary>
         /// Add a comment to the database.
         /// </summary>
         /// <param name="comment">The comment.</param>

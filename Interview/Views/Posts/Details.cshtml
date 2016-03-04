@@ -138,10 +138,10 @@
                                      new AjaxOptions
                                      {
                                          HttpMethod = "GET",
-                                         OnSuccess = "changeFlagStatus('" + "Comment-" + Model.PostID + "-CommentFlag" + "')"
+                                         OnSuccess = "changeFlagStatus('" + "Comment-" + comment.CommentID + "-CommentFlag" + "')"
                                      }, new
                                      {
-                                         id = "Comment-" + Model.PostID + "-CommentFlag",
+                                         id = "Comment-" + comment.CommentID + "-CommentFlag",
                                      })
                                         </text>
                                             </p>

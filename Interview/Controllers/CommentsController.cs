@@ -223,7 +223,7 @@ namespace Interview.Controllers
             {
                 return HttpNotFound();
             }
-            if (User.Identity.GetUserId() != comment.UserID)
+            if (User.Identity.GetUserId() != comment.UserID && !User.IsInRole("Admin"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
