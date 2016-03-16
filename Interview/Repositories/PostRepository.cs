@@ -13,6 +13,7 @@ namespace Interview.Repositories
 
     /// <summary>
     /// Repository for Post.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public class PostRepository : IPostRepository, IDisposable
     {
@@ -195,6 +196,71 @@ namespace Interview.Repositories
             return db.Posts.OrderByDescending(p => p.CurrentVote).ToList();
         }
 
+
+        /// <summary>
+        /// Process the vote for the given post Id.
+        /// </summary>
+        /// <param name="voteStatus">The vote status, either 1 or -1</param>
+        /// <param name="postId">The post Id for the voted post</param>
+        /// <param name="userId">User id of the user that voted</param>
+        /// <returns>The processed vote score of the post</returns>
+        public int ProcessPostVote(int voteStatus, int postId, string userId)
+        {
+
+            Post post = GetPostById(postId);
+            PostVote userOriginalVote = null;
+            // check if the user already voted, and retrieve that vote if voted
+            foreach (var vote in post.VoteList)
+            {
+                if (vote.VoteUserId == userId)
+                {
+                    userOriginalVote = vote;
+                    break;
+                }
+            }
+            if (userOriginalVote == null) // user haven't voted
+            {
+                PostVote newVote = new PostVote
+                {
+                    VoteUserId = userId,
+                    VoteStatus = voteStatus,
+                    PostID = postId
+                };
+                AddPostVote(newVote);
+                post.CurrentVote += voteStatus;
+            }
+            else // user voted
+            {
+                int originalVoteStatus = userOriginalVote.VoteStatus;
+                if (voteStatus == 1 && originalVoteStatus == 1) // cancel upvote
+                {
+                    DeletePostVote(userOriginalVote);
+                    post.CurrentVote--;
+                }
+                else if (voteStatus == 1 && originalVoteStatus == -1) // switch to upvote
+                {
+                    userOriginalVote.VoteStatus = 1;
+                    UpdatePostVote(userOriginalVote);
+                    post.CurrentVote += 2;
+
+                }
+                else if (voteStatus == -1 && originalVoteStatus == 1) // switch to downvote
+                {
+                    userOriginalVote.VoteStatus = -1;
+                    UpdatePostVote(userOriginalVote);
+                    post.CurrentVote -= 2;
+                }
+                else if (voteStatus == -1 && originalVoteStatus == -1) // cancel downvote
+                {
+                    DeletePostVote(userOriginalVote);
+                    post.CurrentVote++;
+                }
+
+            }
+            UpdatePost(post);
+            return post.CurrentVote;
+        }
+
         /// <summary>
         /// Add vote to a post.
         /// </summary>
@@ -232,6 +298,38 @@ namespace Interview.Repositories
         public IEnumerable<Post> GetFlaggedPosts()
         {
             return db.Posts.Where(p => p.FlagPoint < 0).OrderBy(p => p.FlagPoint).ToList();
+        }
+
+        /// <summary>
+        /// Process the post flag by either flag or unflag the post for the given
+        /// user id.
+        /// </summary>
+        /// <param name="postId">The post id of the post to process.</param>
+        /// <param name="userId">The user id of user that flag/unflag.</param>
+        /// <returns>Current flag status, either 1 for unflag or -1 for flag</returns>
+        public int ProcessPostFlag(int postId, string userId)
+        {
+            Post post = GetPostById(postId);
+            foreach (PostFlag flag in post.PostFlags)
+            {
+                if (flag.FlaggedUserId == userId) // if user already flag
+                {
+                    DeletePostFlag(flag);
+                    post.FlagPoint++;
+                    UpdatePost(post);
+                    return 1;
+                }
+            }
+            // user did not flag
+            PostFlag postFlag = new PostFlag
+            {
+                FlaggedUserId = userId,
+                PostID = post.PostID
+            };
+            AddPostFlag(postFlag);
+            post.FlagPoint--;
+            UpdatePost(post);
+            return -1;
         }
 
         /// <summary>

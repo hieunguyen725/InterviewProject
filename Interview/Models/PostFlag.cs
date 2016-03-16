@@ -10,6 +10,7 @@ namespace Interview.Models
 
     /// <summary>
     /// PostFlag model.
+    /// Author - Hieu Nguyen
     /// </summary>
     public class PostFlag
     {

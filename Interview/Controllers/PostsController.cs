@@ -18,6 +18,7 @@ namespace Interview.Controllers
 
     /// <summary>
     /// Controller for Posts.
+    /// Authors - Hieu Nguyen & Long Nguyen
     /// </summary>
     [Authorize]
     public class PostsController : Controller
@@ -56,27 +57,7 @@ namespace Interview.Controllers
         public int ProcessPostFlag(int postId)
         {
             string userId = User.Identity.GetUserId();
-            Post post = repo.GetPostById(postId);
-            foreach (PostFlag flag in post.PostFlags)
-            {
-                if (flag.FlaggedUserId == userId) // if user already flag
-                {
-                    repo.DeletePostFlag(flag);
-                    post.FlagPoint++;
-                    repo.UpdatePost(post);
-                    return 1;
-                }
-            }
-            // user did not flag
-            PostFlag postFlag = new PostFlag
-            {
-                FlaggedUserId = userId,
-                PostID = post.PostID
-            };
-            repo.AddPostFlag(postFlag);
-            post.FlagPoint--;
-            repo.UpdatePost(post);
-            return -1;
+            return repo.ProcessPostFlag(postId, userId);
         }
 
         /// <summary>
@@ -89,58 +70,7 @@ namespace Interview.Controllers
         public string ProcessPostVote(int voteStatus, int postId)
         {
             string userId = User.Identity.GetUserId();
-            Post post = repo.GetPostById(postId);
-            PostVote userOriginalVote = null;
-            // check if the user already voted, and retrieve that vote if voted
-            foreach (var vote in post.VoteList)
-            {
-                if (vote.VoteUserId == userId)
-                {
-                    userOriginalVote = vote;
-                    break;
-                }
-            }
-            if (userOriginalVote == null) // user haven't voted
-            {
-                PostVote newVote = new PostVote
-                {
-                    VoteUserId = userId,
-                    VoteStatus = voteStatus,
-                    PostID = postId
-                };
-                repo.AddPostVote(newVote);
-                post.CurrentVote += voteStatus;
-            }
-            else // user voted
-            {
-                int originalVoteStatus = userOriginalVote.VoteStatus;
-                if (voteStatus == 1 && originalVoteStatus == 1) // cancel upvote
-                {
-                    repo.DeletePostVote(userOriginalVote);
-                    post.CurrentVote--;
-                }
-                else if (voteStatus == 1 && originalVoteStatus == -1) // switch to upvote
-                {
-                    userOriginalVote.VoteStatus = 1;
-                    repo.UpdatePostVote(userOriginalVote);
-                    post.CurrentVote += 2;
-
-                }
-                else if (voteStatus == -1 && originalVoteStatus == 1) // switch to downvote
-                {
-                    userOriginalVote.VoteStatus = -1;
-                    repo.UpdatePostVote(userOriginalVote);
-                    post.CurrentVote -= 2;
-                }
-                else if (voteStatus == -1 && originalVoteStatus == -1) // cancel downvote
-                {
-                    repo.DeletePostVote(userOriginalVote);
-                    post.CurrentVote++;
-                }
-
-            }
-            repo.UpdatePost(post);
-            return "&nbsp;" + post.CurrentVote;
+            return "&nbsp;" + repo.ProcessPostVote(voteStatus, postId, userId);
         }
 
         /// <summary>
@@ -311,26 +241,58 @@ namespace Interview.Controllers
             }
             post.ViewCount++;
             repo.SaveChanges();
-            foreach (var vote in post.VoteList)
+            // set up post's vote arrow color base on the user vote history
+            post = SetUpPost(post, userId);
+            // set up comments' vote arrow color base on the current user vote history
+            // and also display the flag status for the comments base on the current
+            // user flag history
+            ICollection<Comment> commentViews = new List<Comment>();
+            commentViews = SetUpComments(commentViews, post.Comments, userId);
+            // check flag status to display for the post.
+            string flagStatus = "Flag";
+            foreach (var PostFlag in post.PostFlags)
             {
-                if (vote.VoteUserId == userId)
+                if (PostFlag.FlaggedUserId == userId)
                 {
-                    if (vote.VoteStatus == 1)
-                    {
-                        post.UpArrowColor = hightLightedColor;
-                        post.DownArrowColor = notHightLightedColor;
-                    }
-                    else
-                    {
-                        post.UpArrowColor = notHightLightedColor;
-                        post.DownArrowColor = hightLightedColor;
-                    }
+                    flagStatus = "Unflag";
                     break;
                 }
-            }
-            ICollection<Comment> commentViews = new List<Comment>();
-            foreach (var comment in post.Comments)
+            }    
+            // create the view model to display        
+            PostAnswerViewModel vm = new PostAnswerViewModel
             {
+                PostID = post.PostID,
+                PostTitle = post.PostTitle,
+                PostContent = post.PostContent,
+                Comments = commentViews,
+                CreatedAt = post.CreatedAt,
+                User = post.User,
+                CurrentVote = post.CurrentVote,
+                UpArrowColor = post.UpArrowColor,
+                DownArrowColor = post.DownArrowColor,
+                UserFlagStatus = flagStatus
+                
+            };
+            return View(vm);
+        }
+
+        /// <summary>
+        /// Set up the comments' vote arrow colors and flag/unflag status base
+        /// on the current user vote and flag history.
+        /// </summary>
+        /// <param name="commentViews">The comment views to store the processed vote
+        ///  colors and flag status
+        /// </param>
+        /// <param name="postComments">The post comments of the given post to display.</param>
+        /// <param name="userId">The user id of the current logged in user.</param>
+        /// <returns>The processed and updated comments views.</returns>
+        private ICollection<Comment> SetUpComments(ICollection<Comment> commentViews, 
+            ICollection<Comment> postComments, string userId)
+        {
+            foreach (var comment in postComments)
+            {
+                // set up comments' vote arrow colors base on the current user
+                // vote history.
                 ICommentRepository commentRepo = new CommentRepository();
                 Comment retrievedComment = commentRepo.GetCommentById(comment.CommentID);
                 foreach (var vote in retrievedComment.VoteList)
@@ -349,7 +311,7 @@ namespace Interview.Controllers
                         }
                     }
                 }
-                // check comment flag status
+                // check comment flag status base on the user flag history.
                 foreach (var flag in comment.CommentFlags)
                 {
                     if (flag.FlaggedUserId == userId)
@@ -360,31 +322,35 @@ namespace Interview.Controllers
                 }
                 commentViews.Add(comment);
             }
-            // check flag status to display
-            string flagStatus = "Flag";
-            foreach (var PostFlag in post.PostFlags)
+            return commentViews;
+        }
+
+        /// <summary>
+        /// Set up the post's vote arrow color base on the user vote history.
+        /// </summary>
+        /// <param name="post">The post to set up or process.</param>
+        /// <param name="userId">The user id of the current logged in user.</param>
+        /// <returns>the updated post with the processed vote arrow colors.</returns>
+        private Post SetUpPost(Post post, string userId)
+        {
+            foreach (var vote in post.VoteList)
             {
-                if (PostFlag.FlaggedUserId == userId)
+                if (vote.VoteUserId == userId)
                 {
-                    flagStatus = "Unflag";
+                    if (vote.VoteStatus == 1)
+                    {
+                        post.UpArrowColor = hightLightedColor;
+                        post.DownArrowColor = notHightLightedColor;
+                    }
+                    else
+                    {
+                        post.UpArrowColor = notHightLightedColor;
+                        post.DownArrowColor = hightLightedColor;
+                    }
                     break;
                 }
-            }            
-            PostAnswerViewModel vm = new PostAnswerViewModel
-            {
-                PostID = post.PostID,
-                PostTitle = post.PostTitle,
-                PostContent = post.PostContent,
-                Comments = commentViews,
-                CreatedAt = post.CreatedAt,
-                User = post.User,
-                CurrentVote = post.CurrentVote,
-                UpArrowColor = post.UpArrowColor,
-                DownArrowColor = post.DownArrowColor,
-                UserFlagStatus = flagStatus
-                
-            };
-            return View(vm);
+            }
+            return post;
         }
 
         /// <summary>

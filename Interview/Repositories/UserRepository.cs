@@ -10,6 +10,7 @@ namespace Interview.Repositories
 
     /// <summary>
     /// Repository for User.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public class UserRepository : IUserRepository
     {

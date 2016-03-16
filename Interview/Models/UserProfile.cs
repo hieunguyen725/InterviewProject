@@ -9,6 +9,7 @@ namespace Interview.Models
 {
     /// <summary>
     /// UserProfile model.
+    /// Author - Long Nguyen
     /// </summary>
     public class UserProfile
     {

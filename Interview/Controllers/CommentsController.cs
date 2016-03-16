@@ -17,6 +17,7 @@ namespace Interview.Controllers
 
     /// <summary>
     /// Controller for comments.
+    /// Authors - Hieu Nguyen & Long Nguyen
     /// </summary>
     [Authorize]
     public class CommentsController : Controller
@@ -50,26 +51,7 @@ namespace Interview.Controllers
         public int ProcessCommentFlag(int commentId)
         {
             string userId = User.Identity.GetUserId();
-            Comment comment = repo.GetCommentById(commentId);
-            foreach (CommentFlag flag in comment.CommentFlags)
-            {
-                if (flag.FlaggedUserId == userId) 
-                {
-                    repo.DeleteCommentFlag(flag);
-                    comment.FlagPoint++;
-                    repo.UpdateComment(comment);
-                    return 1;
-                }
-            }
-            CommentFlag commentFlag = new CommentFlag
-            {
-                FlaggedUserId = userId,
-                CommentID = comment.CommentID
-            };
-            repo.AddCommentFlag(commentFlag);
-            comment.FlagPoint--;
-            repo.UpdateComment(comment);
-            return -1;
+            return repo.ProcessCommentFlag(commentId, userId);
         }
 
         /// <summary>
@@ -82,58 +64,7 @@ namespace Interview.Controllers
         public string ProcessCommentVote(int voteStatus, int commentId)
         {
             string userId = User.Identity.GetUserId();
-            Comment comment = repo.GetCommentById(commentId);
-            CommentVote userOriginalVote = null;
-            // check if the user already voted, and retrieve that vote if voted
-            foreach (var vote in comment.VoteList)
-            {
-                if (vote.VoteUserId == userId)
-                {
-                    userOriginalVote = vote;
-                    break;
-                }
-            }
-            if (userOriginalVote == null) // user haven't voted
-            {
-                CommentVote newVote = new CommentVote
-                {
-                    VoteUserId = userId,
-                    VoteStatus = voteStatus,
-                    CommentID = commentId
-                };
-                repo.AddCommentVote(newVote);
-                comment.CurrentVote += voteStatus;
-            }
-            else // user voted
-            {
-                int originalVoteStatus = userOriginalVote.VoteStatus;
-                if (voteStatus == 1 && originalVoteStatus == 1) // cancel upvote
-                {
-                    repo.DeleteCommentVote(userOriginalVote);
-                    comment.CurrentVote--;
-                }
-                else if (voteStatus == 1 && originalVoteStatus == -1) // switch to upvote
-                {
-                    userOriginalVote.VoteStatus = 1;
-                    repo.UpdateCommentVote(userOriginalVote);
-                    comment.CurrentVote += 2;
-
-                }
-                else if (voteStatus == -1 && originalVoteStatus == 1) // switch to downvote
-                {
-                    userOriginalVote.VoteStatus = -1;
-                    repo.UpdateCommentVote(userOriginalVote);
-                    comment.CurrentVote -= 2;
-                }
-                else if (voteStatus == -1 && originalVoteStatus == -1) // cancel downvote
-                {
-                    repo.DeleteCommentVote(userOriginalVote);
-                    comment.CurrentVote++;
-                }
-
-            }
-            repo.UpdateComment(comment);
-            return "&nbsp;" +  comment.CurrentVote;
+            return "&nbsp;" + repo.ProcessCommentVote(voteStatus, commentId, userId);
         }
 
         /// <summary>

@@ -8,6 +8,10 @@ using System.Web.Mvc;
 
 namespace Interview.ViewModels
 {
+    /// <summary>
+    /// Detail's view model for post and answers.
+    /// Author - Hieu Nguyen & Long Nguyen
+    /// </summary>
     public class PostAnswerViewModel
     {
 

@@ -12,6 +12,7 @@ namespace Interview.Models
 
     /// <summary>
     /// Database initializer.
+    /// Author - Long Nguyen
     /// </summary>
     public class InterviewDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {

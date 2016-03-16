@@ -9,6 +9,7 @@ namespace Interview.Repositories
 {
     /// <summary>
     /// Repository for Admin controller.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public interface IAdminRepository
     {

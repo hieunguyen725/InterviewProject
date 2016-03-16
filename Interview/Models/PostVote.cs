@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// PostVote model.
+    /// Author - Hieu Nguyen
     /// </summary>
     public class PostVote
     {
@@ -11,7 +12,7 @@
         public int PostVoteID { get; set; }
 
         /// <summary>
-        /// User ID (foreign key).
+        /// User ID that voted.
         /// </summary>
         public string VoteUserId { get; set; }
 
