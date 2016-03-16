@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -97,7 +97,7 @@
 
     <div id="header">
         <h1>Interview ASP.Net Project - Hieu nguyen & Long Nguyen</h1>
-        <p>Project Progress Overview</p>
+        <p>Project Overview</p>
     </div>
 
     <div id="main">
@@ -116,18 +116,65 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="section">
-            <h2>Current Project Scope</h2>
+            <h2>Project GitHub</h2>
             <ul>
                 <li>
-                    At the current stage, most of the application features are finished. What our group
-                    will have to do now is to refactor some code, perform some layout editing and lastly is
-                    to perform all the necessary testings.
+                    <a href="https://github.com/ln206/InterviewProject">Project GitHub page</a>
+                </li>
+                <li>
+                    <a href="https://github.com/ln206/InterviewProject/commits/master">GitHub commits/changes history</a>
                 </li>
             </ul>
-            <hr>
-            <h2>Implemented Features</h2>
+            <hr/>
+            <h2>MVC Structure - Controllers</h2>
+            <ul>
+                <li>
+                    PostsController - Control basic CRUD operations, vote system, flag system, tagging for posts.
+                </li>
+                <li>
+                    CommentsController - Control basic CRUD operations, vote system and flag system for comments.
+                </li>
+                <li>
+                    AdminController - Control the admin panel, grant users admin access, view/delete any posts and comments.
+                </li>
+                <li>
+                    UsersController - Control user’s profile, all user’s posts and comments.
+                </li>
+            </ul>
+            <hr/>
+            <h2>MVC Structure - Models</h2>
+            <ul>
+                <li>Post</li>
+                <li>Comment</li>
+                <li>IdentityModel (ApplicationUser)</li>
+                <li>UserProfile</li>
+                <li>PostVote</li>
+                <li>CommentVote</li>
+                <li>PostFlag</li>
+                <li>CommentFlag</li>
+                <li>Tag</li>
+            </ul>
+            <hr/>
+            <h2>MVC Features Implemented</h2>
+            <ul>
+                <li>Model, view and controller</li>
+                <li>Custom navigation</li>
+                <li>C# style documentation</li>
+                <li>Html Helpers</li>
+                <li>Data Annotations</li>
+                <li>Code-refactor (Repository Pattern)</li>
+                <li>UI Interface - Highlight.js for code syntax UI library, Bootsflat theme</li>
+                <li>Ajax helpers with JQuery (for vote system, flag system, home page posts filter)</li>
+                <li>Partial Views</li>
+                <li>Authorization & Authentication (Users and Admin) and custom role (Admin)</li>
+                <li>Dependency Injection with Repository Pattern</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Website Implemented Features</h2>
             <ol>
                 <li>Anonymous users can view interview questions and comments. (Does not require login)</li>
                 <li>User can register and login.</li>
@@ -143,7 +190,7 @@
             </ol>
         </div>
 
-        <div class="section">
+        <div class="section last">
             <h2>Group Work Division</h2>
             <ul>
                 <li>
@@ -191,17 +238,6 @@
                     </ul>
                 </li>
             </ul>
-        </div>
-
-        <div class="section last">
-            <h2>What we need to finish</h2>
-            <ol>
-                <li>Make minor changes to layout.</li>
-                <li>Refactor code.</li>
-                <li>Finishing all documentation</li>
-                <li>Perform thorough testings of the application.</li>
-                <li>Deployment</li>
-            </ol>
         </div>
     </div>
 
