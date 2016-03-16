@@ -11,6 +11,7 @@ namespace Interview.Repositories
 
     /// <summary>
     /// Repository for Comment.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public class CommentRepository : ICommentRepository, IDisposable
     {
@@ -91,6 +92,71 @@ namespace Interview.Repositories
             db.SaveChanges();
         }
 
+
+        /// <summary>
+        /// <summary>
+        /// Process the vote for the given comment Id.
+        /// </summary>
+        /// <param name="voteStatus">The vote status, either 1 or -1</param>
+        /// <param name="commentId">The comment Id for the voted comment</param>
+        /// <param name="userId">User id of the user that voted</param>
+        /// <returns>The processed vote score of the comment</returns>
+        public int ProcessCommentVote(int voteStatus, int commentId, string userId)
+        {
+            Comment comment = GetCommentById(commentId);
+            CommentVote userOriginalVote = null;
+            // check if the user already voted, and retrieve that vote if voted
+            foreach (var vote in comment.VoteList)
+            {
+                if (vote.VoteUserId == userId)
+                {
+                    userOriginalVote = vote;
+                    break;
+                }
+            }
+            if (userOriginalVote == null) // user haven't voted
+            {
+                CommentVote newVote = new CommentVote
+                {
+                    VoteUserId = userId,
+                    VoteStatus = voteStatus,
+                    CommentID = commentId
+                };
+                AddCommentVote(newVote);
+                comment.CurrentVote += voteStatus;
+            }
+            else // user voted
+            {
+                int originalVoteStatus = userOriginalVote.VoteStatus;
+                if (voteStatus == 1 && originalVoteStatus == 1) // cancel upvote
+                {
+                    DeleteCommentVote(userOriginalVote);
+                    comment.CurrentVote--;
+                }
+                else if (voteStatus == 1 && originalVoteStatus == -1) // switch to upvote
+                {
+                    userOriginalVote.VoteStatus = 1;
+                    UpdateCommentVote(userOriginalVote);
+                    comment.CurrentVote += 2;
+
+                }
+                else if (voteStatus == -1 && originalVoteStatus == 1) // switch to downvote
+                {
+                    userOriginalVote.VoteStatus = -1;
+                    UpdateCommentVote(userOriginalVote);
+                    comment.CurrentVote -= 2;
+                }
+                else if (voteStatus == -1 && originalVoteStatus == -1) // cancel downvote
+                {
+                    DeleteCommentVote(userOriginalVote);
+                    comment.CurrentVote++;
+                }
+
+            }
+            UpdateComment(comment);
+            return comment.CurrentVote;
+        }
+
         /// <summary>
         /// Add vote to a comment.
         /// </summary>
@@ -119,6 +185,38 @@ namespace Interview.Repositories
         {
             db.CommentVotes.Remove(vote);
             db.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Process the comment flag by either flag or unflag the comment for the given
+        /// user id.
+        /// </summary>
+        /// <param name="commentId">The comment id of the comment to process.</param>
+        /// <param name="userId">The user id of user that flag/unflag.</param>
+        /// <returns>Current flag status, either 1 for unflag or -1 for flag</returns>
+        public int ProcessCommentFlag(int commentId, string userId)
+        {
+            Comment comment = GetCommentById(commentId);
+            foreach (CommentFlag flag in comment.CommentFlags)
+            {
+                if (flag.FlaggedUserId == userId)
+                {
+                    DeleteCommentFlag(flag);
+                    comment.FlagPoint++;
+                    UpdateComment(comment);
+                    return 1;
+                }
+            }
+            CommentFlag commentFlag = new CommentFlag
+            {
+                FlaggedUserId = userId,
+                CommentID = comment.CommentID
+            };
+            AddCommentFlag(commentFlag);
+            comment.FlagPoint--;
+            UpdateComment(comment);
+            return -1;
         }
 
         /// <summary>

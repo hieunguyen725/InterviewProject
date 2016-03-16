@@ -8,6 +8,7 @@ namespace Interview.Models
 {
     /// <summary>
     /// Comment model.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public class Comment
     {

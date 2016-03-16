@@ -7,6 +7,10 @@ using System.Web.Mvc;
 
 namespace Interview.ViewModels
 {
+    /// <summary>
+    /// Post and Tag view model.
+    /// Author - Long Nguyen
+    /// </summary>
     public class PostTagViewModel
     {
         [Display(Name = "Title")]

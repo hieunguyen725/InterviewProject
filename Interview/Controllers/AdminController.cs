@@ -13,6 +13,7 @@ namespace Interview.Controllers
 
     /// <summary>
     /// Controller for admin.
+    /// Author - Hieu Nguyen
     /// </summary>
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller

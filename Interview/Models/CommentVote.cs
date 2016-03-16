@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// CommentVote model.
+    /// Author - Hieu Nguyen
     /// </summary>
     public class CommentVote
     {

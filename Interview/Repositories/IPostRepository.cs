@@ -9,6 +9,7 @@ namespace Interview.Repositories
 {
     /// <summary>
     /// Repository for Post.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public interface IPostRepository
     {
@@ -93,6 +94,15 @@ namespace Interview.Repositories
         IEnumerable<Post> GetLatestPosts();
 
         /// <summary>
+        /// Process the vote for the given post Id.
+        /// </summary>
+        /// <param name="voteStatus">The vote status, either 1 or -1</param>
+        /// <param name="postId">The post Id for the voted post</param>
+        /// <param name="userId">User id of the user that voted</param>
+        /// <returns>The processed vote score of the vote</returns>
+        int ProcessPostVote(int voteStatus, int postId, string userId);
+
+        /// <summary>
         /// Add vote to a post.
         /// </summary>
         /// <param name="vote">The vote.</param>
@@ -115,6 +125,15 @@ namespace Interview.Repositories
         /// </summary>
         /// <returns>Returns a list of posts.</returns>
         IEnumerable<Post> GetFlaggedPosts();
+
+        /// <summary>
+        /// Process the post flag by either flag or unflag the post for the given
+        /// user id.
+        /// </summary>
+        /// <param name="postId">The post id of the post to process.</param>
+        /// <param name="userId">The user id of user that flag/unflag.</param>
+        /// <returns>Current flag status, either 1 or -1</returns>
+        int ProcessPostFlag(int postId, string userId);
 
         /// <summary>
         /// Add a flag to a post.

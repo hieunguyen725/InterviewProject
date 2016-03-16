@@ -8,6 +8,7 @@ namespace Interview.Models
 
     /// <summary>
     /// CommentFlag model.
+    /// Author - Hieu Nguyen
     /// </summary>
     public class CommentFlag
     {

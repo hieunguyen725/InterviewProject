@@ -171,6 +171,8 @@
 
                 }
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
             <div #id="answers-form">
                 @using (Html.BeginForm("AddComment", "Comments", FormMethod.Post))
                 {
@@ -192,6 +194,7 @@
                     </div>
                 }
             </div>
+            }
             <p>
                 @if (ViewBag.userId == Model.User.Id)
                 {
@@ -223,8 +226,12 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customjs")
     <script>
-
-        CKEDITOR.replace("CommentContent");
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+             CKEDITOR.replace("CommentContent");
+            </text>
+        }
         $(function () {
 
             @if (!User.Identity.IsAuthenticated)

@@ -9,6 +9,7 @@ namespace Interview.Models
 {
     /// <summary>
     /// Tag model.
+    /// Author - Long Nguyen
     /// </summary>
     public class Tag
     {

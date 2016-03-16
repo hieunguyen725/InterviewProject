@@ -9,6 +9,7 @@ namespace Interview.Repositories
 
     /// <summary>
     /// Repository for Comment.
+    /// Author - Hieu Nguyen & Long Nguyen
     /// </summary>
     public interface ICommentRepository
     {
@@ -51,6 +52,16 @@ namespace Interview.Repositories
         void DeleteComment(Comment comment);
 
         /// <summary>
+        /// <summary>
+        /// Process the vote for the given comment Id.
+        /// </summary>
+        /// <param name="voteStatus">The vote status, either 1 or -1</param>
+        /// <param name="commentId">The comment Id for the voted comment</param>
+        /// <param name="userId">User id of the user that voted</param>
+        /// <returns>The processed vote score of the comment</returns>
+        int ProcessCommentVote(int voteStatus, int commentId, string userId);
+
+        /// <summary>
         /// Add vote to a comment.
         /// </summary>
         /// <param name="vote">The vote.</param>
@@ -67,6 +78,15 @@ namespace Interview.Repositories
         /// </summary>
         /// <param name="vote"></param>
         void DeleteCommentVote(CommentVote vote);
+
+        /// <summary>
+        /// Process the comment flag by either flag or unflag the comment for the given
+        /// user id.
+        /// </summary>
+        /// <param name="commentId">The comment id of the comment to process.</param>
+        /// <param name="userId">The user id of user that flag/unflag.</param>
+        /// <returns>Current flag status, either 1 or -1</returns>
+        int ProcessCommentFlag(int commentId, string userId);
 
         /// <summary>
         /// Add a flag to a comment.

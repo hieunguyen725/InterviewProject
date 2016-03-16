@@ -10,6 +10,7 @@ namespace Interview.Models
 {
     /// <summary>
     /// Post model.
+    /// Authors - Hieu Nguyen & Long Nguyen
     /// </summary>
     public class Post
     {
