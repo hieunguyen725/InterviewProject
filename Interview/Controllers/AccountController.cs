@@ -355,7 +355,14 @@ namespace Interview.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Posts");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -389,7 +396,7 @@ namespace Interview.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -397,7 +404,16 @@ namespace Interview.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+
+                        UserProfile up = new UserProfile()
+                        {
+                            UserId = user.Id,
+                            Username = model.UserName,
+                            AboutMe = model.UserName + " is a ninja."
+                        };
+                        _userRepo.AddUserProfile(up);
+
+                        return RedirectToAction("Index", "Posts");
                     }
                 }
                 AddErrors(result);

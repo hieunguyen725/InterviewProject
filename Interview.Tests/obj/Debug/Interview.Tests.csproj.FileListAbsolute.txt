@@ -533,3 +533,7 @@ C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview.Tests\bin\Debug\M
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview.Tests\obj\Debug\Interview.Tests.csprojResolveAssemblyReference.cache
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview.Tests\obj\Debug\Interview.Tests.dll
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview.Tests\obj\Debug\Interview.Tests.pdb
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Google.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Google.xml
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.xml

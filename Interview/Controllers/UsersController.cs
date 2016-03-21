@@ -15,6 +15,7 @@ namespace Interview.Controllers
     /// Controller for users.
     /// Author - Long Nguyen
     /// </summary>
+    [RequireHttps]
     public class UsersController : Controller
     {
         /// <summary>

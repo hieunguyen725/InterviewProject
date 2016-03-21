@@ -54,15 +54,15 @@ namespace Interview
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "558990717604333",
+               appSecret: "bd7ec79e48a6c30a5630867f395c2a5f");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "559202800169-f4fo98qun0fetiplpneviuinef093kcv.apps.googleusercontent.com",
+                ClientSecret = "IXSdhi44O3U0-O5v0LDFQO7E"
+            });
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Interview.Controllers
     /// Authors - Hieu Nguyen & Long Nguyen
     /// </summary>
     [Authorize]
+    [RequireHttps]
     public class CommentsController : Controller
     {
         /// <summary>
