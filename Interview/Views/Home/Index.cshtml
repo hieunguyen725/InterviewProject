@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="background-color:#002E56; width:100%; padding-bottom:3%; color:#fff;">
+    <div class="container">
+        <h3>Welcome to Interview Questions!</h3>
+        <p>Interview Questions is a place where you can post or answer an interview question that is related to Computer Science or related fields.</p>
+        <a href="#" class="btn">Help us improve our website</a>
+        <a href="@Url.Action("Register", "Account")" class="btn">Join Now</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h4>Latest Posts</h4>
+            <hr />
+            @Html.Action("LatestPosts", "Posts")
+        </div>
+        <div class="col-sm-4">
+            <h4>Hottest Posts</h4>
+            <hr />
+            @Html.Action("TopPosts", "Posts")
+        </div>
+    </div>
+</div>
+

@@ -17,10 +17,11 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                @Html.ActionLink("Interview Questions", "Index", "Posts", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Interview Questions", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
                     @if (User.Identity.IsAuthenticated)
                     {

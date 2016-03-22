@@ -180,6 +180,17 @@ namespace Interview.Controllers
         }
 
         /// <summary>
+        /// Return a list of posts that have the the most votes.
+        /// </summary>
+        /// <returns>Returns a partial view of hottest posts.</returns>
+        [AllowAnonymous]
+        public ActionResult TopPosts()
+        {
+            var model = repo.GetTopPosts().Take(10);
+            return PartialView("_TopPosts", model);
+        }
+
+        /// <summary>
         /// This tags action returns a list of posts that have the tag
         /// that matches the tag search term.
         /// </summary>
