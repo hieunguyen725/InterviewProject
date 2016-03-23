@@ -18,7 +18,7 @@ namespace Interview.ViewModels
         /* Post's related fields*/
         public int PostID { get; set; }
 
-        public DateTime?  CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ApplicationUser User { get; set; }
 

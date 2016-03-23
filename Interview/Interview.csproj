@@ -239,6 +239,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\CustomHtmlHelper.cs" />
     <Compile Include="Infrastructure\ConstantHelper.cs" />
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
     <Compile Include="Models\CommentFlag.cs" />

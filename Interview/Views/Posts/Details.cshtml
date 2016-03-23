@@ -1,4 +1,5 @@
 ﻿@model Interview.ViewModels.PostAnswerViewModel
+@using Interview.HtmlHelpers
 @{
     ViewBag.Title = "Details";
     var postContent = Model.PostContent;
@@ -8,7 +9,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<div class="container">
+<div class="container content">
     <div class="row">
         <div class="col-xs-1">
             <br />
@@ -53,7 +54,7 @@
                 <h4>@Html.DisplayFor(model => model.PostTitle)</h4>
                 <p>@Html.Raw(postContent)</p>
                 <div class="post-info">
-                    <p class="post-createdat">Posted on @Html.DisplayFor(model => model.CreatedAt)</p>
+                    <p class="post-createdat">@Html.TimeAgo(Model.CreatedAt)</p>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <text>
@@ -128,7 +129,7 @@
                             <div>
                                 <p>@Html.Raw(comment.CommentContent)</p>
                                 <div class="post-info">
-                                    <p class="post-createdat">Commented on @comment.CreatedAt</p>
+                                    <p class="post-createdat">@Html.TimeAgo(comment.CreatedAt)</p>
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <p class="post-createdat">

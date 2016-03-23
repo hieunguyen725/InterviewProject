@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<Interview.Models.Post>
 @using PagedList.Mvc;
+@using Interview.HtmlHelpers
 
 @for (int i = 0; i < Model.Count(); i++)
 {
@@ -15,7 +16,7 @@
                                 </a>
                             </h6>
                             <div class="post-info">
-                                <p class="post-createdat">Posted on @Model.ElementAt(i).CreatedAt.ToShortDateString() at @Model.ElementAt(i).CreatedAt.ToShortTimeString()</p>
+                                <p class="post-createdat">@Html.TimeAgo(Model.ElementAt(i).CreatedAt) </p>
                                 <p class="post-username">
                                     By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
                                         @Html.DisplayFor(m => m.ElementAt(i).User.UserName)

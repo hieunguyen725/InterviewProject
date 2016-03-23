@@ -4,31 +4,33 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="content">
+    <div class="row hidden-lg">
+        <div class="col-sm-offset-4 col-sm-4">
+            @Html.ActionLink("New Post", "Create", "Posts", new { @class = "btn btn-primary" })
+        </div>
+    </div>
 
-<div class="row hidden-lg">
-    <div class="col-sm-offset-4 col-sm-4">
-        @Html.ActionLink("New Post", "Create", "Posts", new { @class = "btn btn-primary" })
+    <div class="row">
+        <div class="col-lg-offset-3 col-lg-6">
+            @Html.Partial("_FilterOptions")
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-lg-8">
+            <hr id="filter-hr" />
+        </div>
+    </div>
 
-<div class="row">
-    <div class="col-lg-offset-3 col-lg-6">
-        @Html.Partial("_FilterOptions")
+    <div class="row">
+        <div class="col-md-12 col-lg-9" id="post-list">
+            @Html.Action("Filter", "Posts")
+        </div>
+        <div class="col-lg-2 hidden-md hidden-sm hidden-xs">
+            @Html.Partial("_SideBar")
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-offset-1 col-lg-8">
-        <hr id="filter-hr" />
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12 col-lg-9" id="post-list">
-        @Html.Action("Filter", "Posts")
-    </div>
-    <div class="col-lg-2 hidden-md hidden-sm hidden-xs">
-        @Html.Partial("_SideBar")
-    </div>
 </div>
 
 @section Scripts{
