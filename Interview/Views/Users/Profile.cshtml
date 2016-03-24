@@ -1,4 +1,5 @@
 ﻿@model Interview.Models.UserProfile
+@using Interview.HtmlHelpers
 
 @{
     ViewBag.Title = "Profile";
@@ -8,14 +9,27 @@
     <div class="row" id="userprofile-info">
         <div class="col-md-offset-1 col-md-9">
             <div id="userprofile-info-about">
-                <h5>About @Model.Username @if (ViewBag.isCurrentUser)
-                {
-                    <button class="label label-default">@Html.ActionLink("Edit your profile", "UpdateProfile", "Users")</button>
-                }</h5>
-                <hr />
-                <p>
-                    @Model.AboutMe
-                </p>
+                <div class="row">
+                    <div class="col-sm-2">
+
+                        @if (Model.IdentIcon != null)
+                        {
+                            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.IdentIcon))" />
+                        }
+                    </div>
+                    <div class="col-sm-9">
+                        <h5>
+                            About @Model.Username @if (ViewBag.isCurrentUser)
+                            {
+                                <button class="label label-default">@Html.ActionLink("Edit your profile", "UpdateProfile", "Users")</button>
+                            }
+                        </h5>
+                        <hr />
+                        <p>
+                            @Model.AboutMe
+                        </p>
+                    </div>
+                </div>               
             </div>
             <h5>Connect with @Model.Username</h5>
             <hr />
@@ -44,4 +58,3 @@
 
 
 </div>
-

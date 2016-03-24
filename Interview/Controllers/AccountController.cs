@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Interview.Models;
 using Interview.Repositories;
+using Devcorner.NIdenticon;
+using System.IO;
+using System.Drawing;
 
 namespace Interview.Controllers
 {
@@ -178,11 +181,17 @@ namespace Interview.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    var g = new IdenticonGenerator()
+                                    .WithSize(96, 96)
+                                    .WithBlocks(6, 6)
+                                    .WithBlockGenerators(IdenticonGenerator.ExtendedBlockGeneratorsConfig);
+                    var bitmap = g.Create(model.UserName);
                     UserProfile up = new UserProfile()
                     {
                         UserId = user.Id,
                         Username = model.UserName,
-                        AboutMe = model.UserName + " is a ninja."
+                        AboutMe = model.UserName + " is a ninja.",
+                        IdentIcon = BitmapToBytes(bitmap)
                     };
                     _userRepo.AddUserProfile(up);
                     return RedirectToAction("Index", "Posts");
@@ -405,11 +414,17 @@ namespace Interview.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                        var g = new IdenticonGenerator()
+                                    .WithSize(96, 96)
+                                    .WithBlocks(6, 6)
+                                    .WithBlockGenerators(IdenticonGenerator.ExtendedBlockGeneratorsConfig);
+                        var bitmap = g.Create(model.UserName);
                         UserProfile up = new UserProfile()
                         {
                             UserId = user.Id,
                             Username = model.UserName,
-                            AboutMe = model.UserName + " is a ninja."
+                            AboutMe = model.UserName + " is a ninja.",
+                            IdentIcon = BitmapToBytes(bitmap)
                         };
                         _userRepo.AddUserProfile(up);
 
@@ -516,6 +531,15 @@ namespace Interview.Controllers
                     properties.Dictionary[XsrfKey] = UserId;
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+
+        private byte[] BitmapToBytes(Bitmap bm)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bm.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
             }
         }
         #endregion

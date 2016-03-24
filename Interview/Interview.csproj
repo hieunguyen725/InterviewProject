@@ -93,6 +93,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NIdenticon, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NIdenticon.1.2.1.0\lib\net35-client\NIdenticon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
@@ -242,6 +246,15 @@
     <Compile Include="HtmlHelpers\CustomHtmlHelper.cs" />
     <Compile Include="Infrastructure\ConstantHelper.cs" />
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
+    <Compile Include="Migrations\201603040207206_InitialCreate.cs" />
+    <Compile Include="Migrations\201603040207206_InitialCreate.Designer.cs">
+      <DependentUpon>201603040207206_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603240944457_AddedIdenticon.cs" />
+    <Compile Include="Migrations\201603240944457_AddedIdenticon.Designer.cs">
+      <DependentUpon>201603240944457_AddedIdenticon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommentFlag.cs" />
     <Compile Include="Models\CommentVote.cs" />
     <Compile Include="Models\PostFlag.cs" />
@@ -656,6 +669,14 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603040207206_InitialCreate.resx">
+      <DependentUpon>201603040207206_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603240944457_AddedIdenticon.resx">
+      <DependentUpon>201603240944457_AddedIdenticon.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

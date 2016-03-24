@@ -65,7 +65,7 @@ namespace Interview.Repositories
             for(int i = 0; i < tags.Count(); i++)
             {
                 var tagName = tags.ElementAt(i);
-                Tag temp = db.Tags.SingleOrDefault(t => t.TagName == tagName);
+                Tag temp = db.Tags.FirstOrDefault(t => t.TagName == tagName);
                 temp.Posts.Add(post);
             }
             db.SaveChanges();

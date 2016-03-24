@@ -537,3 +537,5 @@ C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsof
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Google.xml
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.dll
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\NIdenticon.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview.Tests\bin\Debug\NIdenticon.xml

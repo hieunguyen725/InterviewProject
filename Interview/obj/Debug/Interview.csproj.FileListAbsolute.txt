@@ -748,3 +748,8 @@ C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\bin\Microsoft.Owi
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\obj\Debug\Interview.csprojResolveAssemblyReference.cache
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\obj\Debug\Interview.dll
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\obj\Debug\Interview.pdb
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\NIdenticon.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\NIdenticon.xml
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.InitialCreate.resources
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.csproj.GenerateResource.Cache
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.AddedIdenticon.resources

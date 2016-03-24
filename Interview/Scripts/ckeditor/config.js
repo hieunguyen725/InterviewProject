@@ -101,7 +101,9 @@ CKEDITOR.editorConfig = function( config ) {
 	    theme: 'textmate',
 
 	    // Tab indentation (in spaces)
-	    tab_size: '4'
+	    tab_size: '4',
+
+	    js : "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/"
 	};
 
 

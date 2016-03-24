@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -60,5 +61,10 @@ namespace Interview.Models
         /// User's website.
         /// </summary>
         public string WebsiteLink { get; set; }
+
+        /// <summary>
+        /// User's image.
+        /// </summary>
+        public byte[] IdentIcon { get; set; }
     }
 }

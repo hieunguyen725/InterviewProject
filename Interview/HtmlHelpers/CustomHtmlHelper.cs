@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Web.Mvc;
 
 namespace Interview.HtmlHelpers
@@ -27,5 +28,6 @@ namespace Interview.HtmlHelpers
                 return ts.Days > 365 ? String.Format("{0} years ago", ts.Days / 365) : "a year ago";
             
         }
+
     }
 }
