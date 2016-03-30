@@ -17,11 +17,11 @@
                             </h6>
                             <div class="post-info">
                                 <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(Model.ElementAt(i).CreatedAt) </p>
-                                @*<p class="post-username">
+                                <p class="post-username">
                                     By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
                                         @Html.DisplayFor(m => m.ElementAt(i).User.UserName)
                                     </a>                                    
-                                </p>*@
+                                </p>
                             </div>
                             <div class="clearfix"></div>
                             <hr />
@@ -58,19 +58,7 @@
                         <div class="col-lg-1 vote-area hidden-md hidden-sm hidden-xs">
                             <div class="vote-content row" data-toggle="tooltip" title="Votes">
                                 @Model.ElementAt(i).CurrentVote
-                            </div>
-                            <div class="row">
-                                    <p style="font-size:0.8em; margin-top:5px;margin-bottom:1px;">
-                                        By <a data-toggle="tooltip" title="@Model.ElementAt(i).User.UserName's profile" href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
-                                            @Html.DisplayFor(m => m.ElementAt(i).User.UserName)
-
-                                               @if (Model.ElementAt(i).User.UserProfile.IdentIcon != null)
-                                               {
-                                                   <img style="width:50%" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ElementAt(i).User.UserProfile.IdentIcon))" />
-                                               } 
-                                        </a>
-                                    </p>                             
-                            </div>
+                            </div>            
                         </div>
                     </div>
                 </div>

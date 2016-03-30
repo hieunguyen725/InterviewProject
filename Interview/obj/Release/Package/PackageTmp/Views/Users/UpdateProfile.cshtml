@@ -1,0 +1,82 @@
+﻿@model Interview.Models.UserProfile
+
+@{
+    ViewBag.Title = "Update Profile";
+}
+
+<div class="container">
+    @using (Html.BeginForm("UpdateProfile", "Users", FormMethod.Post, new { role="form", @class="form-horizontal"}))
+    {
+        @Html.AntiForgeryToken();
+        @Html.HiddenFor(m=>m.UserId)
+        @Html.HiddenFor(m=>m.Username)
+        @Html.HiddenFor(m=>m.IdentIcon)
+        <div class="row">
+            <h5>Tell us about yourself</h5>
+            <hr />
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-10">
+                    @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control", @rows="5"} })
+                    @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h5>Social</h5>
+            <hr />
+            <div class="col-sm-offset-1 col-sm-5">
+                <div class="form-group col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-facebook-official"></i></span>
+                        @Html.EditorFor(model => model.FacebookLink, new { htmlAttributes = new { @class = "form-control", @placeholder = "Facebook link" } })
+                        @Html.ValidationMessageFor(model => model.FacebookLink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-twitter-square"></i></span>
+                        @Html.EditorFor(model => model.TwitterLink, new { htmlAttributes = new { @class = "form-control", @placeholder = "Twitter link" } })
+                        @Html.ValidationMessageFor(model => model.TwitterLink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-offset-1 col-sm-5">
+                <div class="form-group col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                        @Html.EditorFor(model => model.WebsiteLink, new { htmlAttributes = new { @class = "form-control", @placeholder = "Website link" } })
+                        @Html.ValidationMessageFor(model => model.WebsiteLink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-linkedin-square"></i></span>
+                        @Html.EditorFor(model => model.LinkedInLink, new { htmlAttributes = new { @class = "form-control", @placeholder = "LinkedIn" } })
+                        @Html.ValidationMessageFor(model => model.LinkedInLink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-offset-1 col-sm-5">
+                <div class="form-group col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-github-square"></i></span>
+                        @Html.EditorFor(model => model.GitHubLink, new { htmlAttributes = new { @class = "form-control", @placeholder = "GitHub" } })
+                        @Html.ValidationMessageFor(model => model.GitHubLink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-4">
+                <button type="submit" class="btn btn-default form-control"><i class="fa fa-pencil"></i> Edit</button>
+            </div>
+        </div>
+
+    }
+
+</div>
+

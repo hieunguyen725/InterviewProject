@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<Interview.Models.Post>
+@using PagedList.Mvc;
+@using Interview.HtmlHelpers
+
+@for (int i = 0; i < Model.Count(); i++)
+{
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-2">
+            <div class="Post">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="col-lg-11">
+                            <h6>
+                                <a class="post-title" href="@Url.Action("Details", "Posts", new { id = Model.ElementAt(i).PostID})">
+                                    @Html.DisplayFor(m => m.ElementAt(i).PostTitle)
+                                </a>
+                            </h6>
+                            <div class="post-info">
+                                <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(Model.ElementAt(i).CreatedAt) </p>
+                                @*<p class="post-username">
+                                    By <a href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
+                                        @Html.DisplayFor(m => m.ElementAt(i).User.UserName)
+                                    </a>                                    
+                                </p>*@
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="tags" style="float:left">
+                                <i class="fa fa-tags"></i>
+                                @foreach (var tag in Model.ElementAt(i).Tags)
+                                {
+                                    <span class="label label-primary tag" data-toggle="tooltip" title="@tag.TagName">
+                                        <a href="@Url.Action("Tags", "Posts", new { tag = @tag.TagName })">
+                                            @tag.TagName
+                                        </a>
+                                    </span>
+                                }
+                            </div>
+                            <div class="view-answer-info" style="float:right;">
+                                <div class="badge" data-toggle="tooltip" title="Views">
+                                    @Html.DisplayFor(m => m.ElementAt(i).ViewCount)
+                                    <i class="fa fa-eye"></i>
+                                </div>
+                                <div class="badge" data-toggle="tooltip" title="Comments">
+                                    @Html.DisplayFor(m => m.ElementAt(i).Comments.Count)
+                                    <i class="fa fa-comments-o"></i> <br />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <p class="sm-text" id="posts-index-edit-delete">
+                                @if (ViewBag.userId == Model.ElementAt(i).UserID)
+                                {
+                                    <text>@Html.ActionLink("Edit |", "Edit", new { controller = "Posts", id = Model.ElementAt(i).PostID })</text>
+                                    <text>@Html.ActionLink("Delete", "Delete", new { controller = "Posts", id = Model.ElementAt(i).PostID })</text>
+                                }
+                            </p>
+                        </div>
+                        <div class="col-lg-1 vote-area hidden-md hidden-sm hidden-xs">
+                            <div class="vote-content row" data-toggle="tooltip" title="Votes">
+                                @Model.ElementAt(i).CurrentVote
+                            </div>
+                            <div class="row">
+                                    <p style="font-size:0.8em; margin-top:5px;margin-bottom:1px;">
+                                        By <a data-toggle="tooltip" title="@Model.ElementAt(i).User.UserName's profile" href="@Url.Action("Profile","Users", new { username = Model.ElementAt(i).User.UserName })">
+                                            @Html.DisplayFor(m => m.ElementAt(i).User.UserName)
+
+                                               @if (Model.ElementAt(i).User.UserProfile.IdentIcon != null)
+                                               {
+                                                   <img style="width:50%" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ElementAt(i).User.UserProfile.IdentIcon))" />
+                                               } 
+                                        </a>
+                                    </p>                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<div class="col-md-offset-2 col-md-10">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { ViewBag.query, page, size = Model.PageSize }))
+</div>

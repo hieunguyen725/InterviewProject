@@ -753,3 +753,4 @@ C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\NIdenticon.xml
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.InitialCreate.resources
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.csproj.GenerateResource.Cache
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.AddedIdenticon.resources
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Elmah.dll

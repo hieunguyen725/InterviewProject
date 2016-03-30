@@ -1,0 +1,24 @@
+﻿<div id="side-bar">
+    <div class="row">
+        <div class="top-btn-group">
+            @Html.ActionLink("Create a new post", "Create", "Posts", null, new { @class = "btn btn-primary btn-sm" })
+        </div>
+        @using (Html.BeginForm("Search", "Posts", new { @class = "form-inline" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Editor("search")
+            @Html.ValidationMessage("search")
+            <button class="btn btn-default btn-sm" type="submit">Search</button>
+        }
+    </div>
+    <div class="row" id="latest-post">
+        <h6>Lastest Posts</h6>
+        <hr />
+        @Html.Action("LatestPosts", "Posts")
+    </div>
+    <div class="row" id="popular-tags">
+        <h6>Most Popular Tags</h6>
+        <hr />
+        @Html.Action("TopTags", "Posts")
+    </div>
+</div>
