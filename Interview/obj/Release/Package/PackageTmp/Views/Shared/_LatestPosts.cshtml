@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Interview.Models.Post>
+
+@foreach (var post in Model)
+{
+    <a href="@Url.Action("Details", "Posts", new { id = post.PostID })"><p>@post.PostTitle</p></a>
+}

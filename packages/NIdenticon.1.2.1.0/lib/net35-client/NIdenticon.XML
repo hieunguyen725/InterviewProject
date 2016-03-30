@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NIdenticon</name>
+    </assembly>
+    <members>
+        <member name="T:Devcorner.NIdenticon.IdenticonGenerator">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

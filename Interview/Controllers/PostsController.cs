@@ -80,7 +80,7 @@ namespace Interview.Controllers
         [HttpGet]
         public JsonResult GetTags()
         {
-            var tags = (List<Tag>)repo.GetTags();
+            var tags = (List<Tag>)repo.GetTags().ToList();
             // Serializer doesn't like circular reference so I have
             // to return only what the view needs.           
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
@@ -98,7 +98,7 @@ namespace Interview.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tags = (List<Tag>)repo.GetTagsByPostID(id);
+            var tags = (List<Tag>)repo.GetTagsByPostID(id).ToList();
             // Serializer doesn't like circular reference so I have
             // to return only what the view needs.
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
@@ -111,7 +111,7 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult TopTags()
         {
-            return PartialView("_TopTags", repo.GetTopTags());
+            return PartialView("_TopTags", repo.GetTopTags().ToList());
         }
 
         /// <summary>
@@ -176,6 +176,17 @@ namespace Interview.Controllers
             PagedList<Post> pagedModel = new PagedList<Post>
                 (posts, page, size);
             return PartialView("_Posts", pagedModel);
+        }
+
+        /// <summary>
+        /// Return a list of posts that have the the most votes.
+        /// </summary>
+        /// <returns>Returns a partial view of hottest posts.</returns>
+        [AllowAnonymous]
+        public ActionResult TopPosts()
+        {
+            var model = repo.GetTopPosts().Take(10);
+            return PartialView("_TopPosts", model);
         }
 
         /// <summary>

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Interview.Models.Tag>
+
+@foreach (var tag in Model)
+{
+    <span class="label label-primary tag-label tag" data-toggle="tooltip" title="@tag.TagName">
+        <a href="@Url.Action("Tags", "Posts", new { tag = @tag.TagName })">
+            @tag.TagName &nbsp; <span style="color:#002e56">@tag.Posts.Count()</span>
+        </a>
+    </span>
+}
+

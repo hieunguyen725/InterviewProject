@@ -24,10 +24,6 @@ namespace Interview
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/customjs").Include(
-                "~/Scripts/ckeditor/ckeditor.js"
-                ));
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootflat.css",

@@ -15,7 +15,7 @@ namespace Interview
         protected void Application_Start()
         {
 
-            Database.SetInitializer(new InterviewDbInitializer());
+            //Database.SetInitializer(new InterviewDbInitializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

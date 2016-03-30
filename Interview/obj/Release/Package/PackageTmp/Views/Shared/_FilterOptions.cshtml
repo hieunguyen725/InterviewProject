@@ -1,0 +1,24 @@
+﻿<ul id="filter">
+    <li class="filter-active">
+        @Ajax.ActionLink("All", "Filter", null, new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id = "filter-all" })
+    </li>
+    <li>
+        @Ajax.ActionLink("Top", "Filter", new { filter = "topPosts" }, new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id = "filter-top" })
+    </li>
+    <li>
+        @Ajax.ActionLink("Latest", "Filter", new { filter = "latestPosts" }, new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "post-list"
+           }, new { id = "filter-latest" })
+    </li>
+</ul>
+<div class="clearfix"></div>

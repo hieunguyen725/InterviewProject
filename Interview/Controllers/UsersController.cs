@@ -87,7 +87,7 @@ namespace Interview.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateProfile([Bind(Include = "UserID,Username,AboutMe,FacebookLink,TwitterLink,WebsiteLink,LinkedInLink,GitHubLink")]
+        public ActionResult UpdateProfile([Bind(Include = "UserID,Username,AboutMe,FacebookLink,TwitterLink,WebsiteLink,LinkedInLink,GitHubLink,IdentIcon")]
                                            UserProfile user)
         {
             if (ModelState.IsValid)

@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Interview.Models;
 using Interview.Repositories;
+using Devcorner.NIdenticon;
+using System.IO;
+using System.Drawing;
 
 namespace Interview.Controllers
 {
@@ -178,11 +181,17 @@ namespace Interview.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    var g = new IdenticonGenerator()
+                                    .WithSize(96, 96)
+                                    .WithBlocks(6, 6)
+                                    .WithBlockGenerators(IdenticonGenerator.ExtendedBlockGeneratorsConfig);
+                    var bitmap = g.Create(model.UserName);
                     UserProfile up = new UserProfile()
                     {
                         UserId = user.Id,
                         Username = model.UserName,
-                        AboutMe = model.UserName + " is a ninja."
+                        AboutMe = model.UserName + " is a ninja.",
+                        IdentIcon = BitmapToBytes(bitmap)
                     };
                     _userRepo.AddUserProfile(up);
                     return RedirectToAction("Index", "Posts");
@@ -355,7 +364,14 @@ namespace Interview.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Posts");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -389,7 +405,7 @@ namespace Interview.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -397,7 +413,22 @@ namespace Interview.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+
+                        var g = new IdenticonGenerator()
+                                    .WithSize(96, 96)
+                                    .WithBlocks(6, 6)
+                                    .WithBlockGenerators(IdenticonGenerator.ExtendedBlockGeneratorsConfig);
+                        var bitmap = g.Create(model.UserName);
+                        UserProfile up = new UserProfile()
+                        {
+                            UserId = user.Id,
+                            Username = model.UserName,
+                            AboutMe = model.UserName + " is a ninja.",
+                            IdentIcon = BitmapToBytes(bitmap)
+                        };
+                        _userRepo.AddUserProfile(up);
+
+                        return RedirectToAction("Index", "Posts");
                     }
                 }
                 AddErrors(result);
@@ -500,6 +531,15 @@ namespace Interview.Controllers
                     properties.Dictionary[XsrfKey] = UserId;
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+
+        private byte[] BitmapToBytes(Bitmap bm)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bm.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
             }
         }
         #endregion

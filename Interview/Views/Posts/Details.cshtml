@@ -1,4 +1,5 @@
 ﻿@model Interview.ViewModels.PostAnswerViewModel
+@using Interview.HtmlHelpers
 @{
     ViewBag.Title = "Details";
     var postContent = Model.PostContent;
@@ -8,7 +9,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<div class="container">
+<div class="container content">
     <div class="row">
         <div class="col-xs-1">
             <br />
@@ -53,7 +54,7 @@
                 <h4>@Html.DisplayFor(model => model.PostTitle)</h4>
                 <p>@Html.Raw(postContent)</p>
                 <div class="post-info">
-                    <p class="post-createdat">Posted on @Html.DisplayFor(model => model.CreatedAt)</p>
+                    <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(Model.CreatedAt)</p>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <text>
@@ -75,7 +76,11 @@
                 <p class="post-username">
                     By <a href="@Url.Action("Profile", "Users", new { username= Model.User.UserName})">
                         @Html.DisplayFor(m => m.User.UserName)
-                    </a>
+                           @if (Model.User.UserProfile.IdentIcon != null)
+                           {
+                               <img style="width:20%;" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.User.UserProfile.IdentIcon))" />
+                           }
+                    </a>                    
                 </p>
             </div>
             <div class="clearfix"></div>
@@ -128,11 +133,11 @@
                             <div>
                                 <p>@Html.Raw(comment.CommentContent)</p>
                                 <div class="post-info">
-                                    <p class="post-createdat">Commented on @comment.CreatedAt</p>
+                                    <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(comment.CreatedAt)</p>
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <p class="post-createdat">
-                                            &nbsp; &nbsp; &nbsp;
+                                            &nbsp; &nbsp;
                                         <text>
                                      @Ajax.ActionLink(comment.UserFlagStatus, "ProcessCommentFlag", "Comments", new { commentId = comment.CommentID },
                                      new AjaxOptions
@@ -224,12 +229,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/customjs")
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
     <script>
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-             CKEDITOR.replace("CommentContent");
+            CKEDITOR.replace("CommentContent");
             </text>
         }
         $(function () {
