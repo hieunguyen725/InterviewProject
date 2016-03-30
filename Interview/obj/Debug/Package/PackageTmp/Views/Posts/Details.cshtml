@@ -1,0 +1,289 @@
+﻿@model Interview.ViewModels.PostAnswerViewModel
+@using Interview.HtmlHelpers
+@{
+    ViewBag.Title = "Details";
+    var postContent = Model.PostContent;
+}
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<div class="container content">
+    <div class="row">
+        <div class="col-xs-1">
+            <br />
+            <div>
+                @Ajax.ActionLink(" ", "ProcessPostVote", "Posts", new { voteStatus = 1, postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 UpdateTargetId = "vote-point",
+                 InsertionMode = InsertionMode.Replace,
+                 OnSuccess = "changeArrowColor('" + "Post-" + Model.PostID + "', '" + 1 + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-up",
+                 @class = "vote-link glyphicon glyphicon-triangle-top",
+                 @style = "text-decoration: none; color: " + Model.UpArrowColor,
+                 @type = "button"
+             })
+            </div>
+            <div>
+                <h5 id="vote-point">&nbsp;@Model.CurrentVote</h5>
+            </div>
+            <div>
+                @Ajax.ActionLink(" ", "ProcessPostVote", "Posts", new { voteStatus = -1, postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 UpdateTargetId = "vote-point",
+                 InsertionMode = InsertionMode.Replace,
+                 OnSuccess = "changeArrowColor('" + "Post-" + Model.PostID + "', '" + -1 + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-down",
+                 @class = "vote-link glyphicon glyphicon-triangle-bottom",
+                 @style = "text-decoration: none; color: " + Model.DownArrowColor,
+                 @type = "button"
+             })
+            </div>
+        </div>
+        <div class="col-xs-10 col-sm-8">
+            <div>
+                <h4>@Html.DisplayFor(model => model.PostTitle)</h4>
+                <p>@Html.Raw(postContent)</p>
+                <div class="post-info">
+                    <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(Model.CreatedAt)</p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <text>
+                            <p class="post-createdat">
+                                &nbsp; &nbsp; &nbsp;
+                                @Ajax.ActionLink(Model.UserFlagStatus, "ProcessPostFlag", "Posts", new { postId = Model.PostID },
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 OnSuccess = "changeFlagStatus('" + "Post-" + Model.PostID + "-PostFlag" + "')"
+             }, new
+             {
+                 id = "Post-" + Model.PostID + "-PostFlag",
+             })
+                        </text>
+                    }
+
+                </p>
+                <p class="post-username">
+                    By <a href="@Url.Action("Profile", "Users", new { username= Model.User.UserName})">
+                        @Html.DisplayFor(m => m.User.UserName)
+                           @if (Model.User.UserProfile.IdentIcon != null)
+                           {
+                               <img style="width:20%;" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.User.UserProfile.IdentIcon))" />
+                           }
+                    </a>                    
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <hr />
+        </div>
+        <div id="answers">
+            <div id="answers-content">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <br />
+                            <div>
+                                @Ajax.ActionLink(" ", "ProcessCommentVote", "Comments", new { voteStatus = 1, commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         UpdateTargetId = "comment-vote-point-" + comment.CommentID,
+                                         InsertionMode = InsertionMode.Replace,
+                                         OnSuccess = "changeArrowColor('" + "Comment-" + comment.CommentID + "', '" + 1 + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + comment.CommentID + "-up",
+                                         @class = "vote-link glyphicon glyphicon-triangle-top",
+                                         @style = "text-decoration: none; color: " + comment.UpArrowColor,
+                                         @type = "button"
+                                     })
+                            </div>
+                            <div>
+                                <h5 id="comment-vote-point-@comment.CommentID">&nbsp;@comment.CurrentVote</h5>
+                            </div>
+                            <div>
+                                @Ajax.ActionLink(" ", "ProcessCommentVote", "Comments", new { voteStatus = -1, commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         UpdateTargetId = "comment-vote-point-" + comment.CommentID,
+                                         InsertionMode = InsertionMode.Replace,
+                                         OnSuccess = "changeArrowColor('" + "Comment-" + comment.CommentID + "', '" + -1 + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + comment.CommentID + "-down",
+                                         @class = "vote-link glyphicon glyphicon-triangle-bottom",
+                                         @style = "text-decoration: none; color: " + comment.DownArrowColor,
+                                         @type = "button"
+                                     })
+                            </div>
+                        </div>
+                        <div class="col-xs-10">
+                            <div>
+                                <p>@Html.Raw(comment.CommentContent)</p>
+                                <div class="post-info">
+                                    <p class="post-createdat"><i class="fa fa-clock-o"></i> @Html.TimeAgo(comment.CreatedAt)</p>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <p class="post-createdat">
+                                            &nbsp; &nbsp;
+                                        <text>
+                                     @Ajax.ActionLink(comment.UserFlagStatus, "ProcessCommentFlag", "Comments", new { commentId = comment.CommentID },
+                                     new AjaxOptions
+                                     {
+                                         HttpMethod = "GET",
+                                         OnSuccess = "changeFlagStatus('" + "Comment-" + comment.CommentID + "-CommentFlag" + "')"
+                                     }, new
+                                     {
+                                         id = "Comment-" + comment.CommentID + "-CommentFlag",
+                                     })
+                                        </text>
+                                            </p>
+                                    }
+                                    <p class="post-username">
+                                        By <a href="@Url.Action("Profile", "Users", new { username=@comment.User.UserName})">
+                                            @comment.User.UserName
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div>
+                                @if (ViewBag.userId == comment.UserID)
+                                {
+                                    <text>
+                                        @Html.ActionLink("Edit", "Edit", "Comments", new { id = comment.CommentID }, null) |
+                                        @Html.ActionLink("Delete", "Delete", "Comments", new { id = comment.CommentID }, null)
+                                    </text>
+
+                                }
+                            </div>
+
+                            <hr />
+                        </div>
+                    </div>
+
+                }
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+            <div #id="answers-form">
+                @using (Html.BeginForm("AddComment", "Comments", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-md-10">
+                                @Html.EditorFor(model => model.CommentContent, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.PostID)
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-8">
+                                <input type="submit" value="Comment" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+            <p>
+                @if (ViewBag.userId == Model.User.Id)
+                {
+                    <text>@Html.ActionLink("Edit", "Edit", new { id = Model.PostID }) |</text>
+                }
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-3 hidden-md hidden-sm hidden-xs">
+        <div class="row">
+            <h6>Lastest Posts</h6>
+            <hr />
+            @Html.Action("LatestPosts", "Posts")
+        </div>
+
+        <div class="row hidden-md hidden-sm hidden-xs">
+            <h6>Most Popular Tags</h6>
+            <hr />
+            @Html.Action("TopTags", "Posts")
+        </div>
+    </div>
+</div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+            CKEDITOR.replace("CommentContent");
+            </text>
+        }
+        $(function () {
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                @: $(".vote-link").bind("click", false).css("cursor", "default").css("color", "#C7C9C6");
+
+            }
+        });
+
+        function changeArrowColor(arrowIdSubString, voteStatus) {
+            var upArrowId = "#" + arrowIdSubString + "-up";
+            var downArrowId = "#" + arrowIdSubString + "-down"
+            var notHightLighted = "rgb(0, 0, 0)";
+            var hightLighted = "rgb(250, 128, 114)";
+            var upColor = $(upArrowId).css("color");
+            var downColor = $(downArrowId).css("color");
+            if (voteStatus == 1) {
+                if (upColor == notHightLighted && downColor == notHightLighted) {
+                    $(upArrowId).css("color", hightLighted);
+                } else if (upColor == notHightLighted && downColor == hightLighted) {
+                    $(upArrowId).css("color", hightLighted);
+                    $(downArrowId).css("color", notHightLighted);
+                } else if (upColor == hightLighted && downColor == notHightLighted) {
+                    $(upArrowId).css("color", notHightLighted);
+                }
+            } else {
+                if (downColor == notHightLighted && upColor == notHightLighted) {
+                    $(downArrowId).css("color", hightLighted);
+                } else if (downColor == notHightLighted && upColor == hightLighted) {
+                    $(downArrowId).css("color", hightLighted);
+                    $(upArrowId).css("color", notHightLighted);
+                } else if (downColor == hightLighted && upColor == notHightLighted) {
+                    $(downArrowId).css("color", notHightLighted);
+                }
+            }
+        }
+
+        function changeFlagStatus(flagLinkId) {
+            var selector = "#" + flagLinkId;
+
+            if ($(selector).text() == "Flag") {
+                $(selector).text("Unflag");
+            } else {
+                $(selector).text("Flag");
+            }
+        }
+    </script>
+}
+
+

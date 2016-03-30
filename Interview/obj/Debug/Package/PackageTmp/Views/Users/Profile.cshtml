@@ -1,0 +1,60 @@
+﻿@model Interview.Models.UserProfile
+@using Interview.HtmlHelpers
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<div class="container content" id="userprofile">
+    <div class="row" id="userprofile-info">
+        <div class="col-md-offset-1 col-md-9">
+            <div id="userprofile-info-about">
+                <div class="row">
+                    <div class="col-sm-2">
+
+                        @if (Model.IdentIcon != null)
+                        {
+                            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.IdentIcon))" />
+                        }
+                    </div>
+                    <div class="col-sm-9">
+                        <h5>
+                            About @Model.Username @if (ViewBag.isCurrentUser)
+                            {
+                                <button class="label label-default">@Html.ActionLink("Edit your profile", "UpdateProfile", "Users")</button>
+                            }
+                        </h5>
+                        <hr />
+                        <p>
+                            @Model.AboutMe
+                        </p>
+                    </div>
+                </div>               
+            </div>
+            <h5>Connect with @Model.Username</h5>
+            <hr />
+            <div>
+                <a href="@Model.FacebookLink"><i class="fa fa-facebook-official fa-2x" data-toggle="tooltip" title="Facebook"></i></a>
+                <a href="@Model.TwitterLink"><i class="fa fa-twitter-square fa-2x" data-toggle="tooltip" title="TwitterLink"></i></a>
+                <a href="@Model.LinkedInLink"><i class="fa fa-linkedin-square fa-2x" data-toggle="tooltip" title="LinkedIn"></i></a>
+                <a href="@Model.GitHubLink"><i class="fa fa-github-square fa-2x" data-toggle="tooltip" title="GitHub"></i></a>
+                <a href="@Model.WebsiteLink"><i class="fa fa-globe fa-2x" data-toggle="tooltip" title="Website"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="userprofile-activity">
+        <div class="col-md-9 col-md-offset-1">
+            <h5>@Model.Username's recent activity</h5>
+            <hr />
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            @Html.Action("LatestPostsByUser", "Users", new { username = Model.Username })
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            @Html.Action("CommentedOn", "Users", new { username = Model.Username })
+        </div>
+    </div>
+
+
+</div>

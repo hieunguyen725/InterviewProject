@@ -115,3 +115,4 @@ C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.Mi
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.csproj.GenerateResource.Cache
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.dll
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.pdb
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Elmah.dll

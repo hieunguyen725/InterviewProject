@@ -1,0 +1,253 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 50px;
+    margin-bottom: 50px;
+    background-color: #efebe9;
+}
+
+footer {
+    background-color: #002e56;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+p, h1, h2, h3, h4, h5, h6, a, li, td {
+    word-wrap: break-word;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.sm-text {
+    font-size: 0.8em;
+    color: #999;
+}
+
+hr {
+    margin: 0 0 5px 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    padding: 0;
+}
+
+.panel .panel-body {
+    padding: 15px 20px 0 5px;
+}
+
+.label {
+    margin-right: 5px;
+    font-size: 0.9em;
+}
+
+.content {
+    margin-top: 35px;
+}
+
+.btn-group, .btn {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.btn-primary, .label-primary {
+    background-color: #757575 !important;
+}
+
+.tag-label {
+    font-size: 0.8em;
+}
+
+.tag {
+    display: inline-block;
+}
+
+    .tag a {
+        text-decoration: none !important;
+        color: #fff;
+    }
+
+.label-success {
+    background-color: #EF9A9A;
+}
+
+/* NAV */
+.navbar {
+    background-color: #002e56 !important;
+}
+
+.fa-bars {
+    color: #fff !important;
+    font-size: 1.5em;
+}
+
+.nav a {
+    color: #ffffff !important;
+    font-size: 1.3em;
+}
+
+    .nav a:hover {
+        background-color: #000000 !important;
+    }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    background-color: #757575;
+}
+
+.navbar-brand {
+    color: #fff;
+}
+
+    .navbar-brand:hover {
+        color: #fff;
+        background-color: #000;
+    }
+
+.navbar-nav {
+    font-size: 0.75em;
+}
+
+#filter {
+    list-style-type: none;
+    float: right;
+}
+
+    #filter a {
+        text-decoration: none;
+        padding: 10px 10px 0 10px;
+        width: 80px;
+    }
+
+    #filter li {
+        text-align: center;
+        float: left;
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+
+#filter-hr {
+    margin-bottom: 25px;
+}
+
+.filter-active {
+    border-bottom: 2px solid #002E56;
+}
+
+/** Home **/
+#home-jumbotron{
+    position: relative; 
+    background-color:#002E56; 
+    width:100%; 
+    height: 100%;
+    padding-bottom:3%; 
+    color:#fff;
+}
+
+/** posts **/
+
+.top-btn-group {
+    margin: 15px 0 10px 0;
+}
+
+.post-info .post-createdat {
+    font-size: 0.8em;
+    float: left;
+    color: #999;
+    margin: 3px 0;
+}
+
+.post-info .post-username {
+    float: right;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.btn-group {
+    margin-top: 20px;
+}
+
+.vote-area {
+    position: relative;
+}
+
+.vote-content {
+    background-color: #002E56;
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    /*position:absolute;
+    left: 240px;*/
+    font-size: 1.5em;
+    color: #fff;
+}
+
+#posts-index-edit-delete {
+    margin-top: 10px;
+}
+
+/* Posts' detail*/
+#answers-content {
+    margin: 0 0 20px 75px;
+}
+
+/* bootstrap icons */
+.glyphicon {
+    font-size: 1.5em;
+}
+
+/** side-bar */
+#side-bar {
+    position: relative;
+    bottom: 80px;
+    width: 220px;
+}
+
+#latest-post {
+    margin-top: 15px;
+}
+
+    #latest-post p {
+        margin: 5px 0 5px 0;
+        font-size: 0.9em;
+    }
+
+#popular-tags {
+    margin-top: 15px;
+}
+
+/** user profile */
+#userprofile h5, h6 {
+    margin: 0;
+}
+
+#userprofile hr {
+    margin: 10px 0 15px 0;
+}
+
+#userprofile #userprofile-info {
+    margin-bottom: 50px;
+}
+
+    #userprofile #userprofile-info #userprofile-info-about {
+        margin-bottom: 50px;
+    }

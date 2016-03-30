@@ -1,0 +1,29 @@
+﻿@model PagedList.IPagedList<Interview.Models.Post>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<div class="container content">
+    <h5>Found @Model.Count() @ViewBag.isPlural with this search term "@ViewBag.searchTerm".</h5>
+</div>
+
+<div class="row hidden-lg">
+    <div class="col-sm-offset-4 col-sm-4">
+        @Html.ActionLink("New Post", "Create", "Posts", new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-lg-9" id="post-list">
+        @Html.Partial("_Posts")
+    </div>
+    <div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+        @Html.Partial("_SideBar")
+    </div>
+</div>
+
+
+
+

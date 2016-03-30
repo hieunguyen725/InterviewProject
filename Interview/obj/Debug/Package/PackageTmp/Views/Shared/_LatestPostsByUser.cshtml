@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Interview.Models.Post>
+
+
+
+@if (ViewBag.postCount > 0)
+{
+    <h6 class="text-center">Latest posts (@ViewBag.postCount)</h6>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Posted On</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model)
+            {
+                <tr>
+                    <td><a href="@Url.Action("Details", "Posts", new { id=post.PostID })">@post.PostTitle</a></td>
+                    <td>@post.CreatedAt.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    if (ViewBag.postCount == 5)
+    {
+        <a href="@Url.Action("AllPosts", "Users", new { username = ViewBag.username})">View more</a>
+    }
+}
+else
+{
+    <h6 class="text-center">@ViewBag.username currently have no posts.</h6>
+}

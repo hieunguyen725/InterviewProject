@@ -80,7 +80,7 @@ namespace Interview.Controllers
         [HttpGet]
         public JsonResult GetTags()
         {
-            var tags = (List<Tag>)repo.GetTags();
+            var tags = (List<Tag>)repo.GetTags().ToList();
             // Serializer doesn't like circular reference so I have
             // to return only what the view needs.           
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
@@ -98,7 +98,7 @@ namespace Interview.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tags = (List<Tag>)repo.GetTagsByPostID(id);
+            var tags = (List<Tag>)repo.GetTagsByPostID(id).ToList();
             // Serializer doesn't like circular reference so I have
             // to return only what the view needs.
             return Json(GetTagNames(tags), JsonRequestBehavior.AllowGet);
@@ -111,7 +111,7 @@ namespace Interview.Controllers
         [AllowAnonymous]
         public ActionResult TopTags()
         {
-            return PartialView("_TopTags", repo.GetTopTags());
+            return PartialView("_TopTags", repo.GetTopTags().ToList());
         }
 
         /// <summary>

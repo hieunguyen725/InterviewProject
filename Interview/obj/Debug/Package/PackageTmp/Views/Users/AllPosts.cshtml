@@ -1,0 +1,37 @@
+﻿@model PagedList.IPagedList<Interview.Models.Post>
+@using PagedList.Mvc;
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = ViewBag.username + "'s posts";
+}
+
+
+@if (Model.Count > 0)
+    {
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-11" id="user-title">
+                <h5>@ViewBag.username's Posts</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-9" id="post-list">
+            @Html.Partial("_Posts")
+        </div>
+        <div class="col-sm-2 hidden-md hidden-sm hidden-xs">
+            @Html.Partial("_SideBar")
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <h4>You currently have no posts.</h4>
+        <a href="@Url.Action("Create", "Posts")" class="btn btn-default btn-sm">Create a new post</a>
+    </div>
+}
+
+
