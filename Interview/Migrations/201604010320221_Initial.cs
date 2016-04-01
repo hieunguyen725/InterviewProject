@@ -3,7 +3,7 @@ namespace Interview.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -150,6 +150,7 @@ namespace Interview.Migrations
                         TwitterLink = c.String(),
                         FacebookLink = c.String(),
                         WebsiteLink = c.String(),
+                        IdentIcon = c.Binary(),
                     })
                 .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)

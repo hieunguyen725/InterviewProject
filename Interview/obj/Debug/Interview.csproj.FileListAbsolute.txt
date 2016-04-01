@@ -750,7 +750,6 @@ C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\obj\Debug\Intervi
 C:\Users\hieunguyen725\Source\Repos\InterviewProject\Interview\obj\Debug\Interview.pdb
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\NIdenticon.dll
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\NIdenticon.xml
-C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.InitialCreate.resources
-C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.csproj.GenerateResource.Cache
-C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.AddedIdenticon.resources
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Elmah.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.Migrations.Initial.resources
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Debug\Interview.csproj.GenerateResource.Cache

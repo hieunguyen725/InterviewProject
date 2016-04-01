@@ -110,9 +110,8 @@ C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Microsoft.Owin.Secur
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.csprojResolveAssemblyReference.cache
-C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.Migrations.InitialCreate.resources
-C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.Migrations.AddedIdenticon.resources
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.csproj.GenerateResource.Cache
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.dll
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.pdb
 C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\bin\Elmah.dll
+C:\Users\Long Nguyen\Desktop\InterviewProject\Interview\obj\Release\Interview.Migrations.initial.resources

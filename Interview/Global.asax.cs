@@ -1,4 +1,5 @@
-﻿using Interview.Models;
+﻿using Interview.Migrations;
+using Interview.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,8 @@ namespace Interview
         {
 
             //Database.SetInitializer(new InterviewDbInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+            new ApplicationDbContext().Database.Initialize(false);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

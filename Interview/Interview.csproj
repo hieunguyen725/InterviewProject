@@ -250,13 +250,9 @@
     <Compile Include="HtmlHelpers\CustomHtmlHelper.cs" />
     <Compile Include="Infrastructure\ConstantHelper.cs" />
     <Compile Include="Infrastructure\MyDependencyResolver.cs" />
-    <Compile Include="Migrations\201603040207206_InitialCreate.cs" />
-    <Compile Include="Migrations\201603040207206_InitialCreate.Designer.cs">
-      <DependentUpon>201603040207206_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603240944457_AddedIdenticon.cs" />
-    <Compile Include="Migrations\201603240944457_AddedIdenticon.Designer.cs">
-      <DependentUpon>201603240944457_AddedIdenticon.cs</DependentUpon>
+    <Compile Include="Migrations\201604010320221_Initial.cs" />
+    <Compile Include="Migrations\201604010320221_Initial.Designer.cs">
+      <DependentUpon>201604010320221_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommentFlag.cs" />
@@ -608,7 +604,9 @@
     <Content Include="Scripts\tag-it.js" />
     <Content Include="Scripts\tag-it.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -677,11 +675,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603040207206_InitialCreate.resx">
-      <DependentUpon>201603040207206_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603240944457_AddedIdenticon.resx">
-      <DependentUpon>201603240944457_AddedIdenticon.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604010320221_Initial.resx">
+      <DependentUpon>201604010320221_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
