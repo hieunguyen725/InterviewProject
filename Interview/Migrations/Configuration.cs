@@ -14,12 +14,23 @@ namespace Interview.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "Interview.Models.ApplicationDbContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Interview.Models.ApplicationDbContext context)
         {
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
 
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
@@ -47,6 +58,7 @@ namespace Interview.Migrations
                     UserId = user.Id
                 };
                 context.UserProfiles.AddOrUpdate(up);
+                context.SaveChanges();
             }
 
             // Create user named user1 if it doesn't exists
@@ -60,7 +72,8 @@ namespace Interview.Migrations
                     Username = user.UserName,
                     UserId = user.Id
                 };
-                context.UserProfiles.AddOrUpdate(u=>u.Username,up);
+                context.UserProfiles.AddOrUpdate(up);
+                context.SaveChanges();
             }
 
             var tags = new List<Tag>
@@ -92,7 +105,7 @@ namespace Interview.Migrations
             };
             foreach (var tag in tags)
             {
-                context.Tags.AddOrUpdate(t=>t.TagName,tag);
+                context.Tags.Add(tag);
             }
             context.SaveChanges();
         }
